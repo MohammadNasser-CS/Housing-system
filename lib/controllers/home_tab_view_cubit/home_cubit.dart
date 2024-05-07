@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:housing_project/models/house_modle.dart';
+import 'package:housing_project/models/house_model.dart';
 
 part 'home_state.dart';
 
@@ -11,7 +11,7 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeLoading());
     // final products = await _homeServices.getProducts();
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       emit(
         HomeLoaded(
           houses: dummyItems,

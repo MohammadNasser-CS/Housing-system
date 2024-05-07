@@ -7,7 +7,7 @@ class AuthCubit extends Cubit<AuthState> {
   // final AuthServices _authServices = AppAuthImplementation();
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds:2), () {
       emit(AuthSuccess());
     });
     // try {

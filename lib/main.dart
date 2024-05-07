@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         valueListenable: ValueNotifier(const Locale('ar')),
         builder: (context, locale, _) {
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Housing System',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

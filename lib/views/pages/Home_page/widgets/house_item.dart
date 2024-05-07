@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/models/house_modle.dart';
+import 'package:housing_project/models/house_model.dart';
 
 class HouseItem extends StatelessWidget {
-  final HouseModel productItemModel;
+  final HouseModel houseItemModel;
   final dynamic cubit;
   const HouseItem({
     super.key,
-    required this.productItemModel,
+    required this.houseItemModel,
     required this.cubit,
   });
 
@@ -27,7 +27,7 @@ class HouseItem extends StatelessWidget {
                 color: Colors.grey.shade200,
               ),
               child: CachedNetworkImage(
-                imageUrl: productItemModel.imgUrl,
+                imageUrl: houseItemModel.imgUrl,
                 fit: BoxFit.cover,
                 placeholder: (context, url) =>
                     const Center(child: CircularProgressIndicator.adaptive()),
@@ -44,10 +44,10 @@ class HouseItem extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    cubit.changeFavorite(productItemModel.id);
+                    cubit.changeFavorite(houseItemModel.id);
                   },
                   icon: Icon(
-                    productItemModel.isFavorite
+                    houseItemModel.isFavorite
                         ? Icons.favorite
                         : Icons.favorite_border,
                     color: AppColor.red,
@@ -67,7 +67,7 @@ class HouseItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    productItemModel.ownerName,
+                    houseItemModel.ownerName,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -87,7 +87,7 @@ class HouseItem extends StatelessWidget {
                                   color: AppColor.grey),
                         ),
                         TextSpan(
-                          text: '${productItemModel.freeRoomsNumber}',
+                          text: '${houseItemModel.freeRoomsNumber}',
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium!
@@ -108,7 +108,7 @@ class HouseItem extends StatelessWidget {
                       child: Icon(Icons.location_on_outlined, size: 16),
                     ),
                     TextSpan(
-                      text: productItemModel.location,
+                      text: houseItemModel.location,
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
@@ -131,7 +131,7 @@ class HouseItem extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              ' عدد الحمامات: ${productItemModel.bathRoomsNumber}',
+                              ' عدد الحمامات: ${houseItemModel.bathRoomsNumber}',
                           style:
                               Theme.of(context).textTheme.labelMedium!.copyWith(
                                     fontWeight: FontWeight.w600,
@@ -152,7 +152,7 @@ class HouseItem extends StatelessWidget {
                         ),
                         TextSpan(
                           text:
-                              ' عدد غرف النوم : ${productItemModel.roomsNumber}',
+                              ' عدد غرف النوم : ${houseItemModel.roomsNumber}',
                           style:
                               Theme.of(context).textTheme.labelMedium!.copyWith(
                                     fontWeight: FontWeight.w600,

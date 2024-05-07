@@ -1,20 +1,25 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:housing_project/models/house_modle.dart';
+import 'package:housing_project/models/house_model.dart';
 
 part 'house_details_state.dart';
 
 class HouseDetailsCubit extends Cubit<HouseDetailsState> {
   HouseDetailsCubit() : super(HouseDetailsInitial());
-  int quantity = 1;
   // final productDetailsServices = ProductDetailsServicesImpl();
 
   Future<void> getProductDetails(String id) async {
     emit(HouseDetailsLoading());
+    Future.delayed(const Duration(seconds: 2), () {
+      final index = dummyItems.indexWhere((item) => item.id == id);
+      emit(
+        HouseDetailsLoaded(house: dummyItems[index]),
+      );
+    });
     // final selectedProduct = await productDetailsServices.getProductDetails(id);
-    final index = dummyItems.indexWhere((item) => item.id == id);
-    emit(
-      HouseDetailsLoaded(house: dummyItems[index]),
-    );
+    // final index = dummyItems.indexWhere((item) => item.id == id);
+    // emit(
+    //   HouseDetailsLoaded(house: dummyItems[index]),
+    // );
   }
 
   // void selectSize(ItemSize size) {
@@ -45,13 +50,11 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
   }
 
   void increment(String productId) {
-    quantity++;
-    emit(QuantityCounterLoaded(value: quantity));
+    emit(QuantityCounterLoaded(value: 0));
   }
 
   void decrement(String productId) {
-    quantity--;
-    emit(QuantityCounterLoaded(value: quantity));
+    emit(QuantityCounterLoaded(value: 0));
   }
 
   void changeFavorite(String itemId) {

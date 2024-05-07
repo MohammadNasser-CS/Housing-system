@@ -76,7 +76,7 @@ class HomeTabView extends StatelessWidget {
                             },
                             child: HouseItem(
                               cubit: cubitBase,
-                              productItemModel: state.houses[index],
+                              houseItemModel: state.houses[index],
                             ),
                           ),
                         );
@@ -105,7 +105,7 @@ class HomeTabView extends StatelessWidget {
                               ),
                               child: HouseItem(
                                 cubit: cubitBase,
-                                productItemModel: state.houses[index],
+                                houseItemModel: state.houses[index],
                               ),
                             ),
                           ),
