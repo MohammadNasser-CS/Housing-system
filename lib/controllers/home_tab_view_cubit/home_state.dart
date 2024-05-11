@@ -28,3 +28,12 @@ final class HomePageFavroiteChangeLoaded extends HomeState {
   final List<HouseModel> houses;
   const HomePageFavroiteChangeLoaded({required this.houses});
 }
+final class HomePageCategoryChanged extends HomeState{
+  // final List<HouseModel> filterdHouses;
+
+  const HomePageCategoryChanged(/*{required this.filterdHouses}*/);
+}
+final class SearchFilled extends HomeState{
+  // final List<HouseModel> filterdHouses;
+  const SearchFilled(/*{required this.filterdHouses}*/);
+}

@@ -7,6 +7,7 @@ import 'package:housing_project/models/house_model.dart';
 import 'package:housing_project/views/pages/house_details_page/house_details_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar.dart';
 import 'package:housing_project/views/pages/login_page/login_page.dart';
+import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';
 import 'package:housing_project/views/pages/signup_page/signup_page.dart';
 
 class AppRouter {
@@ -46,6 +47,8 @@ class AppRouter {
           ),
           settings: settings,
         );
+        case AppRoutes.roleSelectionPage:
+        return MaterialPageRoute(builder: (_)=>const RoleSelectionPage(),settings: settings);
       default:
         return MaterialPageRoute(
           builder: (_) => const CustomBottomNavbar(),

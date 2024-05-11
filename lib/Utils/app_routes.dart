@@ -8,4 +8,5 @@ class AppRoutes{
   static const String paymentPage ='/payment_page';
   static const String addPaymentCard ='/add_payment_card';
   static const String locationPage ='/location_page';
+  static const String roleSelectionPage ='/role_selection';
 }

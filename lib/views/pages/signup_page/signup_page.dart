@@ -51,6 +51,7 @@ class _SignupPagePageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: SingleChildScrollView(
           child: SafeArea(
@@ -70,7 +71,7 @@ class _SignupPagePageState extends State<SignupPage> {
                           .textTheme
                           .headlineMedium!
                           .copyWith(
-                              color: Theme.of(context).primaryColor,
+                              color: AppColor.orange,
                               fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
@@ -246,7 +247,7 @@ class _SignupPagePageState extends State<SignupPage> {
                             return ElevatedButton(
                               onPressed: null,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(context).primaryColor,
+                                backgroundColor: AppColor.orange,
                                 foregroundColor: AppColor.white,
                               ),
                               child: const Center(
@@ -257,7 +258,7 @@ class _SignupPagePageState extends State<SignupPage> {
                           return ElevatedButton(
                             onPressed: register,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
+                              backgroundColor: AppColor.orange,
                               foregroundColor: AppColor.white,
                             ),
                             child: Text(

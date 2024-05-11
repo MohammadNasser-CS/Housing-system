@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                             .textTheme
                             .headlineMedium!
                             .copyWith(
-                              color: Theme.of(context).primaryColor,
+                              color: AppColor.orange,
                             ),
                       ),
                       const SizedBox(height: 8.0),
@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                  color: Theme.of(context).primaryColor,
+                                  color: AppColor.orange,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),
@@ -205,8 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                               return ElevatedButton(
                                   onPressed: null,
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
+                                      backgroundColor: AppColor.orange,
                                       foregroundColor: AppColor.white),
                                   child: const Center(
                                     child: CircularProgressIndicator.adaptive(),
@@ -220,8 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
+                                    backgroundColor: AppColor.orange,
                                     foregroundColor: AppColor.white),
                                 child: Text(
                                   'تسجيل الدخول',
@@ -253,14 +251,14 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                             onPressed: () => Navigator.of(context)
-                                .pushNamed(AppRoutes.register),
+                                .pushNamed(AppRoutes.roleSelectionPage),
                             child: Text(
                               'إنشاء حساب',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                    color: Theme.of(context).primaryColor,
+                                    color: AppColor.orange,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

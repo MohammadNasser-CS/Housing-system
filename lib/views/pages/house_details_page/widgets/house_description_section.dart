@@ -35,7 +35,7 @@ class HouseDescriptionSection extends StatelessWidget {
                     child: Icon(
                       Icons.bathroom_outlined,
                       size: size.width * 0.05,
-                      color: AppColor.darkGrey,
+                      color: AppColor.grey7,
                     ),
                   ),
                   TextSpan(
@@ -43,7 +43,7 @@ class HouseDescriptionSection extends StatelessWidget {
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           fontWeight: FontWeight.w600,
                           fontSize: size.width * 0.04,
-                          color: AppColor.darkGrey,
+                          color: AppColor.grey7,
                         ),
                   ),
                 ],
@@ -57,7 +57,7 @@ class HouseDescriptionSection extends StatelessWidget {
                     child: Icon(
                       Icons.bed_outlined,
                       size: size.width * 0.05,
-                      color: AppColor.darkGrey,
+                      color: AppColor.grey7,
                     ),
                   ),
                   TextSpan(
@@ -65,7 +65,7 @@ class HouseDescriptionSection extends StatelessWidget {
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         fontWeight: FontWeight.w600,
                         fontSize: size.width * 0.04,
-                        color: AppColor.darkGrey),
+                        color: AppColor.grey7),
                   ),
                 ],
               ),

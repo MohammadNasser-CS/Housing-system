@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/Utils/app_routes.dart';
+import 'package:housing_project/controllers/home_tab_view_cubit/home_cubit.dart';
 import 'package:housing_project/views/pages/Home_page/home_page.dart';
 import 'package:housing_project/views/pages/cart_page/cart_page.dart';
 import 'package:housing_project/views/pages/favorite_page/favorite_page.dart';
@@ -37,11 +38,18 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   List<PersistentTabConfig> _buildScreens() {
     return [
       PersistentTabConfig(
-        screen: const HomePage(),
+        screen: BlocProvider(
+          create: (context) {
+            final cubit=HomeCubit();
+            cubit.getHomeData();
+            return cubit;
+          },
+          child: const HomePage(),
+        ),
         item: ItemConfig(
           icon: const Icon(Icons.home),
           title: "الرئيسية",
-          activeForegroundColor: Theme.of(context).primaryColor,
+          activeForegroundColor: AppColor.orange,
           inactiveForegroundColor: Colors.grey,
         ),
       ),
@@ -50,7 +58,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         item: ItemConfig(
           icon: const Icon(Icons.bedroom_child_outlined),
           title: "غرفتي",
-          activeForegroundColor: Theme.of(context).primaryColor,
+          activeForegroundColor: AppColor.orange,
           inactiveForegroundColor: Colors.grey,
         ),
       ),
@@ -59,7 +67,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         item: ItemConfig(
           icon: const Icon(Icons.favorite_border),
           title: "المفضلة",
-          activeForegroundColor: Theme.of(context).primaryColor,
+          activeForegroundColor: AppColor.orange,
           inactiveForegroundColor: Colors.grey,
         ),
       ),
@@ -68,7 +76,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         item: ItemConfig(
           icon: const Icon(Icons.settings),
           title: "الإعدادات",
-          activeForegroundColor: Theme.of(context).primaryColor,
+          activeForegroundColor: AppColor.orange,
           inactiveForegroundColor: Colors.grey,
         ),
       ),
@@ -79,31 +87,33 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const Padding(
-            padding: EdgeInsetsDirectional.only(start: 8.0),
-            child: CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage('assets/images/myphotocopy.jpg'),
-            ),
-          ),
+          centerTitle: true,
+          leading: const SizedBox.shrink(),
+          // leading: const Padding(
+          //   padding: EdgeInsetsDirectional.only(start: 8.0),
+          //   child: CircleAvatar(
+          //     radius: 30,
+          //     backgroundImage: AssetImage('assets/images/myphotocopy.jpg'),
+          //   ),
+          // ),
           title: _controller.index == 0
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'مرحبا، محمد!',
+                      'الصفحة الرئيسية',
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
                     ),
-                    Text(
-                      'هيا لنختار غرفة مناسبة لك...',
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelMedium!
-                          .copyWith(color: AppColor.darkGrey, fontSize: 16),
-                    )
+                    // Text(
+                    //   'هيا لنختار غرفة مناسبة لك...',
+                    //   style: Theme.of(context)
+                    //       .textTheme
+                    //       .labelMedium!
+                    //       .copyWith(color: AppColor.grey7, fontSize: 16),
+                    // ),
                   ],
                 )
               : _controller.index == 1
@@ -114,23 +124,21 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
           actions: [
             if (_controller.index == 0) ...[
               IconButton(
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pushNamed(
-                    AppRoutes.search,
-                  );
-                },
-                icon: const Icon(Icons.filter_alt_outlined),
-              ),
-              IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.notifications),
+                icon: const Icon(
+                  Icons.notifications_none_outlined,
+                  color: AppColor.orange,
+                ),
               ),
             ],
             if (_controller.index == 1)
               if (_controller.index == 2)
                 IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.notifications),
+                  icon: const Icon(
+                    Icons.notifications_none_outlined,
+                    color: AppColor.orange,
+                  ),
                 ),
           ],
         ),
@@ -140,7 +148,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             navBarConfig: navBarConfig,
           ),
           tabs: _buildScreens(),
-          backgroundColor: Colors.white, // Default is Colors.white.
+          backgroundColor: AppColor.grey1, // Default is Colors.white.
           screenTransitionAnimation: const ScreenTransitionAnimation(
             // Screen transition animation on change of selected tab.
             curve: Curves.ease,

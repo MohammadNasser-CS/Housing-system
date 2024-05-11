@@ -62,6 +62,10 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
     dummyItems[index] = dummyItems[index].copyWith(
       isFavorite: !dummyItems[index].isFavorite,
     );
+    final index1 = filterdHouses.indexWhere((item) => item.id == itemId);
+    filterdHouses[index1] = filterdHouses[index1].copyWith(
+      isFavorite: !filterdHouses[index1].isFavorite,
+    );
     emit(
       HouseDetailsLoaded(house: dummyItems[index]),
     );

@@ -168,7 +168,7 @@ List<HouseModel> dummyItems = [
         'https://cf.bstatic.com/xdata/images/hotel/max1024x768/107181991.jpg?k=1057fc1d1e2128151fe7d135902d56462793d19a2d195b7386e204b5d85e2d0c&o=&hp=1',
     ownerName: 'خالد مصطفى',
     description: 'سكن جامعي',
-    category: 'استوديو',
+    category: 'أستوديو',
     isFavorite: false,
     location: 'نابلس',
     bathRoomsNumber: 2,
@@ -178,3 +178,4 @@ List<HouseModel> dummyItems = [
     rooms: dummyRooms,
   ),
 ];
+List<HouseModel> filterdHouses = dummyItems;
