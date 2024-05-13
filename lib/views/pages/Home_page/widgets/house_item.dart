@@ -20,7 +20,7 @@ class HouseItem extends StatelessWidget {
         Container(
           height: size.height * 0.45,
           clipBehavior: Clip.antiAlias,
-          margin: const EdgeInsetsDirectional.only(bottom: 8.0),
+          margin: EdgeInsetsDirectional.only(bottom: size.width * 0.02),
           decoration: BoxDecoration(
             color: AppColor.white,
             borderRadius: BorderRadius.circular(12.0),
@@ -36,7 +36,8 @@ class HouseItem extends StatelessWidget {
                     CachedNetworkImage(
                       imageUrl: houseItemModel.imgUrl,
                       fit: BoxFit.fill,
-                      width: size.width,
+                      width: double.infinity,
+                      height: size.height * 0.3,
                       placeholder: (context, url) => const Center(
                           child: CircularProgressIndicator.adaptive()),
                       errorWidget: (context, url, error) =>
@@ -52,6 +53,7 @@ class HouseItem extends StatelessWidget {
                         ),
                         child: IconButton(
                           onPressed: () {
+                            // debugPrint(houseItemModel.id);
                             cubit.changeFavorite(houseItemModel.id);
                           },
                           icon: Icon(
@@ -69,8 +71,9 @@ class HouseItem extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 6.0, vertical: 8.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: size.width * 0.013,
+                      vertical: size.width * 0.02),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +91,7 @@ class HouseItem extends StatelessWidget {
                                       .labelMedium!
                                       .copyWith(
                                           fontWeight: FontWeight.w900,
-                                          fontSize: 16,
+                                          fontSize: size.width * 0.03,
                                           color: AppColor.grey7),
                                 ),
                                 TextSpan(
@@ -98,7 +101,7 @@ class HouseItem extends StatelessWidget {
                                       .labelMedium!
                                       .copyWith(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 16,
+                                          fontSize: size.width * 0.03,
                                           color: AppColor.black),
                                 ),
                               ],
@@ -114,7 +117,7 @@ class HouseItem extends StatelessWidget {
                                       .labelMedium!
                                       .copyWith(
                                           fontWeight: FontWeight.w900,
-                                          fontSize: 16,
+                                          fontSize: size.width * 0.03,
                                           color: AppColor.grey7),
                                 ),
                                 TextSpan(
@@ -124,7 +127,7 @@ class HouseItem extends StatelessWidget {
                                       .labelMedium!
                                       .copyWith(
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 16,
+                                          fontSize: size.width * 0.03,
                                           color: AppColor.black),
                                 ),
                               ],
@@ -136,8 +139,9 @@ class HouseItem extends StatelessWidget {
                       RichText(
                         text: TextSpan(
                           children: [
-                            const WidgetSpan(
-                              child: Icon(Icons.location_on_outlined, size: 16),
+                            WidgetSpan(
+                              child: Icon(Icons.location_on_outlined,
+                                  size: size.width * 0.03),
                             ),
                             TextSpan(
                               text: houseItemModel.location,
@@ -146,7 +150,7 @@ class HouseItem extends StatelessWidget {
                                   .labelMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 16,
+                                    fontSize: size.width * 0.03,
                                   ),
                             ),
                           ],
@@ -159,10 +163,10 @@ class HouseItem extends StatelessWidget {
                           RichText(
                             text: TextSpan(
                               children: [
-                                const WidgetSpan(
+                                WidgetSpan(
                                   child: Icon(
                                     Icons.bathroom_outlined,
-                                    size: 16,
+                                    size: size.width * 0.03,
                                   ),
                                 ),
                                 TextSpan(
@@ -173,7 +177,7 @@ class HouseItem extends StatelessWidget {
                                       .labelMedium!
                                       .copyWith(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 16,
+                                        fontSize: size.width * 0.03,
                                       ),
                                 ),
                               ],
@@ -182,10 +186,10 @@ class HouseItem extends StatelessWidget {
                           RichText(
                             text: TextSpan(
                               children: [
-                                const WidgetSpan(
+                                WidgetSpan(
                                   child: Icon(
                                     Icons.bed_outlined,
-                                    size: 16,
+                                    size: size.width * 0.03,
                                   ),
                                 ),
                                 TextSpan(
@@ -196,7 +200,7 @@ class HouseItem extends StatelessWidget {
                                       .labelMedium!
                                       .copyWith(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 16,
+                                        fontSize: size.width * 0.03,
                                       ),
                                 ),
                               ],

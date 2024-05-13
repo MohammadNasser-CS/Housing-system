@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            initialRoute: AppRoutes.loginPage,
+            initialRoute: AppRoutes.home,
             onGenerateRoute: AppRouter.generateRoute,
             localizationsDelegates: const [
               // S.delegate,

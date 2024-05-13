@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/models/home_category_model.dart';
 
@@ -14,7 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
     Future.delayed(const Duration(seconds: 2), () {
       emit(
         HomeLoaded(
-          houses: filterdHouses,
+          houses: dummyItems,
           // carouselItems: dummyCarouselItems,
         ),
       );
@@ -34,6 +35,9 @@ class HomeCubit extends Cubit<HomeState> {
   void changeCategory(int? selectedCategoryIndex) async {
     if (selectedCategoryIndex == null) {
       emit(const HomePageCategoryChanged());
+      // debugPrint(filterdHouses.toString());
+      // debugPrint('========================================');
+      // debugPrint(dummyItems.toString());
       filterdHouses = dummyItems;
       emit(HomeLoaded(houses: filterdHouses));
     } else {
@@ -54,14 +58,18 @@ class HomeCubit extends Cubit<HomeState> {
 //   }
 
   void changeFavorite(String itemId) {
-    final index = filterdHouses.indexWhere((item) => item.id == itemId);
+    final index = filterdHouses.indexWhere((item) {
+      return item.id == itemId;
+    });
     filterdHouses[index] = filterdHouses[index].copyWith(
       isFavorite: !filterdHouses[index].isFavorite,
     );
-    final index1 = dummyItems.indexWhere((item) => item.id == itemId);
-    dummyItems[index1] = dummyItems[index1].copyWith(
-      isFavorite: !dummyItems[index1].isFavorite,
-    );
+    // final index1 = dummyItems.indexWhere((item) => item.id == itemId);
+    // dummyItems[index1] = dummyItems[index1].copyWith(
+    //   isFavorite: !dummyItems[index1].isFavorite,
+    // );
+    debugPrint(filterdHouses[index].toString());
+    // debugPrint(filterdHouses.toString());
     emit(
       HomeLoaded(
         houses: filterdHouses,

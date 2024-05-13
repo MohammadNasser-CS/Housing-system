@@ -33,7 +33,8 @@ class HousesSection extends StatelessWidget {
                 children: [
                   BlocBuilder<HomeCubit, HomeState>(
                     bloc: cubitBase,
-                    buildWhen: (previous, current) => current is HomeLoaded,
+                    buildWhen: (previous, current) =>
+                        current is HomeLoaded ,
                     builder: (context, state) {
                       if (state is HomePageFavroiteChangeLoaded) {
                         return ListView.builder(

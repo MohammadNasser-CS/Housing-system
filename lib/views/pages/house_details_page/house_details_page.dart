@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/contact_section.dart';
-import 'package:housing_project/views/pages/house_details_page/widgets/gallery_section.dart';
+import 'package:housing_project/views/pages/house_details_page/widgets/rooms_gallery_section.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/house_base_imagel.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/house_description_section.dart';
 
@@ -24,7 +24,10 @@ class HouseDetailsPage extends StatelessWidget {
               body: Center(child: CircularProgressIndicator.adaptive()));
         } else if (state is HouseDetailsLoaded) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              title: const Text('التفاصيل'),
+              centerTitle: true,
+            ),
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Padding(
@@ -49,7 +52,7 @@ class HouseDetailsPage extends StatelessWidget {
                       SizedBox(height: size.height * 0.03),
                       ContactSection(ownerName: state.house.ownerName),
                       SizedBox(height: size.height * 0.03),
-                      GallerySection(rooms: state.house.rooms),
+                      RoomsGallerySection(rooms: state.house.rooms),
                     ],
                   ),
                 ),
