@@ -58,6 +58,7 @@ class _CategorySliderState extends State<CategorySlider> {
                         }
                       },
                       child: Container(
+                        width: size.width * 0.15,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == index
                               ? Colors.orange
@@ -74,11 +75,12 @@ class _CategorySliderState extends State<CategorySlider> {
                               Text(
                                 dummyCategories[index].category,
                                 style: TextStyle(
-                                    color: selectedCategoryIndex == index
-                                        ? Colors.white
-                                        : Colors.orange,
-                                    fontSize: 14),
-                              )
+                                  color: selectedCategoryIndex == index
+                                      ? Colors.white
+                                      : Colors.orange,
+                                  fontSize: size.width * 0.025,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -121,29 +123,27 @@ class _CategorySliderState extends State<CategorySlider> {
                         }
                       },
                       child: Container(
+                        width: size.width * 0.15,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == index
                               ? Colors.orange
                               : Colors.white,
                           shape: BoxShape.rectangle,
                           border: Border.all(color: AppColor.orange),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                dummyCategories[index].category,
-                                style: TextStyle(
-                                    color: selectedCategoryIndex == index
-                                        ? Colors.white
-                                        : Colors.orange,
-                                    fontSize: size.width * 0.025),
-                              )
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              dummyCategories[index].category,
+                              style: TextStyle(
+                                  color: selectedCategoryIndex == index
+                                      ? Colors.white
+                                      : Colors.orange,
+                                  fontSize: size.width * 0.025),
+                            )
+                          ],
                         ),
                       ),
                     ),

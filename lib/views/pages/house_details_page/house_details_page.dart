@@ -52,7 +52,7 @@ class HouseDetailsPage extends StatelessWidget {
                       SizedBox(height: size.height * 0.03),
                       ContactSection(ownerName: state.house.ownerName),
                       SizedBox(height: size.height * 0.03),
-                      RoomsGallerySection(rooms: state.house.rooms),
+                      RoomsGallerySection(houseRooms: state.house.rooms),
                     ],
                   ),
                 ),

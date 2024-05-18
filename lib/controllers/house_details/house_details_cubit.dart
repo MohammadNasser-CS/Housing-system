@@ -49,14 +49,6 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
     // }
   }
 
-  void increment(String productId) {
-    emit(QuantityCounterLoaded(value: 0));
-  }
-
-  void decrement(String productId) {
-    emit(QuantityCounterLoaded(value: 0));
-  }
-
   void changeFavorite(String itemId) {
     final index = dummyItems.indexWhere((item) => item.id == itemId);
     dummyItems[index] = dummyItems[index].copyWith(

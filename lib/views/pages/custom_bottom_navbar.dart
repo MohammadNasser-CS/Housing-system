@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/home_tab_view_cubit/home_cubit.dart';
+import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
 import 'package:housing_project/views/pages/Home_page/home_page.dart';
-import 'package:housing_project/views/pages/cart_page/cart_page.dart';
+import 'package:housing_project/views/pages/my_room_page/my_room_page.dart';
 import 'package:housing_project/views/pages/favorite_page/favorite_page.dart';
 import 'package:housing_project/views/pages/profile_page/profile_page.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -40,26 +41,33 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       PersistentTabConfig(
         screen: BlocProvider(
           create: (context) {
-            final cubit=HomeCubit();
+            final cubit = HomeCubit();
             cubit.getHomeData();
             return cubit;
           },
           child: const HomePage(),
         ),
         item: ItemConfig(
-          icon: const Icon(Icons.home),
+          icon: const Icon(Icons.home_outlined),
           title: "الرئيسية",
-          activeForegroundColor: AppColor.orange,
-          inactiveForegroundColor: Colors.grey,
+          activeForegroundColor: AppColor.black,
+          inactiveForegroundColor: Colors.white,
         ),
       ),
       PersistentTabConfig(
-        screen: const CartPage(),
+        screen: BlocProvider(
+          create: (context) {
+            final cubit = MyRoomCubit();
+            cubit.getMyRoom('1','1');
+            return cubit;
+          },
+          child: const MyRoomPage(),
+        ),
         item: ItemConfig(
           icon: const Icon(Icons.bedroom_child_outlined),
           title: "غرفتي",
-          activeForegroundColor: AppColor.orange,
-          inactiveForegroundColor: Colors.grey,
+          activeForegroundColor: AppColor.black,
+          inactiveForegroundColor: Colors.white,
         ),
       ),
       PersistentTabConfig(
@@ -67,8 +75,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         item: ItemConfig(
           icon: const Icon(Icons.favorite_border),
           title: "المفضلة",
-          activeForegroundColor: AppColor.orange,
-          inactiveForegroundColor: Colors.grey,
+          activeForegroundColor: AppColor.black,
+          inactiveForegroundColor: Colors.white,
         ),
       ),
       PersistentTabConfig(
@@ -76,8 +84,8 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         item: ItemConfig(
           icon: const Icon(Icons.settings),
           title: "الإعدادات",
-          activeForegroundColor: AppColor.orange,
-          inactiveForegroundColor: Colors.grey,
+          activeForegroundColor: AppColor.black,
+          inactiveForegroundColor: Colors.white,
         ),
       ),
     ];
@@ -85,49 +93,56 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: AppColor.orange,
           centerTitle: true,
           leading: const SizedBox.shrink(),
-          // leading: const Padding(
-          //   padding: EdgeInsetsDirectional.only(start: 8.0),
-          //   child: CircleAvatar(
-          //     radius: 30,
-          //     backgroundImage: AssetImage('assets/images/myphotocopy.jpg'),
-          //   ),
-          // ),
           title: _controller.index == 0
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       'الصفحة الرئيسية',
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                            color: AppColor.white,
                           ),
                     ),
-                    // Text(
-                    //   'هيا لنختار غرفة مناسبة لك...',
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .labelMedium!
-                    //       .copyWith(color: AppColor.grey7, fontSize: 16),
-                    // ),
                   ],
                 )
               : _controller.index == 1
-                  ? const Center(child: Text('غرفتي'))
+                  ? Center(
+                      child: Text(
+                      'غرفتي',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.white,
+                          ),
+                    ))
                   : _controller.index == 2
-                      ? const Center(child: Text('الغرف المفلضة'))
+                      ? Center(
+                          child: Text(
+                            'الغرف المفلضة',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColor.white,
+                                ),
+                          ),
+                        )
                       : null,
           actions: [
             if (_controller.index == 0) ...[
               IconButton(
                 onPressed: () {},
-                icon: const Icon(
+                icon: Icon(
                   Icons.notifications_none_outlined,
-                  color: AppColor.orange,
+                  color: AppColor.white,
+                  size: size.width * 0.06,
                 ),
               ),
             ],
@@ -137,7 +152,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
                   onPressed: () {},
                   icon: const Icon(
                     Icons.notifications_none_outlined,
-                    color: AppColor.orange,
+                    color: AppColor.white,
                   ),
                 ),
           ],
@@ -146,15 +161,15 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
           controller: _controller,
           navBarBuilder: (navBarConfig) => Style1BottomNavBar(
             navBarConfig: navBarConfig,
+            navBarDecoration: const NavBarDecoration(color: AppColor.orange),
           ),
           tabs: _buildScreens(),
-          backgroundColor: AppColor.grey1, // Default is Colors.white.
           screenTransitionAnimation: const ScreenTransitionAnimation(
             // Screen transition animation on change of selected tab.
             curve: Curves.ease,
             duration: Duration(milliseconds: 400),
           ),
-          stateManagement: false,
+          stateManagement: true,
         ));
   }
 }
