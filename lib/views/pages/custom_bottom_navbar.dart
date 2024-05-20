@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
+import 'package:housing_project/controllers/favorite_page_cubit/favorite_cubit.dart';
 import 'package:housing_project/controllers/home_tab_view_cubit/home_cubit.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
 import 'package:housing_project/views/pages/Home_page/home_page.dart';
@@ -58,7 +59,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         screen: BlocProvider(
           create: (context) {
             final cubit = MyRoomCubit();
-            cubit.getMyRoom('1','1');
+            cubit.getMyRoom('1', '1');
             return cubit;
           },
           child: const MyRoomPage(),
@@ -71,7 +72,14 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen: const FavoritePage(),
+        screen: BlocProvider(
+          create: (context) {
+            final cubit = FavoriteCubit();
+            cubit.getFavoriteHouses();
+            return cubit;
+          },
+          child: const FavoritePage(),
+        ),
         item: ItemConfig(
           icon: const Icon(Icons.favorite_border),
           title: "المفضلة",
@@ -136,25 +144,14 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
                         )
                       : null,
           actions: [
-            if (_controller.index == 0) ...[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.notifications_none_outlined,
-                  color: AppColor.white,
-                  size: size.width * 0.06,
-                ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.notifications_none_outlined,
+                color: AppColor.white,
+                size: size.width * 0.06,
               ),
-            ],
-            if (_controller.index == 1)
-              if (_controller.index == 2)
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.notifications_none_outlined,
-                    color: AppColor.white,
-                  ),
-                ),
+            ),
           ],
         ),
         body: PersistentTabView(
@@ -169,7 +166,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             curve: Curves.ease,
             duration: Duration(milliseconds: 400),
           ),
-          stateManagement: true,
+          stateManagement: false,
         ));
   }
 }

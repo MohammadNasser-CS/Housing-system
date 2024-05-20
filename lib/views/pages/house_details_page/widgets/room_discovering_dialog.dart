@@ -16,7 +16,7 @@ class _RoomDiscoveringDialogState extends State<RoomDiscoveringDialog> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.5,
+      height: size.height * 0.8,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(

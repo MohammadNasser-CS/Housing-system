@@ -50,16 +50,16 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
   }
 
   void changeFavorite(String itemId) {
-    final index = dummyItems.indexWhere((item) => item.id == itemId);
-    dummyItems[index] = dummyItems[index].copyWith(
-      isFavorite: !dummyItems[index].isFavorite,
-    );
+    // final index = dummyItems.indexWhere((item) => item.id == itemId);
+    // dummyItems[index] = dummyItems[index].copyWith(
+    //   isFavorite: !dummyItems[index].isFavorite,
+    // );
     final index1 = filterdHouses.indexWhere((item) => item.id == itemId);
     filterdHouses[index1] = filterdHouses[index1].copyWith(
       isFavorite: !filterdHouses[index1].isFavorite,
     );
     emit(
-      HouseDetailsLoaded(house: dummyItems[index]),
+      HouseDetailsLoaded(house: filterdHouses[index1]),
     );
   }
 }

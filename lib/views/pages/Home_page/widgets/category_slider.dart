@@ -74,12 +74,16 @@ class _CategorySliderState extends State<CategorySlider> {
                             children: [
                               Text(
                                 dummyCategories[index].category,
-                                style: TextStyle(
-                                  color: selectedCategoryIndex == index
-                                      ? Colors.white
-                                      : Colors.orange,
-                                  fontSize: size.width * 0.025,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: size.width * 0.03,
+                                      color: selectedCategoryIndex == index
+                                          ? Colors.white
+                                          : Colors.orange,
+                                    ),
                               ),
                             ],
                           ),
@@ -123,7 +127,7 @@ class _CategorySliderState extends State<CategorySlider> {
                         }
                       },
                       child: Container(
-                        width: size.width * 0.15,
+                        width: size.width * 0.2,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == index
                               ? Colors.orange
@@ -137,11 +141,16 @@ class _CategorySliderState extends State<CategorySlider> {
                           children: [
                             Text(
                               dummyCategories[index].category,
-                              style: TextStyle(
-                                  color: selectedCategoryIndex == index
-                                      ? Colors.white
-                                      : Colors.orange,
-                                  fontSize: size.width * 0.025),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: size.width * 0.03,
+                                    color: selectedCategoryIndex == index
+                                        ? Colors.white
+                                        : Colors.orange,
+                                  ),
                             )
                           ],
                         ),

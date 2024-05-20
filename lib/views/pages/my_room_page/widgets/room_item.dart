@@ -21,7 +21,7 @@ class RoomItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height * 0.5,
+      height: size.height * 0.7,
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsetsDirectional.only(bottom: size.width * 0.02),
       decoration: BoxDecoration(
@@ -33,7 +33,7 @@ class RoomItem extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            flex: 4,
+            flex: 5,
             child: CachedNetworkImage(
               imageUrl: room.imageUrl,
               fit: BoxFit.fitWidth,
@@ -45,7 +45,7 @@ class RoomItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Row(
               children: [
                 Expanded(
