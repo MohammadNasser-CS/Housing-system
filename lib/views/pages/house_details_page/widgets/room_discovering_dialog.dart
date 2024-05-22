@@ -315,7 +315,7 @@ class _RoomDiscoveringDialogState extends State<RoomDiscoveringDialog> {
                       //     .then((value) => Navigator.of(context).pop(context));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrange,
+                      backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

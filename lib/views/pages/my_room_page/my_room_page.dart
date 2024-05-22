@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_item.dart';
 
@@ -40,7 +39,7 @@ class MyRoomPage extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               padding:
                                   EdgeInsetsDirectional.all(size.height * 0.03),
-                              backgroundColor: AppColor.orange,
+                              backgroundColor: Theme.of(context).primaryColor,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),

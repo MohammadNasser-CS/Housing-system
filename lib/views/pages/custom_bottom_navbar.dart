@@ -7,7 +7,8 @@ import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dar
 import 'package:housing_project/views/pages/Home_page/home_page.dart';
 import 'package:housing_project/views/pages/my_room_page/my_room_page.dart';
 import 'package:housing_project/views/pages/favorite_page/favorite_page.dart';
-import 'package:housing_project/views/pages/profile_page/profile_page.dart';
+import 'package:housing_project/views/pages/notificaton_page/notification_page.dart';
+import 'package:housing_project/views/pages/settings_page/profile_page.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class CustomBottomNavbar extends StatefulWidget {
@@ -88,10 +89,19 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen: const ProfilePage(),
+        screen: const NotificationPage(),
         item: ItemConfig(
-          icon: const Icon(Icons.settings),
-          title: "الإعدادات",
+          icon: const Icon(Icons.notifications_none_outlined),
+          title: "الإشعارات",
+          activeForegroundColor: AppColor.black,
+          inactiveForegroundColor: Colors.white,
+        ),
+      ),
+      PersistentTabConfig(
+        screen: const SettingsPage(),
+        item: ItemConfig(
+          icon: const Icon(Icons.person_2_outlined),
+          title: "الإعدادت",
           activeForegroundColor: AppColor.black,
           inactiveForegroundColor: Colors.white,
         ),
@@ -101,10 +111,9 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColor.orange,
+          backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,
           leading: const SizedBox.shrink(),
           title: _controller.index == 0
@@ -142,23 +151,40 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
                                 ),
                           ),
                         )
-                      : null,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications_none_outlined,
-                color: AppColor.white,
-                size: size.width * 0.06,
-              ),
-            ),
-          ],
+                      : _controller.index == 3
+                          ? Center(
+                              child: Text(
+                                'الإشعارات',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColor.white,
+                                    ),
+                              ),
+                            )
+                          : _controller.index == 4
+                              ? Center(
+                                  child: Text(
+                                    'الإعدادات',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColor.white,
+                                        ),
+                                  ),
+                                )
+                              : null,
         ),
         body: PersistentTabView(
           controller: _controller,
           navBarBuilder: (navBarConfig) => Style1BottomNavBar(
             navBarConfig: navBarConfig,
-            navBarDecoration: const NavBarDecoration(color: AppColor.orange),
+            navBarDecoration:
+                NavBarDecoration(color: Theme.of(context).primaryColor),
           ),
           tabs: _buildScreens(),
           screenTransitionAnimation: const ScreenTransitionAnimation(

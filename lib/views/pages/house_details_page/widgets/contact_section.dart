@@ -41,7 +41,7 @@ class ContactSection extends StatelessWidget {
                   width: size.width * 0.08,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color: AppColor.orange,
+                    color: Theme.of(context).primaryColor,
                   ),
                   child: Icon(
                     FontAwesomeIcons.phone,
@@ -58,7 +58,7 @@ class ContactSection extends StatelessWidget {
                   width: size.width * 0.08,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color: AppColor.orange,
+                    color: Theme.of(context).primaryColor,
                   ),
                   child: Icon(
                     FontAwesomeIcons.solidComment,

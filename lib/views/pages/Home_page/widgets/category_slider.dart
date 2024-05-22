@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/home_tab_view_cubit/home_cubit.dart';
 import 'package:housing_project/models/home_category_model.dart';
 import 'package:housing_project/models/house_model.dart';
@@ -61,10 +60,11 @@ class _CategorySliderState extends State<CategorySlider> {
                         width: size.width * 0.15,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == index
-                              ? Colors.orange
+                              ? Theme.of(context).primaryColor
                               : Colors.white,
                           shape: BoxShape.rectangle,
-                          border: Border.all(color: AppColor.orange),
+                          border:
+                              Border.all(color: Theme.of(context).primaryColor),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(
@@ -82,7 +82,7 @@ class _CategorySliderState extends State<CategorySlider> {
                                       fontSize: size.width * 0.03,
                                       color: selectedCategoryIndex == index
                                           ? Colors.white
-                                          : Colors.orange,
+                                          : Theme.of(context).primaryColor,
                                     ),
                               ),
                             ],
@@ -130,10 +130,11 @@ class _CategorySliderState extends State<CategorySlider> {
                         width: size.width * 0.2,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == index
-                              ? Colors.orange
+                              ? Theme.of(context).primaryColor
                               : Colors.white,
                           shape: BoxShape.rectangle,
-                          border: Border.all(color: AppColor.orange),
+                          border:
+                              Border.all(color: Theme.of(context).primaryColor),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Column(
@@ -149,7 +150,7 @@ class _CategorySliderState extends State<CategorySlider> {
                                     fontSize: size.width * 0.03,
                                     color: selectedCategoryIndex == index
                                         ? Colors.white
-                                        : Colors.orange,
+                                        : Theme.of(context).primaryColor,
                                   ),
                             )
                           ],

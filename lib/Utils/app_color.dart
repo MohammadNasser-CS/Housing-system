@@ -26,6 +26,7 @@ class AppColor {
   static final teal5 = Colors.teal.shade500;
   static final teal6 = Colors.teal.shade600;
   static const orange=Colors.orange;
+  static const primaryColor=Color(0xFFE17C2A);
   static final orange1=Colors.orange.shade100;
   static final orange2=Colors.orange.shade200;
   static final orange3=Colors.orange.shade300;

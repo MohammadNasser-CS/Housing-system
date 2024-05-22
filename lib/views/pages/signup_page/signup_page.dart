@@ -71,7 +71,7 @@ class _SignupPagePageState extends State<SignupPage> {
                           .textTheme
                           .headlineMedium!
                           .copyWith(
-                              color: AppColor.orange,
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
@@ -247,7 +247,7 @@ class _SignupPagePageState extends State<SignupPage> {
                             return ElevatedButton(
                               onPressed: null,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColor.orange,
+                                backgroundColor: Theme.of(context).primaryColor,
                                 foregroundColor: AppColor.white,
                               ),
                               child: const Center(
@@ -258,7 +258,7 @@ class _SignupPagePageState extends State<SignupPage> {
                           return ElevatedButton(
                             onPressed: register,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.orange,
+                              backgroundColor: Theme.of(context).primaryColor,
                               foregroundColor: AppColor.white,
                             ),
                             child: Text(

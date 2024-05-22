@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                             .textTheme
                             .headlineMedium!
                             .copyWith(
-                              color: AppColor.orange,
+                              color: Theme.of(context).primaryColor,
                             ),
                       ),
                       const SizedBox(height: 8.0),
@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .textTheme
                                 .titleMedium!
                                 .copyWith(
-                                  color: AppColor.orange,
+                                  color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),
@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                               return ElevatedButton(
                                   onPressed: null,
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColor.orange,
+                                      backgroundColor: Theme.of(context).primaryColor,
                                       foregroundColor: AppColor.white),
                                   child: const Center(
                                     child: CircularProgressIndicator.adaptive(),
@@ -219,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.orange,
+                                    backgroundColor: Theme.of(context).primaryColor,
                                     foregroundColor: AppColor.white),
                                 child: Text(
                                   'تسجيل الدخول',
@@ -258,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                    color: AppColor.orange,
+                                    color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

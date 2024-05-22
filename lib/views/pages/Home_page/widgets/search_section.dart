@@ -82,7 +82,7 @@ class _SearchSectionState extends State<SearchSection> {
             clipBehavior: Clip.antiAlias,
             padding: EdgeInsetsDirectional.all(size.width * 0.03),
             decoration: BoxDecoration(
-              color: AppColor.orange,
+              color: Theme.of(context).primaryColor,
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(12.0),
             ),

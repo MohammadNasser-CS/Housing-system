@@ -4,11 +4,14 @@ import 'package:housing_project/Utils/app_routes.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/user_model.dart';
+import 'package:housing_project/views/pages/change_password_page/change_password_page.dart';
 import 'package:housing_project/views/pages/house_details_page/house_details_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar.dart';
 import 'package:housing_project/views/pages/login_page/login_page.dart';
 import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';
 import 'package:housing_project/views/pages/signup_page/signup_page.dart';
+import 'package:housing_project/views/profile_page/profile_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -47,8 +50,23 @@ class AppRouter {
           ),
           settings: settings,
         );
-        case AppRoutes.roleSelectionPage:
-        return MaterialPageRoute(builder: (_)=>const RoleSelectionPage(),settings: settings);
+      case AppRoutes.roleSelectionPage:
+        return MaterialPageRoute(
+          builder: (_) => const RoleSelectionPage(),
+          settings: settings,
+        );
+      case AppRoutes.profilePage:
+        final UserModel user = settings.arguments as UserModel;
+        return MaterialPageRoute(
+          builder: (_) => ProfilePage(user: user),
+          settings: settings,
+        );
+        case AppRoutes.changePasswordPage:
+        final UserModel user = settings.arguments as UserModel;
+        return MaterialPageRoute(
+          builder: (_) => ChangePasswordPage(user: user),
+          settings: settings,
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => const CustomBottomNavbar(),

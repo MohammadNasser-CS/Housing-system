@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
             title: 'Housing System',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              primaryColor: AppColor.orange4,
               scaffoldBackgroundColor: AppColor.grey1,
               appBarTheme: AppBarTheme(backgroundColor: AppColor.grey1),
               useMaterial3: true,
