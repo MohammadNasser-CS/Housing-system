@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
             title: 'Housing System',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primaryColor: AppColor.orange4,
+              primaryColor: AppColor.orange8,
               scaffoldBackgroundColor: AppColor.grey1,
               appBarTheme: AppBarTheme(backgroundColor: AppColor.grey1),
               useMaterial3: true,
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            initialRoute: AppRoutes.home,
+            initialRoute: AppRoutes.loginPage,
             onGenerateRoute: AppRouter.generateRoute,
             localizationsDelegates: const [
               // S.delegate,

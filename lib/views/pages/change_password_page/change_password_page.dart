@@ -215,7 +215,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         backgroundColor: Theme.of(context).primaryColor,
                         foregroundColor: AppColor.white),
                     child: Text(
-                      'تغغير',
+                      'تغير',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: AppColor.white,
                             fontWeight: FontWeight.bold,

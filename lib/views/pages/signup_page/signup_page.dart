@@ -62,9 +62,7 @@ class _SignupPagePageState extends State<SignupPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 36,
-                    ),
+                    const SizedBox(height: 36),
                     Text(
                       'إنشاء حساب',
                       style: Theme.of(context)
@@ -74,9 +72,7 @@ class _SignupPagePageState extends State<SignupPage> {
                               color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    const SizedBox(height: 8),
                     Text(
                       'قم بملء الحقول المطلوبة لإنشاء حسابك',
                       style: Theme.of(context)
@@ -84,18 +80,14 @@ class _SignupPagePageState extends State<SignupPage> {
                           .titleMedium!
                           .copyWith(color: AppColor.grey),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Text(
                       'إسم المستخدم',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
+                    const SizedBox(height: 12),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -120,18 +112,14 @@ class _SignupPagePageState extends State<SignupPage> {
                         prefixIconColor: AppColor.grey,
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Text(
                       'البريد الإلكتروني',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
+                    const SizedBox(height: 12),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -158,18 +146,14 @@ class _SignupPagePageState extends State<SignupPage> {
                         prefixIconColor: AppColor.grey,
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Text(
                       'كلمة المرور',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
+                    const SizedBox(height: 12),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -211,12 +195,7 @@ class _SignupPagePageState extends State<SignupPage> {
                         prefixIconColor: AppColor.grey,
                       ),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
+                    const SizedBox(height: 12),
                     SizedBox(
                       width: double.infinity,
                       height: 60,
@@ -273,9 +252,6 @@ class _SignupPagePageState extends State<SignupPage> {
                           );
                         },
                       ),
-                    ),
-                    const SizedBox(
-                      height: 12,
                     ),
                   ],
                 ),

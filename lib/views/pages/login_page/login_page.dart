@@ -179,7 +179,10 @@ class _LoginPageState extends State<LoginPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context, rootNavigator: true)
+                                .pushNamed(AppRoutes.forgetPasswordPage);
+                          },
                           child: Text(
                             'هل نسيت كلمة المرور؟',
                             style: Theme.of(context)
@@ -205,7 +208,8 @@ class _LoginPageState extends State<LoginPage> {
                               return ElevatedButton(
                                   onPressed: null,
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       foregroundColor: AppColor.white),
                                   child: const Center(
                                     child: CircularProgressIndicator.adaptive(),
@@ -219,7 +223,8 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     foregroundColor: AppColor.white),
                                 child: Text(
                                   'تسجيل الدخول',

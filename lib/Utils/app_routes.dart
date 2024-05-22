@@ -11,4 +11,7 @@ class AppRoutes {
   static const String roleSelectionPage = '/role_selection';
   static const String profilePage = '/profie_page';
   static const String changePasswordPage = '/changePassword_page';
+  static const String forgetPasswordPage = '/forgetPassword_page';
+  static const String phoneNumberConfirmationPage = '/phoneNumberConfirmation_page';
+  static const String passwordResetPage = '/passwordReset_page';
 }
