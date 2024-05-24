@@ -7,19 +7,23 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
-          itemCount: dummyNotification.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            final notification = dummyNotification[index];
-            return NotificationCard(notification: notification);
-          },
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListView.builder(
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
+              itemCount: dummyNotification.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final notification = dummyNotification[index];
+                return NotificationCard(notification: notification);
+              },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

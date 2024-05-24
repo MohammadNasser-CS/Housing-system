@@ -29,16 +29,21 @@ class MyRoomPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RoomItem(room: state.room, house: state.house, cubit: cubit),
+                  Expanded(
+                    flex: 6,
+                    child: RoomItem(
+                        room: state.room, house: state.house, cubit: cubit),
+                  ),
+                  const Spacer(),
                   Row(
                     children: [
                       Expanded(
-                        flex: 2,
+                        flex: 1,
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               padding:
-                                  EdgeInsetsDirectional.all(size.height * 0.03),
+                                  EdgeInsetsDirectional.all(size.height * 0.02),
                               backgroundColor: Theme.of(context).primaryColor,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(

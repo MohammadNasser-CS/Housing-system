@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontWeight: FontWeight.w600,
                   ),
             ),
-            const SizedBox(height: 12.0),
+            SizedBox(height: size.height * 0.02),
             TextFormField(
               textAlign: TextAlign.right,
               controller: _userNameController,
@@ -82,6 +82,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: size.height * 0.03),
+            Text(
+              'رقم الهاتف',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+            SizedBox(height: size.height * 0.02),
             TextFormField(
               textAlign: TextAlign.right,
               controller: _phoneNumberController,
@@ -100,6 +107,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: size.height * 0.03),
+            Text(
+              'البريد الإلكتروني',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+            SizedBox(height: size.height * 0.02),
             TextFormField(
               textAlign: TextAlign.right,
               controller: _emailController,
@@ -126,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsetsDirectional.symmetric(
-                            vertical: size.height * 0.03),
+                            vertical: size.width * 0.03),
                         backgroundColor: Theme.of(context).primaryColor,
                         foregroundColor: AppColor.white),
                     child: Text(

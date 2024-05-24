@@ -33,11 +33,14 @@ class RoleSelectionPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(AppRoutes.register);
+                    },
                     child: Container(
                       padding: EdgeInsetsDirectional.all(size.width * 0.05),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Theme.of(context).primaryColor),
+                        border:
+                            Border.all(color: Theme.of(context).primaryColor),
                         color: AppColor.white,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
@@ -56,7 +59,8 @@ class RoleSelectionPage extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsetsDirectional.all(size.width * 0.05),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Theme.of(context).primaryColor),
+                        border:
+                            Border.all(color: Theme.of(context).primaryColor),
                         color: AppColor.white,
                         borderRadius: BorderRadius.circular(8.0),
                       ),

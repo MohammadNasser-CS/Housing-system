@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/controllers/home_tab_view_cubit/home_cubit.dart';
+import 'package:housing_project/controllers/user_home_page_cubit/user_home_cubit.dart';
 
 class SearchSection extends StatefulWidget {
   const SearchSection({super.key});

@@ -8,13 +8,13 @@ import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/change_password_page/change_password_page.dart';
 import 'package:housing_project/views/pages/forget_password_page/forget_password_page.dart';
 import 'package:housing_project/views/pages/house_details_page/house_details_page.dart';
-import 'package:housing_project/views/pages/custom_bottom_navbar.dart';
+import 'package:housing_project/views/pages/custom_bottom_navbar/custom_bottom_navbar.dart';
 import 'package:housing_project/views/pages/login_page/login_page.dart';
 import 'package:housing_project/views/pages/password_reset_page/password_reset_page.dart';
 import 'package:housing_project/views/pages/phone_number_confirm_page/phone_number_confirm_page.dart';
 import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';
 import 'package:housing_project/views/pages/signup_page/signup_page.dart';
-import 'package:housing_project/views/profile_page/profile_page.dart';
+import 'package:housing_project/views/pages/profile_page/profile_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -36,8 +36,9 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.home:
+      final UserModel user = settings.arguments as UserModel;
         return MaterialPageRoute(
-          builder: (_) => const CustomBottomNavbar(),
+          builder: (_) =>  CustomBottomNavbar(user: user),
           settings: settings,
         );
       case AppRoutes.details:
@@ -85,10 +86,9 @@ class AppRouter {
           builder: (_) => const PasswordResetPage(),
           settings: settings,
         );
-
       default:
         return MaterialPageRoute(
-          builder: (_) => const CustomBottomNavbar(),
+          builder: (_) => const LoginPage(),
           settings: settings,
         );
     }

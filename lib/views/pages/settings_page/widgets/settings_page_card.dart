@@ -4,10 +4,10 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/app_routes.dart';
 import 'package:housing_project/models/user_model.dart';
 
-class ProfilePageCard extends StatelessWidget {
+class SettingsPageCard extends StatelessWidget {
   final UserModel user;
   final bool isChangePassword;
-  const ProfilePageCard({super.key,required this.user, this.isChangePassword=false});
+  const SettingsPageCard({super.key,required this.user, this.isChangePassword=false});
 
   @override
   Widget build(BuildContext context) {

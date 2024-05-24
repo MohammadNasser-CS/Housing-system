@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:housing_project/controllers/home_tab_view_cubit/home_cubit.dart';
+import 'package:housing_project/controllers/user_home_page_cubit/user_home_cubit.dart';
 import 'package:housing_project/models/home_category_model.dart';
 import 'package:housing_project/models/house_model.dart';
 
@@ -57,7 +57,7 @@ class _CategorySliderState extends State<CategorySlider> {
                         }
                       },
                       child: Container(
-                        width: size.width * 0.15,
+                        width: size.width * 0.2,
                         decoration: BoxDecoration(
                           color: selectedCategoryIndex == index
                               ? Theme.of(context).primaryColor
@@ -67,26 +67,23 @@ class _CategorySliderState extends State<CategorySlider> {
                               Border.all(color: Theme.of(context).primaryColor),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                dummyCategories[index].category,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: size.width * 0.03,
-                                      color: selectedCategoryIndex == index
-                                          ? Colors.white
-                                          : Theme.of(context).primaryColor,
-                                    ),
-                              ),
-                            ],
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              dummyCategories[index].category,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: size.width * 0.03,
+                                    color: selectedCategoryIndex == index
+                                        ? Colors.white
+                                        : Theme.of(context).primaryColor,
+                                  ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

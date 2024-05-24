@@ -211,7 +211,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsetsDirectional.symmetric(
-                            vertical: size.height * 0.03),
+                            vertical: size.width * 0.03),
                         backgroundColor: Theme.of(context).primaryColor,
                         foregroundColor: AppColor.white),
                     child: Text(

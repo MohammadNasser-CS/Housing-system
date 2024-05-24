@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
               content: Text('تم تسجيل الدخول بنجاح'),
             ),
           );
-          Navigator.of(context).pushNamed(AppRoutes.home);
+          Navigator.of(context).pushNamed(AppRoutes.home,arguments: state.user);
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

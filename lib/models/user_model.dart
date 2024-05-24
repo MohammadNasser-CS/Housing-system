@@ -103,7 +103,7 @@ List<UserModel> dummyUsers = [
       colleqe: 'IT',
       role: 'user'),
   UserModel(
-      name: 'أحمد ناصر',
+      name: 'محمد أشرف ناصر',
       email: 'abualnasser55@gmail.com',
       phoneNumber: '0561234567',
       gender: 'male',

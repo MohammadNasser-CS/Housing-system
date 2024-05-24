@@ -1,4 +1,4 @@
-part of 'home_cubit.dart';
+part of 'user_home_cubit.dart';
 
 sealed class HomeState {
   const HomeState();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
+import 'package:housing_project/Utils/app_routes.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -11,10 +12,12 @@ class LogoutButton extends StatelessWidget {
       children: [
         Expanded(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.loginPage);
+            },
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsetsDirectional.symmetric(
-                    vertical: size.height * 0.03),
+                    vertical: size.width * 0.03),
                 backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: AppColor.white),
             child: Text(

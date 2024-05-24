@@ -4,7 +4,7 @@ import 'package:housing_project/models/home_category_model.dart';
 
 import 'package:housing_project/models/house_model.dart';
 
-part 'home_state.dart';
+part 'user_home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
