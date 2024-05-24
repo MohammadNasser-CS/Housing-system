@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/app_routes.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
+import 'package:housing_project/views/pages/signup_page/widgets/first_signup_fields.dart';
+import 'package:housing_project/views/pages/signup_page/widgets/second_signup_fields.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -13,38 +15,31 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPagePageState extends State<SignupPage> {
   late final GlobalKey<FormState> _formKey;
-  late final TextEditingController _emailController,
-      _passwordController,
-      _usernameController;
-  late FocusNode _emailFocusNode, _passwordFocusNode, _usernameFocusedNode;
-  bool visibility = false;
+  bool visibility = false, isFirstIndormation = true;
   @override
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    _usernameController = TextEditingController();
-    _emailFocusNode = FocusNode();
-    _passwordFocusNode = FocusNode();
-    _usernameFocusedNode = FocusNode();
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _usernameController.dispose();
     super.dispose();
   }
 
-  Future<void> register() async {
-    if (_formKey.currentState!.validate()) {
-      // await BlocProvider.of<AuthCubit>(context).register(
-      //   _emailController.text,
-      //   _passwordController.text,
-      //   _usernameController.text,
-      // );
+  Future<void> nextStep() async {
+    if (isFirstIndormation) {
+      setState(() {
+        isFirstIndormation = !isFirstIndormation;
+      });
+    } else {
+      if (_formKey.currentState!.validate()) {
+        // await BlocProvider.of<AuthCubit>(context).register(
+        //   _emailController.text,
+        //   _passwordController.text,
+        //   _usernameController.text,
+        // );
+      }
     }
   }
 
@@ -63,138 +58,9 @@ class _SignupPagePageState extends State<SignupPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 36),
-                    Text(
-                      'إنشاء حساب',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'قم بملء الحقول المطلوبة لإنشاء حسابك',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: AppColor.grey),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'إسم المستخدم',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "الرجاء إدخال إسم المستخدم";
-                        } else {
-                          return null;
-                        }
-                      },
-                      onEditingComplete: () {
-                        _usernameFocusedNode.unfocus();
-                        FocusScope.of(context).requestFocus(_emailFocusNode);
-                      },
-                      textInputAction: TextInputAction.next,
-                      focusNode: _usernameFocusedNode,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        hintText: 'قم بإدخال إسم المستخدم',
-                        prefixIcon: Icon(
-                          Icons.person_outline,
-                        ),
-                        prefixIconColor: AppColor.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'البريد الإلكتروني',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "الرجاء قم بإدخال الإيميل الخاص بك";
-                        } else if (!value.contains('@')) {
-                          return 'قم بإدخال بريد إلكتروني صالح!.';
-                        } else {
-                          return null;
-                        }
-                      },
-                      onEditingComplete: () {
-                        _emailFocusNode.unfocus();
-                        FocusScope.of(context).requestFocus(_passwordFocusNode);
-                      },
-                      textInputAction: TextInputAction.next,
-                      focusNode: _emailFocusNode,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'أدخل بريدك الإلكتروني',
-                        prefixIcon: Icon(
-                          Icons.email,
-                        ),
-                        prefixIconColor: AppColor.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'كلمة المرور',
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "الرجاء إدخال كلمة المرور";
-                        } else if (value.length < 6) {
-                          return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
-                        } else {
-                          return null;
-                        }
-                      },
-                      onEditingComplete: () {
-                        _passwordFocusNode.unfocus();
-                        // register();
-                      },
-                      focusNode: _passwordFocusNode,
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: _passwordController,
-                      obscureText: !visibility,
-                      decoration: InputDecoration(
-                        hintText: 'أدخل كلمة المرور',
-                        prefixIcon: const Icon(
-                          Icons.password,
-                        ),
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            setState(
-                              () {
-                                visibility = !visibility;
-                              },
-                            );
-                          },
-                          child: Icon(
-                            visibility == true
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                          ),
-                        ),
-                        suffixIconColor: AppColor.grey,
-                        prefixIconColor: AppColor.grey,
-                      ),
-                    ),
+                    isFirstIndormation
+                        ? const FirstSignUpFields()
+                        : const SecondSingUpFields(),
                     const SizedBox(height: 12),
                     SizedBox(
                       width: double.infinity,
@@ -235,13 +101,13 @@ class _SignupPagePageState extends State<SignupPage> {
                             );
                           }
                           return ElevatedButton(
-                            onPressed: register,
+                            onPressed: nextStep,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Theme.of(context).primaryColor,
                               foregroundColor: AppColor.white,
                             ),
                             child: Text(
-                              'إنشاء حساب',
+                              'التالي',
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
