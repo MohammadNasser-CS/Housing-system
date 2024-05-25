@@ -14,4 +14,5 @@ class AppRoutes {
   static const String forgetPasswordPage = '/forgetPassword_page';
   static const String phoneNumberConfirmationPage = '/phoneNumberConfirmation_page';
   static const String passwordResetPage = '/passwordReset_page';
+  static const String addNewHouse = '/addNewHouse_page';
 }

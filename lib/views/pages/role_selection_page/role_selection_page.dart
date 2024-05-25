@@ -9,7 +9,9 @@ class RoleSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: AppColor.grey1,
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -18,7 +20,7 @@ class RoleSelectionPage extends StatelessWidget {
               Text(
                 'حدد نوع المستخدم',
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                      color: Theme.of(context).primaryColor,
+                      color: AppColor.orange8,
                     ),
               ),
               SizedBox(height: size.height * 0.01),
@@ -39,14 +41,13 @@ class RoleSelectionPage extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsetsDirectional.all(size.width * 0.05),
                       decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Theme.of(context).primaryColor),
+                        border: Border.all(color: AppColor.orange8),
                         color: AppColor.white,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Icon(
                         Icons.home_outlined,
-                        color: Theme.of(context).primaryColor,
+                        color: AppColor.orange8,
                         size: size.width * 0.3,
                       ),
                     ),
@@ -59,14 +60,13 @@ class RoleSelectionPage extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsetsDirectional.all(size.width * 0.05),
                       decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Theme.of(context).primaryColor),
+                        border: Border.all(color: AppColor.orange8),
                         color: AppColor.white,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Icon(
                         Icons.school_outlined,
-                        color: Theme.of(context).primaryColor,
+                        color: AppColor.orange8,
                         size: size.width * 0.3,
                       ),
                     ),

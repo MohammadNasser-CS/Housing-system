@@ -5,7 +5,7 @@ sealed class OwnerHomePageState {
 }
 
 final class OwnerHomePageInitial extends OwnerHomePageState {}
-final class HomeLoading extends OwnerHomePageState {}
+final class OwnerHomePageLoading extends OwnerHomePageState {}
 
 final class OwnerHomePageLoaded extends OwnerHomePageState {
   final List<HouseModel> houses;

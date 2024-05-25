@@ -7,13 +7,14 @@ import 'package:housing_project/models/user_model.dart';
 class SettingsPageCard extends StatelessWidget {
   final UserModel user;
   final bool isChangePassword;
-  const SettingsPageCard({super.key,required this.user, this.isChangePassword=false});
+  const SettingsPageCard(
+      {super.key, required this.user, this.isChangePassword = false});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return DecoratedBox(
-      decoration: BoxDecoration(color: AppColor.grey1),
+      decoration: const BoxDecoration(color: AppColor.white),
       child: ListTile(
         hoverColor: AppColor.orange4,
         leading: !isChangePassword

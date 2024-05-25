@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/app_routes.dart';
-import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
-import 'package:housing_project/views/pages/signup_page/widgets/first_signup_fields.dart';
-import 'package:housing_project/views/pages/signup_page/widgets/second_signup_fields.dart';
+import 'package:housing_project/controllers/add_new_house_cubit/add_new_house_cubit.dart';
+import 'package:housing_project/views/pages/add_new_house_page/widgets/add_new_house_fields.dart';
+import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/title_value_widget.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class AddNewHousePage extends StatefulWidget {
+  const AddNewHousePage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPagePageState();
+  State<AddNewHousePage> createState() => _AddNewHousePageState();
 }
 
-class _SignupPagePageState extends State<SignupPage> {
+class _AddNewHousePageState extends State<AddNewHousePage> {
   late final GlobalKey<FormState> _formKey;
   bool visibility = false, isFirstIndormation = true;
   @override
@@ -48,7 +48,9 @@ class _SignupPagePageState extends State<SignupPage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.grey1,
+        backgroundColor: AppColor.white,
+        centerTitle: true,
+        title: const TitleValueWidget(text: 'إضافة عقار'),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -61,24 +63,25 @@ class _SignupPagePageState extends State<SignupPage> {
                 children: [
                   SizedBox(height: size.height * 0.02),
                   isFirstIndormation
-                      ? const FirstSignUpFields()
-                      : const SecondSingUpFields(),
+                      ? const AddNewHouseFields()
+                      : const AddNewHouseFields(),
                   SizedBox(height: size.height * 0.06),
                   SizedBox(
                     width: double.infinity,
-                    child: BlocConsumer<AuthCubit, AuthState>(
-                      bloc: BlocProvider.of<AuthCubit>(context),
+                    child: BlocConsumer<AddNewHouseCubit, AddNewHouseState>(
+                      bloc: BlocProvider.of<AddNewHouseCubit>(context),
                       listenWhen: (previous, current) =>
-                          current is AuthSuccess || current is AuthError,
+                          current is AddNewHouseDoneSuccess ||
+                          current is AddNewHouseError,
                       listener: (context, state) {
-                        if (state is AuthSuccess) {
+                        if (state is AddNewHouseDoneSuccess) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('تم إنشاء الحساب بنجاح'),
+                              content: Text('تم إضافة العقار بنجاح'),
                             ),
                           );
                           Navigator.of(context).pushNamed(AppRoutes.home);
-                        } else if (state is AuthError) {
+                        } else if (state is AddNewHouseError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(state.message),
@@ -87,9 +90,10 @@ class _SignupPagePageState extends State<SignupPage> {
                         }
                       },
                       buildWhen: (previous, current) =>
-                          current is AuthLoading || current is AuthError,
+                          current is AddNewHouseLoading ||
+                          current is AddNewHouseError,
                       builder: (context, state) {
-                        if (state is AuthLoading) {
+                        if (state is AddNewHouseLoading) {
                           return ElevatedButton(
                             onPressed: null,
                             style: ElevatedButton.styleFrom(

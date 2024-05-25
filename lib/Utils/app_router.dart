@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_routes.dart';
+import 'package:housing_project/controllers/add_new_house_cubit/add_new_house_cubit.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/models/house_model.dart';
 import 'package:housing_project/models/user_model.dart';
+import 'package:housing_project/views/pages/add_new_house_page/add_new_house_page.dart';
 import 'package:housing_project/views/pages/change_password_page/change_password_page.dart';
 import 'package:housing_project/views/pages/forget_password_page/forget_password_page.dart';
 import 'package:housing_project/views/pages/house_details_page/house_details_page.dart';
@@ -36,9 +38,9 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.home:
-      final UserModel user = settings.arguments as UserModel;
+        final UserModel user = settings.arguments as UserModel;
         return MaterialPageRoute(
-          builder: (_) =>  CustomBottomNavbar(user: user),
+          builder: (_) => CustomBottomNavbar(user: user),
           settings: settings,
         );
       case AppRoutes.details:
@@ -84,6 +86,14 @@ class AppRouter {
       case AppRoutes.passwordResetPage:
         return MaterialPageRoute(
           builder: (_) => const PasswordResetPage(),
+          settings: settings,
+        );
+      case AppRoutes.addNewHouse:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => AddNewHouseCubit(),
+            child: const AddNewHousePage(),
+          ),
           settings: settings,
         );
       default:

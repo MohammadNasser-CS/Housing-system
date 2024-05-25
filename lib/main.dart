@@ -21,28 +21,28 @@ class MyApp extends StatelessWidget {
             title: 'Housing System',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primaryColor: AppColor.orange8,
+              primaryColor: AppColor.white,
               scaffoldBackgroundColor: AppColor.grey1,
-              appBarTheme: AppBarTheme(backgroundColor: AppColor.grey1),
+              appBarTheme: const AppBarTheme(backgroundColor: AppColor.white),
               useMaterial3: true,
               inputDecorationTheme: InputDecorationTheme(
-                fillColor: AppColor.grey1,
+                fillColor: AppColor.white,
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: AppColor.grey2),
+                  borderSide: BorderSide(color: AppColor.grey4),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: AppColor.grey2),
+                  borderSide: BorderSide(color: AppColor.grey4),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: AppColor.grey2),
+                  borderSide: BorderSide(color: AppColor.grey4),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide(color: AppColor.grey2),
+                  borderSide: BorderSide(color: AppColor.grey4),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),

@@ -41,9 +41,10 @@ class _SecondSingUpFieldsState extends State<SecondSingUpFields> {
       children: [
         Text(
           'إنشاء حساب',
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.bold),
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .copyWith(color: AppColor.orange8, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(

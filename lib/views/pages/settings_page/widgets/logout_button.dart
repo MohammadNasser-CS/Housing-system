@@ -13,12 +13,14 @@ class LogoutButton extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.loginPage);
+              debugPrint('tset');
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(AppRoutes.loginPage);
             },
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsetsDirectional.symmetric(
                     vertical: size.width * 0.03),
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: AppColor.orange8,
                 foregroundColor: AppColor.white),
             child: Text(
               'تسجيل الخروج',
