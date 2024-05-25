@@ -40,7 +40,7 @@ class _SearchSectionState extends State<SearchSection> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          flex: 2,
+          flex: 6,
           child: TextFormField(
             textAlign: TextAlign.right,
             controller: _searchController,
@@ -71,26 +71,27 @@ class _SearchSectionState extends State<SearchSection> {
               hintText: 'إسم صاحب السكن...',
               prefixIcon: const Icon(Icons.search_outlined),
               prefixIconColor: AppColor.grey,
-              fillColor: AppColor.white,
-              filled: true,
             ),
           ),
         ),
         SizedBox(width: size.width * 0.03),
-        InkWell(
-          onTap: () {},
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            padding: EdgeInsetsDirectional.all(size.width * 0.03),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Icon(
-              FontAwesomeIcons.sliders,
-              color: AppColor.white,
-              size: size.width * 0.05,
+        Expanded(
+          flex: 1,
+          child: InkWell(
+            onTap: () {},
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              padding: EdgeInsetsDirectional.all(size.width * 0.04),
+              decoration: BoxDecoration(
+                color: AppColor.orange8,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Icon(
+                FontAwesomeIcons.sliders,
+                color: AppColor.white,
+                size: size.width * 0.05,
+              ),
             ),
           ),
         ),

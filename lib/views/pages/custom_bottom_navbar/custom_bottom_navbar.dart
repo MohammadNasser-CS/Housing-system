@@ -162,7 +162,14 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
-        leading: const SizedBox.shrink(),
+        leading: const Padding(
+          padding: EdgeInsetsDirectional.only(start: 8.0),
+          child: CircleAvatar(
+            radius: 30,
+            backgroundColor: AppColor.white,
+            backgroundImage: AssetImage('assets/images/majles1.png'),
+          ),
+        ),
         title: widget.user.role == 'houseOwner'
             ? AppBarTitleForOwner(index: _controller.index)
             : AppBarTitleForUser(index: _controller.index),

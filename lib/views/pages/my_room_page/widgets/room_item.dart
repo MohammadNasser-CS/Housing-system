@@ -27,7 +27,7 @@ class RoomItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColor.grey2,
         borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: Theme.of(context).primaryColor),
+        border: Border.all(color: AppColor.orange8),
         shape: BoxShape.rectangle,
       ),
       child: Column(
@@ -104,7 +104,7 @@ class RoomItem extends StatelessWidget {
               ],
             ),
           ),
-           Divider(color: Theme.of(context).primaryColor),
+           Divider(color: AppColor.orange8),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
             child: ContactSection(ownerName: house.ownerName),

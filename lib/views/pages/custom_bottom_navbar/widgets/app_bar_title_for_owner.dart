@@ -11,7 +11,7 @@ class AppBarTitleForOwner extends StatelessWidget {
         ? const TitleValueWidget(text: 'عقاراتي')
         : index == 1
             ? const TitleValueWidget(text: 'الإشعارات')
-            : index == 4
+            : index == 2
                 ? const TitleValueWidget(text: 'الإعدادات')
                 : const SizedBox.shrink();
   }

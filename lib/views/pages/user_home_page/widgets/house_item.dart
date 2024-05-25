@@ -24,7 +24,7 @@ class HouseItem extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColor.white,
             borderRadius: BorderRadius.circular(12.0),
-            border: Border.all(color: Theme.of(context).primaryColor),
+            border: Border.all(color: AppColor.orange8),
             shape: BoxShape.rectangle,
           ),
           child: Column(

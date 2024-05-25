@@ -84,7 +84,7 @@ class RoomDescriptionSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ReadMoreText(
-                colorClickableText: Theme.of(context).primaryColor,
+                colorClickableText: AppColor.orange8,
                 trimCollapsedText: 'المزيد',
                 trimExpandedText: 'أقل',
                 trimLines: 3,

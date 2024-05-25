@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:readmore/readmore.dart';
@@ -84,7 +83,7 @@ class HouseDescriptionSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ReadMoreText(
-                colorClickableText: Theme.of(context).primaryColor,
+                colorClickableText: AppColor.orange8,
                 trimCollapsedText: 'المزيد',
                 trimExpandedText: 'أقل',
                 trimLines: 3,

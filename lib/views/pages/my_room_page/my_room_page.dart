@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_item.dart';
 
@@ -30,7 +31,7 @@ class MyRoomPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 6,
+                    flex: 7,
                     child: RoomItem(
                         room: state.room, house: state.house, cubit: cubit),
                   ),
@@ -44,7 +45,7 @@ class MyRoomPage extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               padding:
                                   EdgeInsetsDirectional.all(size.height * 0.02),
-                              backgroundColor: Theme.of(context).primaryColor,
+                              backgroundColor: AppColor.orange8,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),

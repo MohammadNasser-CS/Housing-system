@@ -14,7 +14,8 @@ class SettingsPageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return DecoratedBox(
-      decoration: const BoxDecoration(color: AppColor.white),
+      decoration: BoxDecoration(
+          color: AppColor.white, border: Border.all(color: AppColor.grey4)),
       child: ListTile(
         hoverColor: AppColor.orange4,
         leading: !isChangePassword

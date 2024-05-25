@@ -11,6 +11,7 @@ class NotificationPage extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(height: 20),
             ListView.builder(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
               itemCount: dummyNotification.length,
@@ -18,7 +19,10 @@ class NotificationPage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final notification = dummyNotification[index];
-                return NotificationCard(notification: notification);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: NotificationCard(notification: notification),
+                );
               },
             ),
           ],
