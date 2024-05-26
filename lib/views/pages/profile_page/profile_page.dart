@@ -47,7 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
         title: const Text('معلوماتي'),
         centerTitle: true,
       ),
@@ -141,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsetsDirectional.symmetric(
                             vertical: size.width * 0.03),
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: AppColor.orange8,
                         foregroundColor: AppColor.white),
                     child: Text(
                       'حفظ التغييرات',

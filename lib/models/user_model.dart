@@ -96,14 +96,14 @@ class UserModel {
 
 List<UserModel> dummyUsers = [
   UserModel(
-      name: 'محمد ناصر',
+      name: 'إسم المستخدم',
       email: 'abualnasser04@gmail.com',
       phoneNumber: '0568891980',
       gender: 'male',
       colleqe: 'IT',
       role: 'user'),
   UserModel(
-      name: 'محمد أشرف ناصر',
+      name: 'إسم المستخدم',
       email: 'abualnasser55@gmail.com',
       phoneNumber: '0561234567',
       gender: 'male',

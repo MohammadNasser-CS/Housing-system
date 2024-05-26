@@ -35,6 +35,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
         appBar: AppBar(
           title: const Text('إعادة تعيين كلمة المرور'),
           centerTitle: true,
+          backgroundColor: AppColor.grey1,
         ),
         body: Center(
           child: Padding(
@@ -54,7 +55,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                               .textTheme
                               .headlineMedium!
                               .copyWith(
-                                  color: Theme.of(context).primaryColor,
+                                  color: AppColor.orange8,
                                   fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
@@ -105,7 +106,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsetsDirectional.symmetric(
                                 vertical: size.height * 0.03),
-                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundColor: AppColor.orange8,
                             foregroundColor: AppColor.white),
                         child: Text(
                           'إرسال',

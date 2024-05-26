@@ -14,9 +14,6 @@ class NotificationCard extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsetsDirectional.all(8.0),
         tileColor: AppColor.white,
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(notification.senderImg),
-        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

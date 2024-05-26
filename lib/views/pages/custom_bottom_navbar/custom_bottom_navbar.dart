@@ -160,14 +160,16 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: size.height * 0.1,
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
-        leading: const Padding(
-          padding: EdgeInsetsDirectional.only(start: 8.0),
-          child: CircleAvatar(
-            radius: 30,
-            backgroundColor: AppColor.white,
-            backgroundImage: AssetImage('assets/images/majles1.png'),
+        leading: ClipRRect(
+          child: Padding(
+            padding: const EdgeInsetsDirectional.all(2.0),
+            child: Image.asset(
+              'assets/images/majles_logo.png',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         title: widget.user.role == 'houseOwner'

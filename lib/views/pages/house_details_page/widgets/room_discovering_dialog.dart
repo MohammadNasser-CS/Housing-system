@@ -70,23 +70,6 @@ class _RoomDiscoveringDialogState extends State<RoomDiscoveringDialog> {
                     ),
                   ),
                 ),
-                SizedBox(width: size.width * 0.01),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.room.imageUrl,
-                      // height: size.height * 0.06,
-                      // width: double.infinity,
-                      height: size.height * 0.2,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator.adaptive()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                ),
               ],
             ),
             SizedBox(height: size.height * 0.01),

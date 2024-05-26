@@ -76,7 +76,14 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 16.0),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding:
+                              const EdgeInsetsDirectional.symmetric(horizontal: 12.0),
+                          child: Image.asset('assets/images/majles_logo.png'),
+                        ),
+                      ),
                       Text(
                         'تسجيل الدخول',
                         style: Theme.of(context)

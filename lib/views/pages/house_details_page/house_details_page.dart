@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/contact_section.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/rooms_gallery_section.dart';
@@ -27,6 +28,7 @@ class HouseDetailsPage extends StatelessWidget {
             appBar: AppBar(
               title: const Text('التفاصيل'),
               centerTitle: true,
+              backgroundColor: AppColor.grey1,
             ),
             body: SafeArea(
               child: SingleChildScrollView(
