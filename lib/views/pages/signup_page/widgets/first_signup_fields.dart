@@ -35,6 +35,7 @@ class _FirstSignUpFieldsState extends State<FirstSignUpFields> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -45,7 +46,7 @@ class _FirstSignUpFieldsState extends State<FirstSignUpFields> {
               .headlineMedium!
               .copyWith(color: AppColor.orange8, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: size.height * 0.002),
         Text(
           'قم بملء الحقول المطلوبة لإنشاء حسابك',
           style: Theme.of(context)
@@ -53,14 +54,14 @@ class _FirstSignUpFieldsState extends State<FirstSignUpFields> {
               .titleMedium!
               .copyWith(color: AppColor.grey),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: size.height * 0.02),
         Text(
           'الإسم',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
               ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: size.height * 0.002),
         TextFormField(
           // validator: (value) {
           //   if (value == null || value.isEmpty) {
@@ -85,14 +86,14 @@ class _FirstSignUpFieldsState extends State<FirstSignUpFields> {
             prefixIconColor: AppColor.grey,
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: size.height * 0.02),
         Text(
           'البريد الإلكتروني',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
               ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: size.height * 0.002),
         TextFormField(
           // validator: (value) {
           //   if (value == null || value.isEmpty) {
@@ -119,14 +120,14 @@ class _FirstSignUpFieldsState extends State<FirstSignUpFields> {
             prefixIconColor: AppColor.grey,
           ),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: size.height * 0.02),
         Text(
           'كلمة المرور',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
               ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: size.height * 0.002),
         TextFormField(
           // validator: (value) {
           //   if (value == null || value.isEmpty) {

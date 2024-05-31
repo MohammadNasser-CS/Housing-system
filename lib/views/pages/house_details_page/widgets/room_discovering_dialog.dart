@@ -201,7 +201,7 @@ class _RoomDiscoveringDialogState extends State<RoomDiscoveringDialog> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: 'السعر يشمل خدمة الكهرباء؟:',
+                                      text: 'يحتوي على مكيف للدراسة؟:',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelSmall!
@@ -210,59 +210,7 @@ class _RoomDiscoveringDialogState extends State<RoomDiscoveringDialog> {
                                               color: AppColor.grey7),
                                     ),
                                     TextSpan(
-                                      text: widget.room.electricityService
-                                          ? ' نعم'
-                                          : ' لا',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColor.black),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'السعر يشمل خدمة الماء؟:',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w900,
-                                              color: AppColor.grey7),
-                                    ),
-                                    TextSpan(
-                                      text: widget.room.waterService
-                                          ? ' نعم'
-                                          : ' لا',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColor.black),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'السعر يشمل خدمة الغاز؟:',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w900,
-                                              color: AppColor.grey7),
-                                    ),
-                                    TextSpan(
-                                      text: widget.room.gasService
+                                      text: widget.room.hasOffice
                                           ? ' نعم'
                                           : ' لا',
                                       style: Theme.of(context)

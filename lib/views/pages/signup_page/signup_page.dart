@@ -59,11 +59,18 @@ class _SignupPagePageState extends State<SignupPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: size.height * 0.02),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: 20.0),
+                      child: Image.asset('assets/images/majles_logo.png'),
+                    ),
+                  ),
                   isFirstIndormation
                       ? const FirstSignUpFields()
                       : const SecondSingUpFields(),
-                  SizedBox(height: size.height * 0.06),
+                  SizedBox(height: size.height * 0.02),
                   SizedBox(
                     width: double.infinity,
                     child: BlocConsumer<AuthCubit, AuthState>(

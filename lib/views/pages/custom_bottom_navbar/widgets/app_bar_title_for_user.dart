@@ -12,7 +12,7 @@ class AppBarTitleForUser extends StatelessWidget {
         : index == 1
             ? const TitleValueWidget(text: 'غرفتي')
             : index == 2
-                ? const TitleValueWidget(text: 'الغرف المفلضة')
+                ? const TitleValueWidget(text: 'الغرف المفضلة')
                 : index == 3
                     ? const TitleValueWidget(text: 'الإشعارات')
                     : index == 4
