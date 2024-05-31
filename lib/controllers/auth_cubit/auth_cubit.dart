@@ -24,6 +24,13 @@ class AuthCubit extends Cubit<AuthState> {
     //   emit(AuthError(message: e.message!));
     // }
   }
+Future<void> register(UserModel newUser) async {
+    emit(AuthLoading());
+Future.delayed(const Duration(seconds:2), () {
+      dummyUsers.add(newUser);
+      emit(AuthSuccess(user: newUser));
+    });
+}
 
 //   Future<void> getUser() async {
 //     try {

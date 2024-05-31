@@ -7,6 +7,10 @@ class UserModel {
   final String gender;
   final String? colleqe;
   final String role;
+  final String birthDate;
+  final String? homeAddress;
+  final String? universityBuilding;
+  final String? specialization;
   UserModel({
     required this.name,
     required this.email,
@@ -14,6 +18,10 @@ class UserModel {
     required this.gender,
     this.colleqe,
     required this.role,
+    required this.birthDate,
+    this.homeAddress,
+    this.universityBuilding,
+    this.specialization,
   });
 
   UserModel copyWith({
@@ -23,6 +31,10 @@ class UserModel {
     String? gender,
     String? colleqe,
     String? role,
+    String? birthDate,
+    String? homeAddress,
+    String? universityBuilding,
+    String? specialization,
   }) {
     return UserModel(
       name: name ?? this.name,
@@ -31,6 +43,10 @@ class UserModel {
       gender: gender ?? this.gender,
       colleqe: colleqe ?? this.colleqe,
       role: role ?? this.role,
+      birthDate: birthDate ?? this.birthDate,
+      homeAddress: homeAddress ?? this.homeAddress,
+      universityBuilding: universityBuilding ?? this.universityBuilding,
+      specialization: specialization ?? this.specialization,
     );
   }
 
@@ -45,6 +61,16 @@ class UserModel {
       result.addAll({'colleqe': colleqe});
     }
     result.addAll({'role': role});
+    result.addAll({'birthDate': birthDate});
+    if (homeAddress != null) {
+      result.addAll({'homeAddress': homeAddress});
+    }
+    if (universityBuilding != null) {
+      result.addAll({'universityBuilding': universityBuilding});
+    }
+    if (specialization != null) {
+      result.addAll({'specialization': specialization});
+    }
 
     return result;
   }
@@ -57,6 +83,10 @@ class UserModel {
       gender: map['gender'] ?? '',
       colleqe: map['colleqe'],
       role: map['role'] ?? '',
+      birthDate: map['birthDate'] ?? '',
+      homeAddress: map['homeAddress'],
+      universityBuilding: map['universityBuilding'],
+      specialization: map['specialization'],
     );
   }
 
@@ -67,7 +97,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, email: $email, phoneNumber: $phoneNumber, gender: $gender, colleqe: $colleqe, role: $role)';
+    return 'UserModel(name: $name, email: $email, phoneNumber: $phoneNumber, gender: $gender, colleqe: $colleqe, role: $role, birthDate: $birthDate, homeAddress: $homeAddress, universityBuilding: $universityBuilding, specialization: $specialization)';
   }
 
   @override
@@ -80,7 +110,11 @@ class UserModel {
         other.phoneNumber == phoneNumber &&
         other.gender == gender &&
         other.colleqe == colleqe &&
-        other.role == role;
+        other.role == role &&
+        other.birthDate == birthDate &&
+        other.homeAddress == homeAddress &&
+        other.universityBuilding == universityBuilding &&
+        other.specialization == specialization;
   }
 
   @override
@@ -90,23 +124,31 @@ class UserModel {
         phoneNumber.hashCode ^
         gender.hashCode ^
         colleqe.hashCode ^
-        role.hashCode;
+        role.hashCode ^
+        birthDate.hashCode ^
+        homeAddress.hashCode ^
+        universityBuilding.hashCode ^
+        specialization.hashCode;
   }
 }
 
 List<UserModel> dummyUsers = [
   UserModel(
-      name: 'إسم المستخدم',
-      email: 'abualnasser04@gmail.com',
-      phoneNumber: '0568891980',
-      gender: 'male',
-      colleqe: 'IT',
-      role: 'user'),
+    name: 'إسم المستخدم',
+    email: 'abualnasser04@gmail.com',
+    phoneNumber: '0568891980',
+    gender: 'male',
+    colleqe: 'IT',
+    role: 'user',
+    birthDate: '18-1-2003',
+  ),
   UserModel(
-      name: 'إسم المستخدم',
-      email: 'abualnasser55@gmail.com',
-      phoneNumber: '0561234567',
-      gender: 'male',
-      colleqe: null,
-      role: 'houseOwner'),
+    name: 'إسم المستخدم',
+    email: 'abualnasser55@gmail.com',
+    phoneNumber: '0561234567',
+    gender: 'male',
+    colleqe: null,
+    role: 'houseOwner',
+    birthDate: '28-10-2004',
+  ),
 ];
