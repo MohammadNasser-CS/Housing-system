@@ -3,12 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/models/house_model.dart';
-import 'package:housing_project/models/rooms_model.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/contact_section.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/text_widget.dart';
 
 class RoomItem extends StatefulWidget {
-  final RoomModel room;
+  final dynamic room;
   final HouseModel house;
   final dynamic cubit;
   const RoomItem({
@@ -42,7 +41,7 @@ class _RoomItemState extends State<RoomItem> {
       child: Column(
         children: [
           CachedNetworkImage(
-            imageUrl: widget.room.imageUrl,
+            imageUrl: widget.room.imagesUrl[0],
             fit: BoxFit.fitWidth,
             width: double.infinity,
             height: size.height * 0.3,

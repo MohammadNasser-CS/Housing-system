@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/contact_section.dart';
-import 'package:housing_project/views/pages/house_details_page/widgets/rooms_gallery_section.dart';
+import 'package:housing_project/views/pages/house_details_page/widgets/bed_rooms_gallery_section.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/house_base_imagel.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/house_description_section.dart';
+import 'package:housing_project/views/pages/house_details_page/widgets/rooms_gallery_section.dart';
 
 class HouseDetailsPage extends StatelessWidget {
   const HouseDetailsPage({super.key});
@@ -54,7 +55,10 @@ class HouseDetailsPage extends StatelessWidget {
                       SizedBox(height: size.height * 0.03),
                       ContactSection(ownerName: state.house.ownerName),
                       SizedBox(height: size.height * 0.03),
-                      RoomsGallerySection(houseRooms: state.house.rooms),
+                      BedRoomsGallerySection(
+                          houseBedRooms: state.house.bedRooms),
+                      SizedBox(height: size.height * 0.03),
+                      RoomsGallerySection(housRooms: state.house.rooms),
                     ],
                   ),
                 ),

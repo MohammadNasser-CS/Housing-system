@@ -67,7 +67,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         screen: BlocProvider(
           create: (context) {
             final cubit = MyRoomCubit();
-            cubit.getMyRoom('1', '1');
+            cubit.getMyRoom(widget.user);
             return cubit;
           },
           child:  MyRoomPage(user: widget.user),

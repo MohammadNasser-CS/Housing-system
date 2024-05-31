@@ -16,6 +16,7 @@ class HouseModel {
   final int roomsNumber;
   final int freeRoomsNumber;
   final String phoneNumber;
+  final List<BedRoomModel> bedRooms;
   final List<RoomModel> rooms;
   HouseModel({
     required this.id,
@@ -29,6 +30,7 @@ class HouseModel {
     required this.roomsNumber,
     required this.freeRoomsNumber,
     required this.phoneNumber,
+    required this.bedRooms,
     required this.rooms,
   });
 
@@ -44,6 +46,7 @@ class HouseModel {
     int? roomsNumber,
     int? freeRoomsNumber,
     String? phoneNumber,
+    List<BedRoomModel>? bedRooms,
     List<RoomModel>? rooms,
   }) {
     return HouseModel(
@@ -58,6 +61,7 @@ class HouseModel {
       roomsNumber: roomsNumber ?? this.roomsNumber,
       freeRoomsNumber: freeRoomsNumber ?? this.freeRoomsNumber,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      bedRooms: bedRooms ?? this.bedRooms,
       rooms: rooms ?? this.rooms,
     );
   }
@@ -77,6 +81,7 @@ class HouseModel {
     result.addAll({'freeRoomsNumber': freeRoomsNumber});
     result.addAll({'phoneNumber': phoneNumber});
     result.addAll({'rooms': rooms.map((x) => x.toMap()).toList()});
+    result.addAll({'bedRooms': bedRooms.map((x) => x.toMap()).toList()});
 
     return result;
   }
@@ -96,6 +101,8 @@ class HouseModel {
       phoneNumber: map['phoneNumber'] ?? '',
       rooms:
           List<RoomModel>.from(map['rooms']?.map((x) => RoomModel.fromMap(x))),
+      bedRooms: List<BedRoomModel>.from(
+          map['bedRooms']?.map((x) => BedRoomModel.fromMap(x))),
     );
   }
 
@@ -150,7 +157,7 @@ List<HouseModel> dummyItems = [
     id: '1',
     imgUrl:
         'https://mostaql.hsoubcdn.com/uploads/thumbnails/532092/61924863e0137/9a8e4585198345.6030fcab71084.jpg',
-    ownerName: 'محمد صالح',
+    ownerName: 'مالك 1',
     description:
         'سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي سكن جامعي ',
     category: 'شقة',
@@ -161,12 +168,13 @@ List<HouseModel> dummyItems = [
     freeRoomsNumber: 2,
     phoneNumber: '0568891980',
     rooms: dummyRooms,
+    bedRooms: dummyBedRooms,
   ),
   HouseModel(
     id: '2',
     imgUrl:
         'https://cf.bstatic.com/xdata/images/hotel/max1024x768/107181991.jpg?k=1057fc1d1e2128151fe7d135902d56462793d19a2d195b7386e204b5d85e2d0c&o=&hp=1',
-    ownerName: 'خالد مصطفى',
+    ownerName: 'مالك 2',
     description: 'سكن جامعي',
     category: 'أستوديو',
     isFavorite: false,
@@ -176,6 +184,7 @@ List<HouseModel> dummyItems = [
     freeRoomsNumber: 2,
     phoneNumber: '0568991980',
     rooms: dummyRooms,
+    bedRooms: dummyBedRooms,
   ),
 ];
 List<HouseModel> filterdHouses = dummyItems;

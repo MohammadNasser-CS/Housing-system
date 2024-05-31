@@ -6,7 +6,6 @@ List<String> universityBuildingsList = [
   'مبنى خضوري',
   'مستشفى الجامعة',
   'روابي',
-  'إختر الحرم الجامعي',
 ];
 List<String> gendersList = [
   '------------------------',
