@@ -41,22 +41,6 @@ class _SecondSingUpFieldsState extends State<SecondSingUpFields> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'إنشاء حساب',
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium!
-              .copyWith(color: AppColor.orange8, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: size.height * 0.002),
-        Text(
-          'قم بملء الحقول المطلوبة لإنشاء حسابك',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(color: AppColor.grey),
-        ),
-        SizedBox(height: size.height * 0.02),
-        Text(
           'رقم الهاتف',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,

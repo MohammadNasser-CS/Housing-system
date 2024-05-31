@@ -4,7 +4,8 @@ import 'package:housing_project/views/pages/settings_page/widgets/logout_button.
 import 'package:housing_project/views/pages/settings_page/widgets/settings_page_card.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  final UserModel user;
+  const SettingsPage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +16,10 @@ class SettingsPage extends StatelessWidget {
             vertical: size.height * 0.02, horizontal: size.width * 0.02),
         child: Column(
           children: [
-            SettingsPageCard(user: dummyUsers[0]),
+            SettingsPageCard(user: user),
             SizedBox(height: size.height * 0.02),
             SettingsPageCard(
-              user: dummyUsers[0],
+              user: user,
               isChangePassword: true,
             ),
             const Spacer(),

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
+import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_item.dart';
 
 class MyRoomPage extends StatelessWidget {
-  const MyRoomPage({super.key});
+  final UserModel user;
+  const MyRoomPage({super.key,required this.user});
 
   @override
   Widget build(BuildContext context) {

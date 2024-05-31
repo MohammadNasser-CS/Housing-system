@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:housing_project/models/notification_model.dart';
+import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/notificaton_page/widgets/notification_card.dart';
 
 class NotificationPage extends StatelessWidget {
-  const NotificationPage({super.key});
+  final UserModel user;
+  const NotificationPage({super.key,required this.user});
 
   @override
   Widget build(BuildContext context) {

@@ -40,22 +40,6 @@ class _FirstSignUpFieldsState extends State<FirstSignUpFields> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'إنشاء حساب',
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium!
-              .copyWith(color: AppColor.orange8, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: size.height * 0.002),
-        Text(
-          'قم بملء الحقول المطلوبة لإنشاء حسابك',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(color: AppColor.grey),
-        ),
-        SizedBox(height: size.height * 0.02),
-        Text(
           'الإسم',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w600,
@@ -76,7 +60,7 @@ class _FirstSignUpFieldsState extends State<FirstSignUpFields> {
           },
           textInputAction: TextInputAction.next,
           focusNode: _usernameFocusedNode,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.name,
           controller: _usernameController,
           decoration: const InputDecoration(
             hintText: 'قم بإدخال إسم المستخدم',

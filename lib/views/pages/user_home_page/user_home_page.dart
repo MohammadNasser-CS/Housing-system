@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/user_home_page/widgets/category_slider.dart';
 import 'package:housing_project/views/pages/user_home_page/widgets/houses_section.dart';
 import 'package:housing_project/views/pages/user_home_page/widgets/search_section.dart';
 
 class UserHomePage extends StatefulWidget {
-  const UserHomePage({super.key});
+  final UserModel user;
+  const UserHomePage({super.key,required this.user});
 
   @override
   State<UserHomePage> createState() => _UserHomePageState();
