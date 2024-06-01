@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/models/user_model.dart';
 
@@ -10,9 +11,13 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     Future.delayed(const Duration(seconds: 2), () {
-      UserModel authedUser =
-          dummyUsers.firstWhere((user) => user.email == email);
-      emit(AuthSuccess(user: authedUser));
+      try {
+        UserModel? authedUser =
+            dummyUsers.firstWhere((user) => user.email == email);
+        emit(AuthSuccess(user: authedUser));
+      } on StateError catch (e) {
+        emit(AuthError(message: e.message));
+      }
     });
     // try {
     //   final result = await _authServices.login(email, password);

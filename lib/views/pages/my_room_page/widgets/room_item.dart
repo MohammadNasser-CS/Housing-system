@@ -4,17 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/models/house_model.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/contact_section.dart';
-import 'package:housing_project/views/pages/my_room_page/widgets/text_widget.dart';
+import 'package:housing_project/views/widgets/text_widget.dart';
 
 class RoomItem extends StatefulWidget {
   final dynamic room;
   final HouseModel house;
-  final dynamic cubit;
   const RoomItem({
     super.key,
     required this.room,
     required this.house,
-    required this.cubit,
   });
 
   @override
@@ -29,9 +27,10 @@ class _RoomItemState extends State<RoomItem> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
+      height: size.height * 0.65,
       padding: const EdgeInsetsDirectional.all(4.0),
       clipBehavior: Clip.antiAlias,
-      margin: EdgeInsetsDirectional.only(bottom: size.width * 0.02),
+      margin: EdgeInsetsDirectional.only(bottom: size.width * 0.03),
       decoration: BoxDecoration(
         color: AppColor.grey2,
         borderRadius: BorderRadius.circular(12.0),
@@ -57,38 +56,40 @@ class _RoomItemState extends State<RoomItem> {
             ),
             child: Padding(
               padding: const EdgeInsetsDirectional.all(8.0),
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextWidget(
                           title: 'مساحة الغرفة:',
-                          value: ' ${widget.room.roomSpace}م\u00b2'),
-                      TextWidget(
-                          title: 'يحتوي على مكتب للدراسة؟:',
-                          value: widget.room.hasOffice ? ' نعم' : ' لا'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                          value: ' ${widget.room.roomSpace} م\u00b2'),
                       TextWidget(
                           title: 'عدد الأسرَّة المتبقية:',
                           value: ' ${widget.room.bedsNumber}'),
                       TextWidget(
-                          title: 'يحتوي على مكيف؟:',
-                          value: widget.room.hasOffice ? ' نعم' : ' لا'),
+                          title: 'تكلفة حجز الغرفة:',
+                          value: ' ${widget.room.roomPrice} \u20AA '),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  VerticalDivider(
+                    color: AppColor.orange8,
+                    thickness: 1.0,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextWidget(
-                          title: 'تكلفة حجز الغرفة:',
-                          value: ' ${widget.room.roomPrice}\u20AA '),
+                          title: 'يحتوي على مكيف؟:',
+                          value: widget.room.hasOffice ? ' نعم' : ' لا'),
+                      TextWidget(
+                          title: 'يحتوي على مكتب للدراسة؟:',
+                          value: widget.room.hasOffice ? ' نعم' : ' لا'),
+                      TextWidget(
+                        title: 'ينتهي الحجز في تاريخ: ',
+                        value: widget.room.endDate,
+                      ),
                     ],
                   ),
                 ],
@@ -99,56 +100,6 @@ class _RoomItemState extends State<RoomItem> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
             child: ContactSection(ownerName: widget.house.ownerName),
-          ),
-          Divider(color: AppColor.orange8),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  child: Text(
-                    BoardDateFormat('yyyy-MM-dd – hh:mm').format(date),
-                  ),
-                  onPressed: () async {
-                    // final result = await showTimePicker(
-                    //     context: context, initialTime: TimeOfDay.now());
-                    final result = await showBoardDateTimePicker(
-                      useSafeArea: true,
-                      useRootNavigator: true,
-                      options: BoardDateTimeOptions(
-                        textColor: AppColor.black,
-                        backgroundColor: AppColor.grey3,
-                        activeTextColor: AppColor.black,
-                        foregroundColor: AppColor.white,
-                        pickerSubTitles: const BoardDateTimeItemTitles(
-                          year: 'السنة',
-                          month: 'الشهر',
-                          day: 'اليوم',
-                          hour: 'الساعة',
-                          minute: 'الدقيقة',
-                        ),
-                        customOptions: BoardPickerCustomOptions(
-                          hours: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                          minutes: [00, 30],
-                        ),
-                        showDateButton: false,
-                        boardTitle: 'إختر تاريخ ووقت تكون به متفرغا',
-                      ),
-                      context: context,
-                      pickerType: DateTimePickerType.datetime,
-                    );
-                    if (result != null) {
-                      setState(() {
-                        date = result;
-                        BoardDateFormat dateFormat =
-                            BoardDateFormat("yyyy-MM-dd HH:mm");
-                        String test = dateFormat.format(date);
-                        debugPrint(test);
-                      });
-                    }
-                  },
-                ),
-              ),
-            ],
           ),
         ],
       ),

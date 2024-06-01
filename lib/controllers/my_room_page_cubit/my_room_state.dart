@@ -14,6 +14,15 @@ final class MyRoomLoaded extends MyRoomState {
   MyRoomLoaded({required this.room, required this.house});
 }
 
+final class RoomRequestsLoaded extends MyRoomState {
+  final List<StudentRoomRequestsModel> roomRequests;
+  RoomRequestsLoaded({required this.roomRequests});
+}
+
+final class NoRequestAndNoRoom extends MyRoomState {
+  NoRequestAndNoRoom();
+}
+
 final class MyRoomError extends MyRoomState {
   final String message;
   MyRoomError({required this.message});

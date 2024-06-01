@@ -10,12 +10,16 @@ class HouseModel {
   final String ownerName;
   final String description;
   final String category;
-  final bool isFavorite;
   final String location;
   final int bathRoomsNumber;
   final int roomsNumber;
   final int freeRoomsNumber;
   final String phoneNumber;
+  final bool isFavorite;
+  final bool electricityServiceIncluded;
+  final bool waterServiceIncluded;
+  final bool internetServiceIncluded;
+  final bool gazServiceIncluded;
   final List<BedRoomModel> bedRooms;
   final List<RoomModel> rooms;
   HouseModel({
@@ -24,12 +28,16 @@ class HouseModel {
     required this.ownerName,
     required this.description,
     required this.category,
-    required this.isFavorite,
     required this.location,
     required this.bathRoomsNumber,
     required this.roomsNumber,
     required this.freeRoomsNumber,
     required this.phoneNumber,
+    required this.isFavorite,
+    this.electricityServiceIncluded = false,
+    this.waterServiceIncluded = false,
+    this.internetServiceIncluded = false,
+    this.gazServiceIncluded = false,
     required this.bedRooms,
     required this.rooms,
   });
@@ -40,12 +48,16 @@ class HouseModel {
     String? ownerName,
     String? description,
     String? category,
-    bool? isFavorite,
     String? location,
     int? bathRoomsNumber,
     int? roomsNumber,
     int? freeRoomsNumber,
     String? phoneNumber,
+    bool? isFavorite,
+    bool? electricityServiceIncluded,
+    bool? waterServiceIncluded,
+    bool? internetServiceIncluded,
+    bool? gazServiceIncluded,
     List<BedRoomModel>? bedRooms,
     List<RoomModel>? rooms,
   }) {
@@ -55,12 +67,18 @@ class HouseModel {
       ownerName: ownerName ?? this.ownerName,
       description: description ?? this.description,
       category: category ?? this.category,
-      isFavorite: isFavorite ?? this.isFavorite,
       location: location ?? this.location,
       bathRoomsNumber: bathRoomsNumber ?? this.bathRoomsNumber,
       roomsNumber: roomsNumber ?? this.roomsNumber,
       freeRoomsNumber: freeRoomsNumber ?? this.freeRoomsNumber,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      isFavorite: isFavorite ?? this.isFavorite,
+      electricityServiceIncluded:
+          electricityServiceIncluded ?? this.electricityServiceIncluded,
+      waterServiceIncluded: waterServiceIncluded ?? this.waterServiceIncluded,
+      internetServiceIncluded:
+          internetServiceIncluded ?? this.internetServiceIncluded,
+      gazServiceIncluded: gazServiceIncluded ?? this.gazServiceIncluded,
       bedRooms: bedRooms ?? this.bedRooms,
       rooms: rooms ?? this.rooms,
     );
@@ -74,14 +92,18 @@ class HouseModel {
     result.addAll({'ownerName': ownerName});
     result.addAll({'description': description});
     result.addAll({'category': category});
-    result.addAll({'isFavorite': isFavorite});
     result.addAll({'location': location});
     result.addAll({'bathRoomsNumber': bathRoomsNumber});
     result.addAll({'roomsNumber': roomsNumber});
     result.addAll({'freeRoomsNumber': freeRoomsNumber});
     result.addAll({'phoneNumber': phoneNumber});
-    result.addAll({'rooms': rooms.map((x) => x.toMap()).toList()});
+    result.addAll({'isFavorite': isFavorite});
+    result.addAll({'electricityServiceIncluded': electricityServiceIncluded});
+    result.addAll({'waterServiceIncluded': waterServiceIncluded});
+    result.addAll({'internetServiceIncluded': internetServiceIncluded});
+    result.addAll({'gazServiceIncluded': gazServiceIncluded});
     result.addAll({'bedRooms': bedRooms.map((x) => x.toMap()).toList()});
+    result.addAll({'rooms': rooms.map((x) => x.toMap()).toList()});
 
     return result;
   }
@@ -93,16 +115,20 @@ class HouseModel {
       ownerName: map['ownerName'] ?? '',
       description: map['description'] ?? '',
       category: map['category'] ?? '',
-      isFavorite: map['isFavorite'] ?? false,
       location: map['location'] ?? '',
       bathRoomsNumber: map['bathRoomsNumber']?.toInt() ?? 0,
       roomsNumber: map['roomsNumber']?.toInt() ?? 0,
       freeRoomsNumber: map['freeRoomsNumber']?.toInt() ?? 0,
       phoneNumber: map['phoneNumber'] ?? '',
-      rooms:
-          List<RoomModel>.from(map['rooms']?.map((x) => RoomModel.fromMap(x))),
+      isFavorite: map['isFavorite'] ?? false,
+      electricityServiceIncluded: map['electricityServiceIncluded'] ?? false,
+      waterServiceIncluded: map['waterServiceIncluded'] ?? false,
+      internetServiceIncluded: map['internetServiceIncluded'] ?? false,
+      gazServiceIncluded: map['gazServiceIncluded'] ?? false,
       bedRooms: List<BedRoomModel>.from(
           map['bedRooms']?.map((x) => BedRoomModel.fromMap(x))),
+      rooms:
+          List<RoomModel>.from(map['rooms']?.map((x) => RoomModel.fromMap(x))),
     );
   }
 
@@ -113,7 +139,7 @@ class HouseModel {
 
   @override
   String toString() {
-    return 'HouseModel(id: $id, imgUrl: $imgUrl, ownerName: $ownerName, description: $description, category: $category, isFavorite: $isFavorite, location: $location, bathRoomsNumber: $bathRoomsNumber, roomsNumber: $roomsNumber, freeRoomsNumber: $freeRoomsNumber, phoneNumber: $phoneNumber, rooms: $rooms)';
+    return 'HouseModel(id: $id, imgUrl: $imgUrl, ownerName: $ownerName, description: $description, category: $category, location: $location, bathRoomsNumber: $bathRoomsNumber, roomsNumber: $roomsNumber, freeRoomsNumber: $freeRoomsNumber, phoneNumber: $phoneNumber, isFavorite: $isFavorite, electricityServiceIncluded: $electricityServiceIncluded, waterServiceIncluded: $waterServiceIncluded, internetServiceIncluded: $internetServiceIncluded, gazServiceIncluded: $gazServiceIncluded, bedRooms: $bedRooms, rooms: $rooms)';
   }
 
   @override
@@ -126,12 +152,17 @@ class HouseModel {
         other.ownerName == ownerName &&
         other.description == description &&
         other.category == category &&
-        other.isFavorite == isFavorite &&
         other.location == location &&
         other.bathRoomsNumber == bathRoomsNumber &&
         other.roomsNumber == roomsNumber &&
         other.freeRoomsNumber == freeRoomsNumber &&
         other.phoneNumber == phoneNumber &&
+        other.isFavorite == isFavorite &&
+        other.electricityServiceIncluded == electricityServiceIncluded &&
+        other.waterServiceIncluded == waterServiceIncluded &&
+        other.internetServiceIncluded == internetServiceIncluded &&
+        other.gazServiceIncluded == gazServiceIncluded &&
+        listEquals(other.bedRooms, bedRooms) &&
         listEquals(other.rooms, rooms);
   }
 
@@ -142,12 +173,17 @@ class HouseModel {
         ownerName.hashCode ^
         description.hashCode ^
         category.hashCode ^
-        isFavorite.hashCode ^
         location.hashCode ^
         bathRoomsNumber.hashCode ^
         roomsNumber.hashCode ^
         freeRoomsNumber.hashCode ^
         phoneNumber.hashCode ^
+        isFavorite.hashCode ^
+        electricityServiceIncluded.hashCode ^
+        waterServiceIncluded.hashCode ^
+        internetServiceIncluded.hashCode ^
+        gazServiceIncluded.hashCode ^
+        bedRooms.hashCode ^
         rooms.hashCode;
   }
 }

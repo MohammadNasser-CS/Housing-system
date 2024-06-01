@@ -71,28 +71,29 @@ class BedRoomModel extends RoomModel {
   final String studentId;
   final String houseOwnerName;
   final String houseOwnerId;
+  final String endDate;
   final int freeBeds;
   final double roomSpace;
   final double roomPrice;
   final bool hasOffice;
   final bool hasAc;
   final bool hasBalcony;
-  BedRoomModel({
-    required super.roomId,
-    required super.imagesUrl,
-    required super.roomType,
-    required this.bedsNumber,
-    required this.freeBeds,
-    required this.roomSpace,
-    required this.roomPrice,
-    required this.hasOffice,
-    required this.hasAc,
-    required this.hasBalcony,
-    required this.houseOwnerId,
-    required this.houseOwnerName,
-    required this.studentId,
-    required this.studentName,
-  });
+  BedRoomModel(
+      {required super.roomId,
+      required super.imagesUrl,
+      required super.roomType,
+      required this.bedsNumber,
+      required this.freeBeds,
+      required this.roomSpace,
+      required this.roomPrice,
+      required this.hasOffice,
+      required this.hasAc,
+      required this.hasBalcony,
+      required this.houseOwnerId,
+      required this.houseOwnerName,
+      required this.studentId,
+      required this.studentName,
+      required this.endDate});
 
   @override
   BedRoomModel copyWith({
@@ -110,6 +111,7 @@ class BedRoomModel extends RoomModel {
     String? studentId,
     String? houseOwnerName,
     String? houseOwnerId,
+    String? endDate,
   }) {
     return BedRoomModel(
       roomId: roomId ?? this.roomId,
@@ -126,6 +128,7 @@ class BedRoomModel extends RoomModel {
       studentId: studentId ?? this.studentId,
       houseOwnerName: houseOwnerName ?? this.houseOwnerName,
       houseOwnerId: houseOwnerId ?? this.houseOwnerId,
+      endDate: endDate ?? this.endDate,
     );
   }
 
@@ -146,6 +149,7 @@ class BedRoomModel extends RoomModel {
     result.addAll({'studentId': studentId});
     result.addAll({'houseOwnerName': houseOwnerName});
     result.addAll({'houseOwnerId': houseOwnerId});
+    result.addAll({'endDate': endDate});
 
     return result;
   }
@@ -166,6 +170,7 @@ class BedRoomModel extends RoomModel {
       studentId: map['studentId'] ?? '',
       houseOwnerName: map['houseOwnerNamemap'] ?? '',
       houseOwnerId: map['houseOwnerId'] ?? '',
+      endDate: map['endDate'] ?? '',
     );
   }
 
@@ -221,6 +226,7 @@ List<BedRoomModel> dummyBedRooms = [
     houseOwnerName: 'مالك 1',
     studentId: '120',
     studentName: 'طالب 1',
+    endDate: '30-6-2024',
     bedsNumber: 1,
     roomSpace: 16,
     hasOffice: true,
@@ -239,6 +245,7 @@ List<BedRoomModel> dummyBedRooms = [
     houseOwnerName: 'مالك 2',
     studentId: '121',
     studentName: 'طالب 2',
+    endDate: '30-7-2024',
     bedsNumber: 1,
     roomSpace: 16,
     hasOffice: true,
@@ -255,6 +262,7 @@ List<BedRoomModel> dummyBedRooms = [
     ],
     houseOwnerId: '258',
     houseOwnerName: 'مالك 3',
+    endDate: '30-8-2024',
     studentId: '122',
     studentName: 'طالب 3',
     bedsNumber: 2,

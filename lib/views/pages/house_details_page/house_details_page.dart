@@ -35,7 +35,7 @@ class HouseDetailsPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsetsDirectional.symmetric(
-                    horizontal: size.width * 0.05,
+                    horizontal: size.width * 0.03,
                     vertical: size.height * 0.022,
                   ),
                   child: Column(
@@ -48,9 +48,7 @@ class HouseDetailsPage extends StatelessWidget {
                           cubit: cubit),
                       SizedBox(height: size.height * 0.03),
                       HouseDescriptionSection(
-                        bathRoomsNumber: state.house.bathRoomsNumber,
-                        roomsNumber: state.house.roomsNumber,
-                        description: state.house.description,
+                        house: state.house,
                       ),
                       SizedBox(height: size.height * 0.03),
                       ContactSection(ownerName: state.house.ownerName),

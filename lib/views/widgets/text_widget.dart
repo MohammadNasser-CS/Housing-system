@@ -15,14 +15,14 @@ class TextWidget extends StatelessWidget {
             text: title,
             style: Theme.of(context)
                 .textTheme
-                .labelSmall!
-                .copyWith(fontWeight: FontWeight.w900, color: AppColor.grey7),
+                .labelMedium!
+                .copyWith(fontWeight: FontWeight.w900, color: AppColor.grey6),
           ),
           TextSpan(
             text: value,
             style: Theme.of(context)
                 .textTheme
-                .labelMedium!
+                .labelLarge!
                 .copyWith(fontWeight: FontWeight.w700, color: AppColor.black),
           ),
         ],

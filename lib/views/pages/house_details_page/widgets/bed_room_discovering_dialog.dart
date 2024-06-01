@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/models/rooms_model.dart';
-import 'package:housing_project/views/pages/my_room_page/widgets/text_widget.dart';
+import 'package:housing_project/views/widgets/text_widget.dart';
 
 class BedRoomDiscoveringDialog extends StatefulWidget {
   final BedRoomModel room;

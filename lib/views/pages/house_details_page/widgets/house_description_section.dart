@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
+import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/views/widgets/text_widget.dart';
 import 'package:readmore/readmore.dart';
 
 class HouseDescriptionSection extends StatelessWidget {
-  final int bathRoomsNumber;
-  final int roomsNumber;
-  final String description;
-  const HouseDescriptionSection(
-      {super.key,
-      required this.bathRoomsNumber,
-      required this.roomsNumber,
-      required this.description});
+  final HouseModel house;
+  const HouseDescriptionSection({
+    super.key,
+    required this.house,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,52 +23,46 @@ class HouseDescriptionSection extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        SizedBox(height: size.height * 0.015),
-        Row(
-          children: [
-            RichText(
-              text: TextSpan(
+        Container(
+          decoration: BoxDecoration(
+              color: AppColor.white,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: AppColor.grey4)),
+          padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: 12.0, vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'سعر الغرفة يشمل:',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetSpan(
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontWeight: FontWeight.w600, color: AppColor.grey7),
-                    child: Icon(
-                      Icons.bathroom_outlined,
-                      color: AppColor.grey7,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' $bathRoomsNumber حمام',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.grey7,
-                        ),
+                  TextWidget(
+                      title: 'خدمة الكهرباء:',
+                      value: house.electricityServiceIncluded ? ' نعم' : ' لا'),
+                  TextWidget(
+                    title: 'خدمة الماء:',
+                    value: house.waterServiceIncluded ? ' نعم' : ' لا',
                   ),
                 ],
               ),
-            ),
-            SizedBox(width: size.width * 0.06),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  WidgetSpan(
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontWeight: FontWeight.w600, color: AppColor.grey7),
-                    child: Icon(
-                      Icons.bed_outlined,
-                      color: AppColor.grey7,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' $roomsNumber غرفة نوم',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontWeight: FontWeight.w600, color: AppColor.grey7),
+                  TextWidget(
+                      title: 'خدمة الغاز:',
+                      value: house.gazServiceIncluded ? ' نعم' : ' لا'),
+                  TextWidget(
+                    title: 'خدمة الإنترنت:',
+                    value: house.internetServiceIncluded ? ' نعم' : ' لا',
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         SizedBox(height: size.height * 0.015),
         Text(
@@ -78,23 +71,31 @@ class HouseDescriptionSection extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
         ),
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ReadMoreText(
-                colorClickableText: AppColor.orange8,
-                trimCollapsedText: 'المزيد',
-                trimExpandedText: 'أقل',
-                trimLines: 3,
-                trimMode: TrimMode.Line,
-                description,
-                style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.grey,
-                    ),
-              ),
-            ],
+        Container(
+          decoration: BoxDecoration(
+              color: AppColor.white,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: AppColor.grey4)),
+          padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: 12.0, vertical: 8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ReadMoreText(
+                  colorClickableText: AppColor.orange8,
+                  trimCollapsedText: 'المزيد',
+                  trimExpandedText: 'أقل',
+                  trimLines: 3,
+                  trimMode: TrimMode.Line,
+                  house.description,
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.grey,
+                      ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
