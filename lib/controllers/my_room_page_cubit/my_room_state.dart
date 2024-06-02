@@ -23,6 +23,11 @@ final class NoRequestAndNoRoom extends MyRoomState {
   NoRequestAndNoRoom();
 }
 
+final class DayTimeSlotChanged extends MyRoomState {
+  final String newDateTime;
+  DayTimeSlotChanged({required this.newDateTime});
+}
+
 final class MyRoomError extends MyRoomState {
   final String message;
   MyRoomError({required this.message});

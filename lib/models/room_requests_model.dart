@@ -9,7 +9,7 @@ class StudentRoomRequestsModel {
   final String studentName;
   final String ownerPhoneNumber;
   final String requestStatus;
-  final Map<String, List<String>> dateTimeSlots;
+  final Map<String,String> dateTimeSlots;
   StudentRoomRequestsModel({
     required this.houseOwnerName,
     required this.houseId,
@@ -27,7 +27,7 @@ class StudentRoomRequestsModel {
     String? studentName,
     String? ownerPhoneNumber,
     String? requestStatus,
-    Map<String, List<String>>? dateTimeSlots,
+    Map<String,String>? dateTimeSlots,
   }) {
     return StudentRoomRequestsModel(
       houseOwnerName: houseOwnerName ?? this.houseOwnerName,
@@ -62,7 +62,7 @@ class StudentRoomRequestsModel {
       studentName: map['studentName'] ?? '',
       ownerPhoneNumber: map['ownerPhoneNumber'] ?? '',
       requestStatus: map['requestStatus'] ?? '',
-      dateTimeSlots: Map<String, List<String>>.from(map['dateTimeSlots']),
+      dateTimeSlots: Map<String,String>.from(map['dateTimeSlots']),
     );
   }
 
@@ -111,41 +111,31 @@ List<StudentRoomRequestsModel> dummyStdRoomRequests = [
     ownerPhoneNumber: '0561234567',
     requestStatus: 'إختيار موعد',
     dateTimeSlots: {
-      'الأحد': [
-        '8-9',
-        '9-10',
-        '10-12',
-        '2-3',
-        '3-4',
-      ],
-      'الإثنين': [
-        '8-9',
-        '9-10',
-        '10-12',
-        '2-3',
-        '3-4',
-      ],
-      'الثلاثاء': [
-        '8-9',
-        '9-10',
-        '10-12',
-        '2-3',
-        '3-4',
-      ],
-      'الأربعاء': [
-        '8-9',
-        '9-10',
-        '10-12',
-        '2-3',
-        '3-4',
-      ],
-      'الخميس': [
-        '8-9',
-        '9-10',
-        '10-12',
-        '2-3',
-        '3-4',
-      ],
+      '1':'الأحد: 8-9',
+      '2':'الأحد: 9-10',
+      '3':'الأحد: 10-11',
+      '4':'الأحد: 1-2',
+      '5':'الأحد: 2-3',
+      '6':'الإثنين: 8-9',
+      '7':'الإثنين: 9-10',
+      '8':'الإثنين: 10-11',
+      '9':'الإثنين: 1-2',
+      '10':'الإثنين: 2-3',
+      '11':'الثلاثاء: 8-9',
+      '12':'الثلاثاء: 9-10',
+      '13':'الثلاثاء: 10-11',
+      '14':'الثلاثاء: 1-2',
+      '15':'الثلاثاء: 2-3',
+      '16':'الأربعاء: 8-9',
+      '17':'الأربعاء: 9-10',
+      '18':'الأربعاء: 10-11',
+      '19':'الأربعاء: 1-2',
+      '20':'الأربعاء: 2-3',
+      '21':'الخميس: 8-9',
+      '22':'الخميس: 9-10',
+      '23':'الخميس: 10-11',
+      '24':'الخميس: 1-2',
+      '25':'الخميس: 2-3',
     },
   ),
   StudentRoomRequestsModel(
@@ -156,13 +146,31 @@ List<StudentRoomRequestsModel> dummyStdRoomRequests = [
     ownerPhoneNumber: '0561234567',
     requestStatus: 'تم تحديد موعد',
     dateTimeSlots: {
-      'الأحد': [
-        '8-9',
-        '9-10',
-        '10-12',
-        '2-3',
-        '3-4',
-      ]
+     '1':'الأحد: 8-9',
+      '2':'الأحد: 9-10',
+      '3':'الأحد: 10-11',
+      '4':'الأحد: 1-2',
+      '5':'الأحد: 2-3',
+      '6':'الإثنين: 8-9',
+      '7':'الإثنين: 9-10',
+      '8':'الإثنين: 10-11',
+      '9':'الإثنين: 1-2',
+      '10':'الإثنين: 2-3',
+      '11':'الثلاثاء: 8-9',
+      '12':'الثلاثاء: 9-10',
+      '13':'الثلاثاء: 10-11',
+      '14':'الثلاثاء: 1-2',
+      '15':'الثلاثاء: 2-3',
+      '16':'الأربعاء: 8-9',
+      '17':'الأربعاء: 9-10',
+      '18':'الأربعاء: 10-11',
+      '19':'الأربعاء: 1-2',
+      '20':'الأربعاء: 2-3',
+      '21':'الخميس: 8-9',
+      '22':'الخميس: 9-10',
+      '23':'الخميس: 10-11',
+      '24':'الخميس: 1-2',
+      '25':'الخميس: 2-3',
     },
   ),
 ];

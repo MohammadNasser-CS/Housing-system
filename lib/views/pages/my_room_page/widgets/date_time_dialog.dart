@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DateTimeSlotDialog extends StatelessWidget {
-  final Map<String, List<String>> dateTimeSlots;
+  final Map<String, String> dateTimeSlots;
 
-  const DateTimeSlotDialog({Key? key, required this.dateTimeSlots})
-      : super(key: key);
+  const DateTimeSlotDialog({super.key, required this.dateTimeSlots});
 
   @override
   Widget build(BuildContext context) {
@@ -23,44 +22,46 @@ class DateTimeSlotDialog extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: ListView(
         children: dateTimeSlots.entries.map((entry) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.key,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop(entry.value);
+                  },
+                  child: Container(
+                    margin: const EdgeInsetsDirectional.only(bottom: 8.0),
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      color: Colors.teal.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(color: Colors.teal),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${entry.key}:',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontWeight: FontWeight.w900),
+                        ),
+                        const SizedBox(width: 8.0),
+                        Text(
+                          entry.value,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(fontWeight: FontWeight.w900),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8.0),
-                Column(
-                  children: entry.value.map((slot) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                          color: Colors.teal.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12.0),
-                          border: Border.all(color: Colors.teal),
-                        ),
-                        child: Text(
-                          slot,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.teal.shade700,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
+              ),
+            ],
           );
         }).toList(),
       ),

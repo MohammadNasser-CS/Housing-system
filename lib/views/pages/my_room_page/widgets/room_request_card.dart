@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
 import 'package:housing_project/models/room_requests_model.dart';
@@ -9,7 +8,9 @@ import 'package:housing_project/views/widgets/text_widget.dart';
 
 class RoomRequestCard extends StatefulWidget {
   final StudentRoomRequestsModel roomRequestsModel;
-  const RoomRequestCard({super.key, required this.roomRequestsModel});
+  final String? date;
+  const RoomRequestCard(
+      {super.key, required this.roomRequestsModel, this.date});
 
   @override
   State<RoomRequestCard> createState() => _RoomRequestCardState();
@@ -72,7 +73,7 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                   const SizedBox(height: 8.0),
                   InkWell(
                     onTap: () {
-                      showModalBottomSheet<void>(
+                      showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         useRootNavigator: true,
@@ -96,7 +97,9 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                             ),
                           );
                         },
-                      );
+                      ).then((value) {
+                        cubit.selectDateTimeSlot(value);
+                      });
                     },
                     child: Container(
                       padding: const EdgeInsetsDirectional.symmetric(
@@ -106,7 +109,7 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                         borderRadius: BorderRadius.circular(8.0),
                         border: Border.all(color: AppColor.grey4),
                       ),
-                      child: Text('select time slot'),
+                      child: Text(widget.date ?? 'إختر موعد'),
                     ),
                   ),
                 ],
@@ -193,14 +196,43 @@ class _RoomRequestCardState extends State<RoomRequestCard>
               Expanded(
                 child: ElevatedButton(
                   clipBehavior: Clip.antiAlias,
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
+                  style: ButtonStyle(
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    backgroundColor: const MaterialStatePropertyAll(
                       AppColor.red,
                     ),
                   ),
                   onPressed: () {},
                   child: Text(
-                    'Cancel',
+                    'إلغي طلب الحجز',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.white,
+                        ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 5.0),
+              Expanded(
+                child: ElevatedButton(
+                  clipBehavior: Clip.antiAlias,
+                  style: ButtonStyle(
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    backgroundColor: const MaterialStatePropertyAll(
+                      AppColor.green,
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    'تأكيد موعد ',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColor.white,

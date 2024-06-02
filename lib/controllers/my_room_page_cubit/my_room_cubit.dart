@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/models/house_model.dart';
 import 'package:housing_project/models/room_requests_model.dart';
@@ -28,4 +29,9 @@ class MyRoomCubit extends Cubit<MyRoomState> {
       }
     });
   }
+Future<void> selectDateTimeSlot(String newTimeSlot) async{
+  debugPrint(newTimeSlot);
+  emit(DayTimeSlotChanged(newDateTime: newTimeSlot));
+}
+
 }
