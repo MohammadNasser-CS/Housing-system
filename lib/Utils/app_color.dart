@@ -39,5 +39,6 @@ class AppColor {
   static final orange9=Colors.orange.shade900;
   static const Color red = Colors.red;
   static const blue = Colors.blue;
+  static const purple = Colors.purple;
 
 }

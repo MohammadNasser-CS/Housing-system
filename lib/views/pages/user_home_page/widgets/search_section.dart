@@ -50,7 +50,7 @@ class _SearchSectionState extends State<SearchSection> {
             //   FocusScope.of(context)
             //       .requestFocus(_passwordFocusNode);
             // },
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
             onChanged: (value) {
               // debugPrint(value);
@@ -68,7 +68,7 @@ class _SearchSectionState extends State<SearchSection> {
             // },
             decoration: InputDecoration(
               contentPadding: EdgeInsetsDirectional.all(size.width * 0.03),
-              hintText: 'إسم صاحب السكن...',
+              hintText: 'رقم العقار...',
               prefixIcon: const Icon(Icons.search_outlined),
               prefixIconColor: AppColor.grey,
             ),

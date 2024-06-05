@@ -79,8 +79,8 @@ class _LoginPageState extends State<LoginPage> {
                       Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.symmetric(horizontal: 12.0),
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 12.0),
                           child: Image.asset('assets/images/majles_logo.png'),
                         ),
                       ),
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 16.0),
                       Text(
-                        'إسم المستخدم',
+                        'البريد الإلكتروني',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   fontWeight: FontWeight.w600,
@@ -121,18 +121,20 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
-                        onChanged: (value) => email = value,
+                        onChanged: (value) {
+                          email = value;
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "قم بإدخال إسم المستخدم الخاص بك.";
+                            return "قم بإدخال البريد الإلكتروني الخاص بك.";
                           } else if (!value.contains('@')) {
-                            return "إسم المستخدم غير مناسب";
+                            return "البريد الإلكتروني غير مناسب";
                           } else {
                             return null;
                           }
                         },
                         decoration: const InputDecoration(
-                          hintText: 'قم بإدخال إسم المستخدم الخاص بك.',
+                          hintText: 'قم بإدخال البريد الإلكتروني الخاص بك.',
                           prefixIcon: Icon(Icons.email_outlined),
                           prefixIconColor: AppColor.grey,
                         ),
@@ -167,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         },
                         decoration: InputDecoration(
-                          hintText: 'قم إدخال كلمة المرور"',
+                          hintText: 'قم إدخال كلمة المرور',
                           prefixIcon: const Icon(Icons.lock_outline_rounded),
                           suffixIcon: InkWell(
                             onTap: () {

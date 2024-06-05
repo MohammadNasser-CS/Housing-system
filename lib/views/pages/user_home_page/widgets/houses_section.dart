@@ -33,31 +33,9 @@ class HousesSection extends StatelessWidget {
                 children: [
                   BlocBuilder<HomeCubit, HomeState>(
                     bloc: cubitBase,
-                    buildWhen: (previous, current) =>
-                        current is HomeLoaded ,
+                    buildWhen: (previous, current) => current is HomeLoaded,
                     builder: (context, state) {
-                      if (state is HomePageFavroiteChangeLoaded) {
-                        return ListView.builder(
-                          itemCount: state.houses.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => InkWell(
-                            onTap: () async {
-                              debugPrint(state.houses[index].toString());
-                              Navigator.of(context, rootNavigator: true)
-                                  .pushNamed(
-                                    AppRoutes.details,
-                                    arguments: state.houses[index],
-                                  )
-                                  .then((value) => cubitBase.getHomeData());
-                            },
-                            child: HouseItem(
-                              cubit: cubitBase,
-                              houseItemModel: state.houses[index],
-                            ),
-                          ),
-                        );
-                      } else if (state is HomeLoaded) {
+                      if (state is HomeLoaded) {
                         return ListView.builder(
                           itemCount: state.houses.length,
                           shrinkWrap: true,

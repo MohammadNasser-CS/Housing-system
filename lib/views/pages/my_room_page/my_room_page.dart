@@ -15,6 +15,7 @@ class MyRoomPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final cubit = BlocProvider.of<MyRoomCubit>(context);
     return BlocBuilder<MyRoomCubit, MyRoomState>(
+      bloc: cubit,
       buildWhen: (previous, current) =>
           current is MyRoomLoading ||
           current is MyRoomLoaded ||

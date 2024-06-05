@@ -29,63 +29,39 @@ class HomeTabView extends StatelessWidget {
           return Center(
             child: Text(state.message),
           );
-        } else if (state is OwnerHomePageLoaded) {
+        } else if (state is OwnerHomePageLoaded && state.houses.isNotEmpty) {
           return Stack(
             children: [
               RefreshIndicator(
-                onRefresh: () async {
-                  return await cubit.getHomeData(user);
-                },
-                child: state.houses.isNotEmpty
-                    ? SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 24.0),
-                            BlocBuilder<OwnerHomePageCubit, OwnerHomePageState>(
-                              bloc: cubit,
-                              buildWhen: (previous, current) =>
-                                  current is OwnerHomePageLoaded,
-                              builder: (context, state) {
-                                if (state is OwnerHomePageLoaded) {
-                                  return GridView.builder(
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 30,
-                                      crossAxisSpacing: 22,
-                                      childAspectRatio: 0.75,
-                                    ),
-                                    itemCount: state.houses.length,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) => InkWell(
-                                      onTap: () async {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pushNamed(
-                                              AppRoutes.details,
-                                              arguments: state.houses[index],
-                                            )
-                                            .then((value) =>
-                                                cubit.getHomeData(user));
-                                      },
-                                      child: OwnerHouseItem(
-                                        cubit: cubit,
-                                        houseItemModel: state.houses[index],
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  return const SizedBox.shrink();
-                                }
-                              },
+                  onRefresh: () async {
+                    return await cubit.getHomeData(user);
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 24.0),
+                        ListView.builder(
+                          itemCount: state.houses.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => InkWell(
+                            onTap: () async {
+                              Navigator.of(context, rootNavigator: true)
+                                  .pushNamed(
+                                    AppRoutes.details,
+                                    arguments: state.houses[index],
+                                  )
+                                  .then((value) => cubit.getHomeData(user));
+                            },
+                            child: OwnerHouseItem(
+                              cubit: cubit,
+                              houseItemModel: state.houses[index],
                             ),
-                          ],
+                          ),
                         ),
-                      )
-                    : const NoHousesWidget(title: 'لم يتم إضافة أي عقار'),
-              ),
+                      ],
+                    ),
+                  )),
               Positioned(
                 bottom: 5.0,
                 right: 16.0,
@@ -106,7 +82,7 @@ class HomeTabView extends StatelessWidget {
             ],
           );
         } else {
-          return const SizedBox();
+          return const NoHousesWidget(title: 'لم يتم إضافة أي عقار');
         }
       },
     );

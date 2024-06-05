@@ -15,6 +15,14 @@ final class OwnerHomePageLoaded extends OwnerHomePageState {
     // required this.carouselItems,
   });
 }
+final class OwnerHomeRequestsLoaded extends OwnerHomePageState {
+  final List<OwnerRoomRequestsModel> request;
+  // final List<HomeCarouselModel> carouselItems;
+  const OwnerHomeRequestsLoaded({
+    required this.request,
+    // required this.carouselItems,
+  });
+}
 
 final class OwnerHomePageError extends OwnerHomePageState {
   final String message;
@@ -23,13 +31,11 @@ final class OwnerHomePageError extends OwnerHomePageState {
   });
 }
 
-
-final class OwnerHomePageCategoryChanged extends OwnerHomePageState{
-  // final List<HouseModel> filterdHouses;
-
-  const OwnerHomePageCategoryChanged(/*{required this.filterdHouses}*/);
+final class TapViewChanged extends OwnerHomePageState{
+  const TapViewChanged();
 }
+
+
 final class OwnerHomePageSearchFilled extends OwnerHomePageState{
-  // final List<HouseModel> filterdHouses;
-  const OwnerHomePageSearchFilled(/*{required this.filterdHouses}*/);
+  const OwnerHomePageSearchFilled();
 }

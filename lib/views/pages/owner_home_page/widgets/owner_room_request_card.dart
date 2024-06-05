@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
-import 'package:housing_project/models/room_requests_model.dart';
-import 'package:housing_project/views/pages/my_room_page/widgets/date_time_dialog.dart';
+import 'package:housing_project/models/owner_room_requests_model.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
-class RoomRequestCard extends StatefulWidget {
-  final StudentRoomRequestsModel roomRequestsModel;
+class OwnerRoomRequestCard extends StatefulWidget {
+  final OwnerRoomRequestsModel roomRequestsModel;
   final String? date;
-  const RoomRequestCard(
+  const OwnerRoomRequestCard(
       {super.key, required this.roomRequestsModel, this.date});
 
   @override
-  State<RoomRequestCard> createState() => _RoomRequestCardState();
+  State<OwnerRoomRequestCard> createState() => _OwnerRoomRequestCardState();
 }
 
-class _RoomRequestCardState extends State<RoomRequestCard>
+class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
     with SingleTickerProviderStateMixin {
   String? dateTime;
 
@@ -36,7 +33,7 @@ class _RoomRequestCardState extends State<RoomRequestCard>
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<MyRoomCubit>(context);
+    // final cubit = BlocProvider.of<MyRoomCubit>(context);
     final size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.25,
@@ -59,130 +56,32 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget(
-                      title: 'إسم صاحب السكن: ',
-                      value: widget.roomRequestsModel.houseOwnerName),
+                      title: 'إسم الطالب: ',
+                      value: widget.roomRequestsModel.studentName),
                   SizedBox(height: size.height * 0.02),
                   TextWidget(
                       title: 'رقم الهاتف: ',
-                      value: widget.roomRequestsModel.ownerPhoneNumber),
+                      value: widget.roomRequestsModel.studentPhoneNumber),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   const SizedBox(height: 8.0),
-                  BlocBuilder<MyRoomCubit, MyRoomState>(
-                    bloc: cubit,
-                    buildWhen: (previous, current) =>
-                        (current is DayTimeSlotChanged &&
-                            current.requestId ==
-                                widget.roomRequestsModel.requestId) ||
-                        current is RoomRequestsLoaded,
-                    builder: (context, state) {
-                      if (state is DayTimeSlotChanged) {
-                        return InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              useRootNavigator: true,
-                              useSafeArea: true,
-                              showDragHandle: true,
-                              enableDrag: true,
-                              builder: (BuildContext context) {
-                                return BottomSheet(
-                                  backgroundColor: AppColor.white,
-                                  onClosing: () {},
-                                  animationController: _animationController,
-                                  builder: (context) => StatefulBuilder(
-                                    builder: (context, setState) =>
-                                        BlocProvider.value(
-                                      value: cubit,
-                                      child: DateTimeSlotDialog(
-                                        dateTimeSlots: widget
-                                            .roomRequestsModel.dateTimeSlots,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ).then((value) {
-                              debugPrint('test');
-                              if (value != null) {
-                                cubit.selectDateTimeSlot(
-                                    value, widget.roomRequestsModel.requestId);
-                              }
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 24.0, vertical: 5.0),
-                            decoration: BoxDecoration(
-                              color: AppColor.grey1,
-                              borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(color: AppColor.grey4),
-                            ),
-                            child: Text(
-                              state.newDateTime,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                            ),
+                  Container(
+                    padding: const EdgeInsetsDirectional.symmetric(
+                        horizontal: 24.0, vertical: 5.0),
+                    decoration: BoxDecoration(
+                      color: AppColor.grey1,
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: AppColor.grey4),
+                    ),
+                    child: Text(
+                      widget.roomRequestsModel.selectedDateTimeSlot,
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            fontWeight: FontWeight.w900,
                           ),
-                        );
-                      } else if (state is RoomRequestsLoaded) {
-                        return InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              useRootNavigator: true,
-                              useSafeArea: true,
-                              showDragHandle: true,
-                              enableDrag: true,
-                              builder: (BuildContext context) {
-                                return BottomSheet(
-                                  backgroundColor: AppColor.white,
-                                  onClosing: () {},
-                                  animationController: _animationController,
-                                  builder: (context) => StatefulBuilder(
-                                    builder: (context, setState) =>
-                                        BlocProvider.value(
-                                      value: cubit,
-                                      child: DateTimeSlotDialog(
-                                        dateTimeSlots: widget
-                                            .roomRequestsModel.dateTimeSlots,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ).then((value) {
-                              debugPrint('test');
-                              if (value != null) {
-                                cubit.selectDateTimeSlot(
-                                    value, widget.roomRequestsModel.requestId);
-                              }
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 24.0, vertical: 5.0),
-                            decoration: BoxDecoration(
-                              color: AppColor.grey1,
-                              borderRadius: BorderRadius.circular(8.0),
-                              border: Border.all(color: AppColor.grey4),
-                            ),
-                            child: const Text('إختر موعد'),
-                          ),
-                        );
-                      } else {
-                        return SizedBox.fromSize();
-                      }
-                    },
+                    ),
                   ),
                 ],
               )
@@ -280,7 +179,7 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                   ),
                   onPressed: () {},
                   child: Text(
-                    'إلغي طلب الحجز',
+                    'رفض الطلب',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColor.white,
@@ -304,7 +203,7 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                   ),
                   onPressed: () {},
                   child: Text(
-                    'تأكيد موعد ',
+                    'قبول الطلب',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColor.white,

@@ -54,7 +54,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             cubit.getHomeData();
             return cubit;
           },
-          child:  UserHomePage(user: widget.user),
+          child: UserHomePage(user: widget.user),
         ),
         item: ItemConfig(
           icon: const Icon(Icons.home_outlined),
@@ -70,7 +70,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             cubit.getMyRoom(widget.user);
             return cubit;
           },
-          child:  MyRoomPage(user: widget.user),
+          child: MyRoomPage(user: widget.user),
         ),
         item: ItemConfig(
           icon: const Icon(Icons.bedroom_child_outlined),
@@ -86,7 +86,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             cubit.getFavoriteHouses();
             return cubit;
           },
-          child:  FavoritePage(user:widget.user),
+          child: FavoritePage(user: widget.user),
         ),
         item: ItemConfig(
           icon: const Icon(Icons.favorite_border),
@@ -96,7 +96,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen:  NotificationPage(user: widget.user),
+        screen: NotificationPage(user: widget.user),
         item: ItemConfig(
           icon: const Icon(Icons.notifications_none_outlined),
           title: "الإشعارات",
@@ -105,7 +105,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen:  SettingsPage(user: widget.user),
+        screen: SettingsPage(user: widget.user),
         item: ItemConfig(
           icon: const Icon(Icons.person_2_outlined),
           title: "الإعدادت",
@@ -135,7 +135,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen:  NotificationPage(user: widget.user),
+        screen: NotificationPage(user: widget.user),
         item: ItemConfig(
           icon: const Icon(Icons.notifications_none_outlined),
           title: "الإشعارات",
@@ -144,7 +144,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen:  SettingsPage(user: widget.user),
+        screen: SettingsPage(user: widget.user),
         item: ItemConfig(
           icon: const Icon(Icons.person_2_outlined),
           title: "الإعدادت",
@@ -172,7 +172,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             ),
           ),
         ),
-        title: widget.user.role == 'houseOwner'
+        title: widget.user.role == 'صاحب سكن'
             ? AppBarTitleForOwner(index: _controller.index)
             : AppBarTitleForUser(index: _controller.index),
       ),
@@ -185,7 +185,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
           navBarDecoration:
               NavBarDecoration(color: Theme.of(context).primaryColor),
         ),
-        tabs: widget.user.role == 'houseOwner'
+        tabs: widget.user.role == 'صاحب سكن'
             ? _buildOwnerScreens()
             : _buildUserScreens(),
         screenTransitionAnimation: const ScreenTransitionAnimation(

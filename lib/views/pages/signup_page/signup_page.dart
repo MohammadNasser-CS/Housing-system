@@ -66,24 +66,25 @@ class _SignupPagePageState extends State<SignupPage> {
   int fieldIndex = 0;
   bool isLastPage = false;
   late UserModel newUser;
-  Future<void> login() async {
-    if (_formKey.currentState!.validate()) {
-      await BlocProvider.of<AuthCubit>(context).register(
-        UserModel(
-          name: _usernameController.text,
-          email: _emailController.text,
-          phoneNumber: _phoneNumberController.text,
-          gender: genderValue!,
-          role: 'student',
-          birthDate: BoardDateFormat("yyyy-MM-dd").format(date),
-          colleqe: _collegeNameController.text,
-          homeAddress: _addressController.text,
-          specialization: specializationName,
-          universityBuilding: univercityBuilding,
-        ),
-      );
-    }
-  }
+  // Future<void> login() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     await BlocProvider.of<AuthCubit>(context).register(
+  //       UserModel(
+  //         token: "",
+  //         name: _usernameController.text,
+  //         email: _emailController.text,
+  //         phoneNumber: _phoneNumberController.text,
+  //         gender: genderValue!,
+  //         role: 'student',
+  //         birthDate: BoardDateFormat("yyyy-MM-dd").format(date),
+  //         colleqe: _collegeNameController.text,
+  //         homeAddress: _addressController.text,
+  //         specialization: specializationName,
+  //         universityBuilding: univercityBuilding,
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -580,6 +581,7 @@ class _SignupPagePageState extends State<SignupPage> {
                             onPressed: () {
                               cubit.register(
                                 UserModel(
+                                  token: "",
                                   name: _usernameController.text,
                                   email: _emailController.text,
                                   phoneNumber: _phoneNumberController.text,

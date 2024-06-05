@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_request_card.dart';
 
-class RoomRequestsWidget extends StatefulWidget {
-  const RoomRequestsWidget({super.key});
+class OwnerRoomRequestsWidget extends StatefulWidget {
+  const OwnerRoomRequestsWidget({super.key});
 
   @override
-  State<RoomRequestsWidget> createState() => _RoomRequestsWidgetState();
+  State<OwnerRoomRequestsWidget> createState() => _OwnerRoomRequestsWidgetState();
 }
 
-class _RoomRequestsWidgetState extends State<RoomRequestsWidget> {
+class _OwnerRoomRequestsWidgetState extends State<OwnerRoomRequestsWidget> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

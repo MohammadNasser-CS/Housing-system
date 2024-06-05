@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/models/home_category_model.dart';
 
@@ -68,7 +67,7 @@ class HomeCubit extends Cubit<HomeState> {
     // dummyItems[index1] = dummyItems[index1].copyWith(
     //   isFavorite: !dummyItems[index1].isFavorite,
     // );
-    debugPrint(filterdHouses[index].toString());
+    // debugPrint(filterdHouses[index].toString());
     // debugPrint(filterdHouses.toString());
     emit(
       HomeLoaded(
@@ -78,9 +77,9 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  void searchFilled(String onwerName) {
+  void searchFilled(String houseNumber) {
     final List<HouseModel> filterdSearchHouses = filterdHouses
-        .where((product) => product.ownerName.contains(onwerName))
+        .where((product) => product.id.contains(houseNumber))
         .toList();
     emit(HomeLoaded(houses: filterdSearchHouses));
   }
