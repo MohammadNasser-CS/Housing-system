@@ -5,8 +5,8 @@ import 'package:housing_project/Utils/app_routes.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
-import 'package:housing_project/views/pages/owner_home_page/widgets/owner_house_item.dart';
-import 'package:housing_project/views/pages/owner_home_page/widgets/owner_no_houese_wiget.dart';
+import 'package:housing_project/views/pages/owner_home_page/widgets/home_tap_view_widgets/owner_house_item.dart';
+import 'package:housing_project/views/widgets/owner_no_requests_wiget.dart';
 
 class HomeTabView extends StatelessWidget {
   final UserModel user;
@@ -69,7 +69,7 @@ class HomeTabView extends StatelessWidget {
                   elevation: 0,
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true)
-                        .pushNamed(AppRoutes.addNewHouse)
+                        .pushNamed(AppRoutes.addNewHouse,arguments: user)
                         .then((value) {
                       return cubit.getHomeData(user);
                     });
@@ -82,7 +82,7 @@ class HomeTabView extends StatelessWidget {
             ],
           );
         } else {
-          return const NoHousesWidget(title: 'لم يتم إضافة أي عقار');
+          return const NoItemsWidget(title: 'لم يتم إضافة أي عقار');
         }
       },
     );

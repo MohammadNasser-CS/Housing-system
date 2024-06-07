@@ -15,7 +15,8 @@ import 'package:housing_project/views/pages/login_page/login_page.dart';
 import 'package:housing_project/views/pages/password_reset_page/password_reset_page.dart';
 import 'package:housing_project/views/pages/phone_number_confirm_page/phone_number_confirm_page.dart';
 import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';
-import 'package:housing_project/views/pages/signup_page/signup_page.dart';
+import 'package:housing_project/views/pages/signup_pages/owner_signup_page/signup_page.dart';
+import 'package:housing_project/views/pages/signup_pages/student_signup_page/signup_page.dart';
 import 'package:housing_project/views/pages/profile_page/profile_page.dart';
 
 class AppRouter {
@@ -29,11 +30,19 @@ class AppRouter {
           ),
           settings: settings,
         );
-      case AppRoutes.register:
+      case AppRoutes.stdregister:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => AuthCubit(),
-            child: const SignupPage(),
+            child: const StudentSignupPage(),
+          ),
+          settings: settings,
+        );
+      case AppRoutes.ownregister:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => AuthCubit(),
+            child: const OwnerSignupPage(),
           ),
           settings: settings,
         );
@@ -89,10 +98,11 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.addNewHouse:
+        final UserModel user = settings.arguments as UserModel;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => AddNewHouseCubit(),
-            child: const AddNewHousePage(),
+            child: AddNewHousePage(user: user),
           ),
           settings: settings,
         );

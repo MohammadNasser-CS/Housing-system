@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housing_project/models/room_requests_model.dart';
-import 'package:housing_project/views/pages/my_room_page/widgets/room_request_card.dart';
+import 'package:housing_project/views/pages/my_room_page/widgets/room_request_widget_components/room_request_card.dart';
 
 class OwnerRoomRequestsWidget extends StatefulWidget {
   const OwnerRoomRequestsWidget({super.key});

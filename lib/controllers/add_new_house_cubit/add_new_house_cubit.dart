@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/models/house_model.dart';
 
@@ -10,6 +11,7 @@ class AddNewHouseCubit extends Cubit<AddNewHouseState> {
     emit(AddNewHouseLoading());
     Future.delayed(const Duration(seconds: 2), () {
       dummyItems.add(newHouse);
+      debugPrint(dummyItems.length.toString());
       emit(
         AddNewHouseDoneSuccess(house: newHouse),
       );

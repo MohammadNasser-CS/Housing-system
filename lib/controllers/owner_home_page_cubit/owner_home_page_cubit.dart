@@ -67,7 +67,6 @@ class OwnerHomePageCubit extends Cubit<OwnerHomePageState> {
     emit(const TapViewChanged());
   }
 
- 
   // void changeCategory(int? selectedCategoryIndex) async {
   //   if (selectedCategoryIndex == null) {
   //     emit(const OwnerHomePageCategoryChanged());

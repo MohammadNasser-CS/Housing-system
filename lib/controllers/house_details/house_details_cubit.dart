@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/room_requests_model.dart';
 
 part 'house_details_state.dart';
 
@@ -11,8 +12,13 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
     emit(HouseDetailsLoading());
     Future.delayed(const Duration(seconds: 2), () {
       final index = dummyItems.indexWhere((item) => item.id == id);
+      final requestIndex =
+          dummyStdRoomRequests.indexWhere((item) => item.houseId == id);
+
       emit(
-        HouseDetailsLoaded(house: dummyItems[index]),
+        HouseDetailsLoaded(
+            house: dummyItems[index],
+            studentRoomRequestsModel: dummyStdRoomRequests[requestIndex]),
       );
     });
     // final selectedProduct = await productDetailsServices.getProductDetails(id);
@@ -58,8 +64,26 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
     filterdHouses[index1] = filterdHouses[index1].copyWith(
       isFavorite: !filterdHouses[index1].isFavorite,
     );
+    final requestIndex =
+        dummyStdRoomRequests.indexWhere((item) => item.houseId == itemId);
+
     emit(
-      HouseDetailsLoaded(house: filterdHouses[index1]),
+      HouseDetailsLoaded(
+          house: filterdHouses[index1],
+          studentRoomRequestsModel: dummyStdRoomRequests[requestIndex]),
     );
+  }
+
+  Future<void> selectDateTimeSlot(
+      String requestId, String newSelectedTimeSlot) async {
+    final index =
+        dummyStdRoomRequests.indexWhere((item) => item.requestId == requestId);
+    dummyStdRoomRequests[index] = dummyStdRoomRequests[index].copyWith(
+      selectedDateTimeSlot: newSelectedTimeSlot,
+    );
+
+    // debugPrint(
+    //     'New time slot--> ${dummyStdRoomRequests[index].selectedDateTimeSlot}');
+    emit(DayTimeSlotChanged());
   }
 }

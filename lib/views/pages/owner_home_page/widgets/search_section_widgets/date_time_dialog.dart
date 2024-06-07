@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/calender_select_cubit/calender_select_cubit.dart';
 import 'package:housing_project/models/owner_free_date_time_model.dart';
-import 'package:housing_project/views/pages/owner_home_page/widgets/day_slot_card_widger.dart';
+import 'package:housing_project/views/pages/owner_home_page/widgets/search_section_widgets/day_slot_card_widger.dart';
 
 class FreeDateTimeSlotDialog extends StatefulWidget {
   const FreeDateTimeSlotDialog({super.key});

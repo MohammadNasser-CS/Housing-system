@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
+import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/models/rooms_model.dart';
-import 'package:housing_project/views/pages/house_details_page/widgets/bed_room_discovering_dialog.dart';
+import 'package:housing_project/views/pages/house_details_page/widgets/bed_rooms_gallery_widgets/bed_room_discovering_dialog.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
 class BedRoomsGallerySection extends StatefulWidget {
   final List<BedRoomModel> houseBedRooms;
+  final StudentRoomRequestsModel studentRoomRequestsModel;
   const BedRoomsGallerySection({
     super.key,
     required this.houseBedRooms,
+    required this.studentRoomRequestsModel,
   });
 
   @override
@@ -74,6 +77,7 @@ class _BedRoomsGallerySectionState extends State<BedRoomsGallerySection>
                           value: cubit,
                           child: BedRoomDiscoveringDialog(
                             room: widget.houseBedRooms[index],
+                            studentRoomRequestsModel: widget.studentRoomRequestsModel ,
                           ),
                         ),
                       ),

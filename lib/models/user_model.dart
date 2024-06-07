@@ -161,4 +161,14 @@ List<UserModel> dummyUsers = [
     role: 'صاحب سكن',
     birthDate: '28-10-2004',
   ),
+  UserModel(
+    token: '121',
+    name: 'مستخدم 1',
+    email: 'abualnasser05@gmail.com',
+    phoneNumber: '0561234567',
+    gender: 'ذكر',
+    colleqe: null,
+    role: 'أدمن',
+    birthDate: '28-10-2004',
+  ),
 ];

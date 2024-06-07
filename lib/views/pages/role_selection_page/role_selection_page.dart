@@ -36,7 +36,7 @@ class RoleSelectionPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(AppRoutes.register);
+                      Navigator.of(context).pushNamed(AppRoutes.ownregister);
                     },
                     child: Container(
                       padding: EdgeInsetsDirectional.all(size.width * 0.05),
@@ -55,7 +55,7 @@ class RoleSelectionPage extends StatelessWidget {
                   SizedBox(width: size.width * 0.02),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(AppRoutes.register);
+                      Navigator.of(context).pushNamed(AppRoutes.stdregister);
                     },
                     child: Container(
                       padding: EdgeInsetsDirectional.all(size.width * 0.05),

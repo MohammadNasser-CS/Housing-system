@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
 
-class NoRequestsWidget extends StatelessWidget {
+class NoHouseWidget extends StatelessWidget {
   final String title;
-  const NoRequestsWidget({super.key, required this.title});
+  const NoHouseWidget({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {

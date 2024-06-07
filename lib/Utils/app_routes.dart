@@ -1,6 +1,7 @@
 class AppRoutes {
   static const String loginPage = '/';
-  static const String register = '/register';
+  static const String stdregister = '/register_stdregister';
+  static const String ownregister = '/register_ownregister';
   static const String home = '/home';
   static const String details = '/house_details';
   static const String search = '/search_page';

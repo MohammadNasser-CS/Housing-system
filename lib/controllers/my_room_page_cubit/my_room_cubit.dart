@@ -14,7 +14,7 @@ class MyRoomCubit extends Cubit<MyRoomState> {
     Future.delayed(const Duration(seconds: 2), () {
       final index =
           dummyBedRooms.indexWhere((item) => item.studentName == user.name);
-      if (index != -1) {
+      if (index == -1) {
         final index1 = dummyItems.indexWhere(
             (item) => item.ownerName == dummyBedRooms[index].houseOwnerName);
         emit(

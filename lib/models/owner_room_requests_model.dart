@@ -21,7 +21,6 @@ class OwnerRoomRequestsModel {
     required this.requestStatus,
     required this.selectedDateTimeSlot,
   });
-  
 
   OwnerRoomRequestsModel copyWith({
     String? requestId,
@@ -49,7 +48,7 @@ class OwnerRoomRequestsModel {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'requestId': requestId});
     result.addAll({'studentName': studentName});
     result.addAll({'studentPhoneNumber': studentPhoneNumber});
@@ -59,7 +58,7 @@ class OwnerRoomRequestsModel {
     result.addAll({'roomId': roomId});
     result.addAll({'requestStatus': requestStatus});
     result.addAll({'selectedDateTimeSlot': selectedDateTimeSlot});
-  
+
     return result;
   }
 
@@ -79,7 +78,8 @@ class OwnerRoomRequestsModel {
 
   String toJson() => json.encode(toMap());
 
-  factory OwnerRoomRequestsModel.fromJson(String source) => OwnerRoomRequestsModel.fromMap(json.decode(source));
+  factory OwnerRoomRequestsModel.fromJson(String source) =>
+      OwnerRoomRequestsModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -89,30 +89,30 @@ class OwnerRoomRequestsModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is OwnerRoomRequestsModel &&
-      other.requestId == requestId &&
-      other.studentName == studentName &&
-      other.studentPhoneNumber == studentPhoneNumber &&
-      other.ownerToken == ownerToken &&
-      other.ownerName == ownerName &&
-      other.houseId == houseId &&
-      other.roomId == roomId &&
-      other.requestStatus == requestStatus &&
-      other.selectedDateTimeSlot == selectedDateTimeSlot;
+        other.requestId == requestId &&
+        other.studentName == studentName &&
+        other.studentPhoneNumber == studentPhoneNumber &&
+        other.ownerToken == ownerToken &&
+        other.ownerName == ownerName &&
+        other.houseId == houseId &&
+        other.roomId == roomId &&
+        other.requestStatus == requestStatus &&
+        other.selectedDateTimeSlot == selectedDateTimeSlot;
   }
 
   @override
   int get hashCode {
     return requestId.hashCode ^
-      studentName.hashCode ^
-      studentPhoneNumber.hashCode ^
-      ownerToken.hashCode ^
-      ownerName.hashCode ^
-      houseId.hashCode ^
-      roomId.hashCode ^
-      requestStatus.hashCode ^
-      selectedDateTimeSlot.hashCode;
+        studentName.hashCode ^
+        studentPhoneNumber.hashCode ^
+        ownerToken.hashCode ^
+        ownerName.hashCode ^
+        houseId.hashCode ^
+        roomId.hashCode ^
+        requestStatus.hashCode ^
+        selectedDateTimeSlot.hashCode;
   }
 }
 
@@ -122,22 +122,21 @@ List<OwnerRoomRequestsModel> dummyOwnerRoomRequests = [
     studentName: 'محمد ناصر',
     studentPhoneNumber: '0561234567',
     ownerToken: '122',
-    ownerName:'مالك 1',
+    ownerName: 'مالك 1',
     houseId: '1',
     roomId: '1',
     requestStatus: 'إختيار موعد',
-    selectedDateTimeSlot: '6-6-2024: الخميس',
-
+    selectedDateTimeSlot: 'الخميس: 1-2',
   ),
   OwnerRoomRequestsModel(
     requestId: "2",
     studentName: 'محمد ناصر',
     studentPhoneNumber: '0561234567',
-    ownerName:'مالك 1',
+    ownerName: 'مالك 1',
     ownerToken: "122",
     houseId: '1',
     roomId: '4',
     requestStatus: 'تم تحديد موعد',
-     selectedDateTimeSlot: '9-6-2024: الأحد',
+    selectedDateTimeSlot: 'الخميس: 9-10',
   ),
 ];

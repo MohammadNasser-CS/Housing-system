@@ -54,9 +54,12 @@ class HouseDetailsPage extends StatelessWidget {
                       ContactSection(ownerName: state.house.ownerName),
                       SizedBox(height: size.height * 0.03),
                       BedRoomsGallerySection(
-                          houseBedRooms: state.house.bedRooms),
+                        houseBedRooms: state.house.bedRooms!,
+                        studentRoomRequestsModel:
+                            state.studentRoomRequestsModel,
+                      ),
                       SizedBox(height: size.height * 0.03),
-                      RoomsGallerySection(housRooms: state.house.rooms),
+                      RoomsGallerySection(housRooms: state.house.rooms!),
                     ],
                   ),
                 ),

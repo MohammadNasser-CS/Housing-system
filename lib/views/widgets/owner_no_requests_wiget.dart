@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
 
-class NoHousesWidget extends StatelessWidget {
+class NoItemsWidget extends StatelessWidget {
   final String title;
-  const NoHousesWidget({super.key, required this.title});
+  const NoItemsWidget({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class NoHousesWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
-            FontAwesomeIcons.building,
+            Icons.not_interested_rounded,
             size: size.width * 0.2,
             color: AppColor.grey4,
           ),

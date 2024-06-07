@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
-import 'package:housing_project/views/pages/owner_home_page/widgets/owner_no_houese_wiget.dart';
-import 'package:housing_project/views/pages/owner_home_page/widgets/owner_room_request_card.dart';
+import 'package:housing_project/views/widgets/owner_no_requests_wiget.dart';
+import 'package:housing_project/views/pages/owner_home_page/widgets/request_tap_view_widgets/owner_room_request_card.dart';
 
 class RequestsTabView extends StatelessWidget {
   final UserModel user;
@@ -36,40 +36,26 @@ class RequestsTabView extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    BlocBuilder<OwnerHomePageCubit, OwnerHomePageState>(
-                      bloc: cubit,
-                      buildWhen: (previous, current) =>
-                          current is OwnerHomeRequestsLoaded,
-                      builder: (context, state) {
-                        if (state is OwnerHomeRequestsLoaded) {
-                          return ListView.builder(
-                            padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 4.0),
-                            itemCount: state.request.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final roomRequest = state.request[index];
-                              return Container(
-                                margin: const EdgeInsetsDirectional.only(
-                                    bottom: 8.0),
-                                child: OwnerRoomRequestCard(
-                                    roomRequestsModel: roomRequest),
-                              );
-                            },
-                          );
-                        } else {
-                          return const NoHousesWidget(
-                            title: 'لا يوجد أي طلبات',
-                          );
-                        }
+                    ListView.builder(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: 4.0),
+                      itemCount: state.request.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final roomRequest = state.request[index];
+                        return Container(
+                          margin: const EdgeInsetsDirectional.only(bottom: 8.0),
+                          child: OwnerRoomRequestCard(
+                              roomRequestsModel: roomRequest),
+                        );
                       },
                     ),
                   ],
                 ),
               ));
         } else {
-          return const NoHousesWidget(
+          return const NoItemsWidget(
             title: 'لا يوجد أي طلبات',
           );
         }

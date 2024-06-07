@@ -1,12 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
+import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
+import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/models/rooms_model.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
 class BedRoomDiscoveringDialog extends StatefulWidget {
   final BedRoomModel room;
-  const BedRoomDiscoveringDialog({super.key, required this.room});
+  final StudentRoomRequestsModel studentRoomRequestsModel;
+  const BedRoomDiscoveringDialog(
+      {super.key, required this.room, required this.studentRoomRequestsModel});
 
   @override
   State<BedRoomDiscoveringDialog> createState() =>
@@ -14,9 +20,11 @@ class BedRoomDiscoveringDialog extends StatefulWidget {
 }
 
 class _BedRoomDiscoveringDialogState extends State<BedRoomDiscoveringDialog> {
+  String? newDateTimeSlot;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final cubit = BlocProvider.of<HouseDetailsCubit>(context);
     return Container(
       height: size.height * 0.6,
       decoration: const BoxDecoration(
@@ -107,6 +115,47 @@ class _BedRoomDiscoveringDialogState extends State<BedRoomDiscoveringDialog> {
                     ),
                   ],
                 ),
+              ),
+            ),
+            const Spacer(),
+            DropdownButtonHideUnderline(
+              child: DropdownButtonFormField2<String>(
+                decoration: InputDecoration(
+                  fillColor: AppColor.grey1,
+                  filled: true,
+                  contentPadding: const EdgeInsetsDirectional.all(5.0),
+                ),
+                hint: const Text(
+                  'قم بإختيار موعد مناسب للقاء صاحب السكن..',
+                ),
+                isExpanded: true,
+                dropdownStyleData: DropdownStyleData(
+                  decoration: BoxDecoration(border: Border.all()),
+                ),
+                onChanged: (String? value) {
+                  newDateTimeSlot = value!;
+                  cubit.selectDateTimeSlot(
+                      widget.studentRoomRequestsModel.houseId,
+                      newDateTimeSlot!);
+                },
+                items: widget.studentRoomRequestsModel.dateTimeSlots.entries
+                    .map((entry) {
+                  return DropdownMenuItem<String>(
+                    onTap: () {},
+                    value: entry.value,
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const BoxDecoration(
+                        border: BorderDirectional(
+                          bottom: BorderSide(color: AppColor.grey),
+                        ),
+                      ),
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: Text(entry.value),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
             const Spacer(),

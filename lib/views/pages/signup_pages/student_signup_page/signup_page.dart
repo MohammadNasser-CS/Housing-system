@@ -8,14 +8,14 @@ import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class StudentSignupPage extends StatefulWidget {
+  const StudentSignupPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPagePageState();
+  State<StudentSignupPage> createState() => _SignupPagePageState();
 }
 
-class _SignupPagePageState extends State<SignupPage> {
+class _SignupPagePageState extends State<StudentSignupPage> {
   late final GlobalKey<FormState> _formKey;
   late DateTime date = DateTime.now();
   late final TextEditingController _emailController,
