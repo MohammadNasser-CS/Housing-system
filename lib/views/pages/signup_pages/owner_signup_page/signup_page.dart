@@ -3,7 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/Utils/app_routes.dart';
+import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
@@ -347,20 +347,20 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                         } else {
                           return ElevatedButton(
                             onPressed: () {
-                              cubit.register(
-                                UserModel(
-                                  token: "",
-                                  name: _usernameController.text,
-                                  email: _emailController.text,
-                                  phoneNumber: _phoneNumberController.text,
-                                  gender: genderValue!,
-                                  role: 'student',
-                                  birthDate: BoardDateFormat("yyyy-MM-dd")
-                                      .format(date),
-                                  specialization: specializationName,
-                                  universityBuilding: univercityBuilding,
-                                ),
-                              );
+                              // cubit.register(
+                              //   UserModel(
+                              //     token: "",
+                              //     name: _usernameController.text,
+                              //     email: _emailController.text,
+                              //     phoneNumber: _phoneNumberController.text,
+                              //     gender: genderValue!,
+                              //     role: 'student',
+                              //     birthDate: BoardDateFormat("yyyy-MM-dd")
+                              //         .format(date),
+                              //     specialization: specializationName,
+                              //     universityBuilding: univercityBuilding,
+                              //   ),
+                              // );
                             },
                             style: ElevatedButton.styleFrom(
                               padding:

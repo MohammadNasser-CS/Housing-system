@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/Utils/app_routes.dart';
+import 'package:housing_project/Utils/routes/app_routes.dart';
 
 class RoleSelectionPage extends StatelessWidget {
   const RoleSelectionPage({super.key});

@@ -6,26 +6,25 @@ class UserModel {
   final String email;
   final String phoneNumber;
   final String gender;
-  final String? colleqe;
+  final String? college;
   final String role;
   final String birthDate;
   final String? homeAddress;
   final String? universityBuilding;
   final String? specialization;
   UserModel({
-    required this.token,
+    this.token = "",
     required this.name,
     required this.email,
     required this.phoneNumber,
     required this.gender,
-    this.colleqe,
+    this.college,
     required this.role,
     required this.birthDate,
     this.homeAddress,
     this.universityBuilding,
     this.specialization,
   });
-  
 
   UserModel copyWith({
     String? token,
@@ -33,7 +32,7 @@ class UserModel {
     String? email,
     String? phoneNumber,
     String? gender,
-    String? colleqe,
+    String? college,
     String? role,
     String? birthDate,
     String? homeAddress,
@@ -46,7 +45,7 @@ class UserModel {
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       gender: gender ?? this.gender,
-      colleqe: colleqe ?? this.colleqe,
+      college: college ?? this.college,
       role: role ?? this.role,
       birthDate: birthDate ?? this.birthDate,
       homeAddress: homeAddress ?? this.homeAddress,
@@ -57,27 +56,26 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
     result.addAll({'token': token});
     result.addAll({'name': name});
     result.addAll({'email': email});
     result.addAll({'phoneNumber': phoneNumber});
     result.addAll({'gender': gender});
-    if(colleqe != null){
-      result.addAll({'colleqe': colleqe});
+    if (college != null) {
+      result.addAll({'colleqe': college});
     }
     result.addAll({'role': role});
     result.addAll({'birthDate': birthDate});
-    if(homeAddress != null){
+    if (homeAddress != null) {
       result.addAll({'homeAddress': homeAddress});
     }
-    if(universityBuilding != null){
+    if (universityBuilding != null) {
       result.addAll({'universityBuilding': universityBuilding});
     }
-    if(specialization != null){
+    if (specialization != null) {
       result.addAll({'specialization': specialization});
     }
-  
+
     return result;
   }
 
@@ -88,7 +86,7 @@ class UserModel {
       email: map['email'] ?? '',
       phoneNumber: map['phoneNumber'] ?? '',
       gender: map['gender'] ?? '',
-      colleqe: map['colleqe'],
+      college: map['colleqe'],
       role: map['role'] ?? '',
       birthDate: map['birthDate'] ?? '',
       homeAddress: map['homeAddress'],
@@ -99,44 +97,45 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'UserModel(token: $token, name: $name, email: $email, phoneNumber: $phoneNumber, gender: $gender, colleqe: $colleqe, role: $role, birthDate: $birthDate, homeAddress: $homeAddress, universityBuilding: $universityBuilding, specialization: $specialization)';
+    return 'UserModel(token: $token, name: $name, email: $email, phoneNumber: $phoneNumber, gender: $gender, colleqe: $college, role: $role, birthDate: $birthDate, homeAddress: $homeAddress, universityBuilding: $universityBuilding, specialization: $specialization)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is UserModel &&
-      other.token == token &&
-      other.name == name &&
-      other.email == email &&
-      other.phoneNumber == phoneNumber &&
-      other.gender == gender &&
-      other.colleqe == colleqe &&
-      other.role == role &&
-      other.birthDate == birthDate &&
-      other.homeAddress == homeAddress &&
-      other.universityBuilding == universityBuilding &&
-      other.specialization == specialization;
+        other.token == token &&
+        other.name == name &&
+        other.email == email &&
+        other.phoneNumber == phoneNumber &&
+        other.gender == gender &&
+        other.college == college &&
+        other.role == role &&
+        other.birthDate == birthDate &&
+        other.homeAddress == homeAddress &&
+        other.universityBuilding == universityBuilding &&
+        other.specialization == specialization;
   }
 
   @override
   int get hashCode {
     return token.hashCode ^
-      name.hashCode ^
-      email.hashCode ^
-      phoneNumber.hashCode ^
-      gender.hashCode ^
-      colleqe.hashCode ^
-      role.hashCode ^
-      birthDate.hashCode ^
-      homeAddress.hashCode ^
-      universityBuilding.hashCode ^
-      specialization.hashCode;
+        name.hashCode ^
+        email.hashCode ^
+        phoneNumber.hashCode ^
+        gender.hashCode ^
+        college.hashCode ^
+        role.hashCode ^
+        birthDate.hashCode ^
+        homeAddress.hashCode ^
+        universityBuilding.hashCode ^
+        specialization.hashCode;
   }
 }
 
@@ -147,7 +146,7 @@ List<UserModel> dummyUsers = [
     email: 'abualnasser04@gmail.com',
     phoneNumber: '0568891980',
     gender: 'ذكر',
-    colleqe: 'كلية الهندسة وتكنولوجيا المعلومات',
+    college: 'كلية الهندسة وتكنولوجيا المعلومات',
     role: 'طالب',
     birthDate: '18-1-2003',
   ),
@@ -157,7 +156,7 @@ List<UserModel> dummyUsers = [
     email: 'abualnasser55@gmail.com',
     phoneNumber: '0561234567',
     gender: 'ذكر',
-    colleqe: null,
+    college: null,
     role: 'صاحب سكن',
     birthDate: '28-10-2004',
   ),
@@ -167,7 +166,7 @@ List<UserModel> dummyUsers = [
     email: 'abualnasser05@gmail.com',
     phoneNumber: '0561234567',
     gender: 'ذكر',
-    colleqe: null,
+    college: null,
     role: 'أدمن',
     birthDate: '28-10-2004',
   ),

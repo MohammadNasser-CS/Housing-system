@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/Utils/app_router.dart';
-import 'package:housing_project/Utils/app_routes.dart';
+import 'package:housing_project/Utils/routes/app_router.dart';
+import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {

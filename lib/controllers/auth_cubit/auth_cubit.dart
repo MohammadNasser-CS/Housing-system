@@ -1,13 +1,15 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:housing_project/models/student_auth_model.dart';
 import 'package:housing_project/models/user_model.dart';
+import 'package:housing_project/services/auth_services/auth_service.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
-  // final AuthServices _authServices = AppAuthImplementation();
+  final AuthServices _authServices = AuthServicesImplementation();
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     Future.delayed(const Duration(seconds: 2), () {
@@ -32,14 +34,21 @@ class AuthCubit extends Cubit<AuthState> {
     // }
   }
 
-  Future<void> register(UserModel newUser) async {
+  Future<void> register(StudentRegisterModel newStudent) async {
     emit(AuthLoading());
-    Future.delayed(const Duration(seconds: 2), () {
-      dummyUsers.add(newUser);
-      debugPrint(dummyUsers.length.toString());
-      debugPrint(dummyUsers.toString());
-      emit(AuthSuccess(user: newUser));
-    });
+    String response=await _authServices.register(newStudent);
+    debugPrint(response);
+    // if(){
+
+    // }else{
+    //   emit(AuthError(message: response));
+    // }
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   dummyUsers.add(newUser);
+    //   debugPrint(dummyUsers.length.toString());
+    //   debugPrint(dummyUsers.toString());
+    //   emit(AuthSuccess(user: newUser));
+    // });
   }
 
 //   Future<void> getUser() async {

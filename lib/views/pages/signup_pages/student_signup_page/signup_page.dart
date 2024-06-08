@@ -3,9 +3,10 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/Utils/app_routes.dart';
+import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
+import 'package:housing_project/models/student_auth_model.dart';
 import 'package:housing_project/models/user_model.dart';
 
 class StudentSignupPage extends StatefulWidget {
@@ -210,7 +211,8 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                     // },
                     onEditingComplete: () {
                       _passwordFocusNode.unfocus();
-                      FocusScope.of(context).requestFocus(_emailFocusNode);
+                      FocusScope.of(context)
+                          .requestFocus(_phoneNumberFocusedNode);
                       // register();
                     },
                     focusNode: _passwordFocusNode,
@@ -580,19 +582,18 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                           return ElevatedButton(
                             onPressed: () {
                               cubit.register(
-                                UserModel(
-                                  token: "",
+                                StudentRegisterModel(
                                   name: _usernameController.text,
+                                  password: _passwordController.text,
                                   email: _emailController.text,
                                   phoneNumber: _phoneNumberController.text,
                                   gender: genderValue!,
-                                  role: 'student',
+                                  role: 'طالب',
                                   birthDate: BoardDateFormat("yyyy-MM-dd")
                                       .format(date),
-                                  colleqe: _collegeNameController.text,
-                                  homeAddress: _addressController.text,
-                                  specialization: specializationName,
-                                  universityBuilding: univercityBuilding,
+                                  college: _collegeNameController.text,
+                                  specialization: specializationName!,
+                                  universityBuilding: univercityBuilding!,
                                 ),
                               );
                             },

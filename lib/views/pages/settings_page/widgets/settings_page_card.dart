@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/Utils/app_routes.dart';
+import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/models/user_model.dart';
 
 class SettingsPageCard extends StatelessWidget {
