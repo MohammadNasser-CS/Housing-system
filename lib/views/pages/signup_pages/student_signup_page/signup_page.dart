@@ -6,7 +6,7 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
-import 'package:housing_project/models/student_auth_model.dart';
+import 'package:housing_project/models/auth_models/student_auth_model.dart';
 import 'package:housing_project/models/user_model.dart';
 
 class StudentSignupPage extends StatefulWidget {
@@ -98,7 +98,8 @@ class _SignupPagePageState extends State<StudentSignupPage> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -265,7 +266,7 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                     },
                     textInputAction: TextInputAction.next,
                     focusNode: _phoneNumberFocusedNode,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     controller: _phoneNumberController,
                     decoration: const InputDecoration(
                       hintText: 'قم بإدخال رقم الهاتف',
@@ -581,7 +582,7 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                         } else {
                           return ElevatedButton(
                             onPressed: () {
-                              cubit.register(
+                              cubit.studentRegister(
                                 StudentRegisterModel(
                                   name: _usernameController.text,
                                   password: _passwordController.text,
@@ -591,7 +592,7 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                                   role: 'طالب',
                                   birthDate: BoardDateFormat("yyyy-MM-dd")
                                       .format(date),
-                                  college: _collegeNameController.text,
+                                  college: colleqeName!,
                                   specialization: specializationName!,
                                   universityBuilding: univercityBuilding!,
                                 ),

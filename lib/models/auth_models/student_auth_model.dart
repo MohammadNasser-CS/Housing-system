@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class StudentRegisterModel {
   final String name;
-  final String email;
+  final String email; 
   final String password;
   final String phoneNumber;
   final String gender;

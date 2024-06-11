@@ -1,4 +1,3 @@
-import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +5,7 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
+import 'package:housing_project/models/auth_models/owner_auth_model.dart';
 import 'package:housing_project/models/user_model.dart';
 
 class OwnerSignupPage extends StatefulWidget {
@@ -88,7 +88,8 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -201,7 +202,8 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                     // },
                     onEditingComplete: () {
                       _passwordFocusNode.unfocus();
-                      FocusScope.of(context).requestFocus(_emailFocusNode);
+                      FocusScope.of(context)
+                          .requestFocus(_phoneNumberFocusedNode);
                       // register();
                     },
                     focusNode: _passwordFocusNode,
@@ -347,20 +349,16 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                         } else {
                           return ElevatedButton(
                             onPressed: () {
-                              // cubit.register(
-                              //   UserModel(
-                              //     token: "",
-                              //     name: _usernameController.text,
-                              //     email: _emailController.text,
-                              //     phoneNumber: _phoneNumberController.text,
-                              //     gender: genderValue!,
-                              //     role: 'student',
-                              //     birthDate: BoardDateFormat("yyyy-MM-dd")
-                              //         .format(date),
-                              //     specialization: specializationName,
-                              //     universityBuilding: univercityBuilding,
-                              //   ),
-                              // );
+                              cubit.ownerRegister(
+                                OwnerRegisterModel(
+                                  name: _usernameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  phoneNumber: _phoneNumberController.text,
+                                  gender: genderValue!,
+                                  role: 'صاحب سكن',
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               padding:

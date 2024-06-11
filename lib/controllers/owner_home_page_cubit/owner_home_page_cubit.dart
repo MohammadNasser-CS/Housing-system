@@ -9,20 +9,20 @@ class OwnerHomePageCubit extends Cubit<OwnerHomePageState> {
   OwnerHomePageCubit() : super(OwnerHomePageInitial());
   Future<void> getRequestsData(UserModel user) async {
     emit(OwnerHomePageLoading());
-    List<OwnerRoomRequestsModel> myRequests = dummyOwnerRoomRequests
-        .where((element) => element.ownerToken == user.token)
-        .toList();
-    await Future.delayed(
-      const Duration(seconds: 2),
-      () {
-        emit(
-          OwnerHomeRequestsLoaded(
-            request: myRequests,
-            // carouselItems: dummyCarouselItems,
-          ),
-        );
-      },
-    );
+    // List<OwnerRoomRequestsModel> myRequests = dummyOwnerRoomRequests
+    //     .where((element) => element.ownerToken == user.token)
+    //     .toList();
+    // await Future.delayed(
+    //   const Duration(seconds: 2),
+    //   () {
+    //     emit(
+    //       OwnerHomeRequestsLoaded(
+    //         request: myRequests,
+    //         // carouselItems: dummyCarouselItems,
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Future<void> getHomeData(UserModel user) async {
