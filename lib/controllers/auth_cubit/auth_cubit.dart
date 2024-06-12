@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/auth_models/owner_auth_model.dart';
 import 'package:housing_project/models/auth_models/student_auth_model.dart';
 import 'package:housing_project/models/user_model.dart';
@@ -12,14 +13,17 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthServices _authServices = AuthServicesImplementation();
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
-    if (await _authServices.login(email, password)) {
-      try {
+    try {
+      final result = await _authServices.login(email, password);
+      if (result) {
         UserModel? user = await _authServices.getUser();
         debugPrint(user.toString());
         emit(AuthSuccess(user: user!));
-      } on StateError catch (e) {
-        emit(AuthError(message: e.message));
       }
+    } on AuthException catch (exp) {
+      emit(AuthError(message: exp.message));
+    } catch (exp) {
+       emit(AuthError(message: 'حصل خلل أثناء عملية إنشاء الحساب'));
     }
   }
 
@@ -28,16 +32,19 @@ class AuthCubit extends Cubit<AuthState> {
     String response = await _authServices.ownerRegister(newOwner);
     debugPrint(response);
   }
+
   Future<void> studentRegister(StudentRegisterModel newStudent) async {
     emit(AuthLoading());
-    // bool response = await _authServices.studnetRegister(newStudent);
-    if (await _authServices.studnetRegister(newStudent)) {
-      try {
+    try {
+      final result = await _authServices.studentRegister(newStudent);
+      if (result) {
         UserModel? user = await _authServices.getUser();
         emit(AuthSuccess(user: user!));
-      } on StateError catch (e) {
-        emit(AuthError(message: e.message));
       }
+    } on AuthException catch (exp) {
+      emit(AuthError(message: exp.message));
+    } catch (exp) {
+      emit(AuthError(message: 'حصل خلل أثناء عملية إنشاء الحساب'));
     }
   }
 
@@ -58,8 +65,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await _authServices.logout();
     } on StateError catch (e) {
-        emit(AuthError(message: e.message));
-      }
+      emit(AuthError(message: e.message));
+    }
   }
-
 }

@@ -67,29 +67,50 @@ class _SignupPagePageState extends State<StudentSignupPage> {
   int fieldIndex = 0;
   bool isLastPage = false;
   late UserModel newUser;
-  // Future<void> login() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     await BlocProvider.of<AuthCubit>(context).register(
-  //       UserModel(
-  //         token: "",
-  //         name: _usernameController.text,
-  //         email: _emailController.text,
-  //         phoneNumber: _phoneNumberController.text,
-  //         gender: genderValue!,
-  //         role: 'student',
-  //         birthDate: BoardDateFormat("yyyy-MM-dd").format(date),
-  //         colleqe: _collegeNameController.text,
-  //         homeAddress: _addressController.text,
-  //         specialization: specializationName,
-  //         universityBuilding: univercityBuilding,
-  //       ),
-  //     );
-  //   }
-  // }
+  Future<void> register() async {
+    // if (_formKey.currentState!.validate()) {
+    // if (_usernameController.text.isEmpty ||
+    //     _passwordController.text.isEmpty ||
+    //     _emailController.text.isEmpty ||
+    //     _phoneNumberController.text.isEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Please fill all the fields'),
+    //     ),
+    //   );
+    //   return;
+    // }
+    BlocProvider.of<AuthCubit>(context).studentRegister(
+      StudentRegisterModel(
+        name: 'محمد ناصر',
+        password: '147369258',
+        email: 'mhmd@gmail.com',
+        phoneNumber: '0568891980',
+        gender: 'ذكر',
+        role: 'طالب',
+        birthDate: '19-6-2002',
+        college: 'كلية الهندسة وتكنولوجيا المعلومات',
+        specialization: 'علم الحاسوب',
+        universityBuilding: 'الحرم الجديد-الأكاديمية',
+      ),
+      // StudentRegisterModel(
+      //   name: _usernameController.text,
+      //   password: _passwordController.text,
+      //   email: _emailController.text,
+      //   phoneNumber: _phoneNumberController.text,
+      //   gender: genderValue!,
+      //   role: 'طالب',
+      //   birthDate: '19-6-2002', // Example date
+      //   college: colleqeName!,
+      //   specialization: specializationName!,
+      //   universityBuilding: univercityBuilding!,
+      // ),
+    );
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<AuthCubit>(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -135,13 +156,16 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                   ),
                   SizedBox(height: size.height * 0.002),
                   TextFormField(
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return "الرجاء إدخال إسم المستخدم";
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    //  validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return "الرجاء إدخال العنوان";
+                    //     } else if (!RegExp(r'^[ء-ي]+ - [ء-ي\s]+$')
+                    //         .hasMatch(value)) {
+                    //       return "الرجاء إدخال العنوان بتنسيق صحيح مثل (نابلس - بيت وزن)";
+                    //     } else {
+                    //       return null;
+                    //     }
+                    //   },
                     onEditingComplete: () {
                       _usernameFocusedNode.unfocus();
                       FocusScope.of(context).requestFocus(_emailFocusNode);
@@ -581,35 +605,7 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                           );
                         } else {
                           return ElevatedButton(
-                            onPressed: () {
-                              cubit.studentRegister(
-                                // StudentRegisterModel(
-                                //   name: _usernameController.text,
-                                //   password: _passwordController.text,
-                                //   email: _emailController.text,
-                                //   phoneNumber: _phoneNumberController.text,
-                                //   gender: genderValue!,
-                                //   role: 'طالب',
-                                //   birthDate: BoardDateFormat("yyyy-MM-dd")
-                                //       .format(date),
-                                //   college: colleqeName!,
-                                //   specialization: specializationName!,
-                                //   universityBuilding: univercityBuilding!,
-                                // ),
-                                StudentRegisterModel(
-                                  name: 'جلنار حسن',
-                                  password: '123456789',
-                                  email: 'jolenar@gmail.com',
-                                  phoneNumber: '05688989921',
-                                  gender: 'أنثى',
-                                  role: 'طالب',
-                                  birthDate: '28-10-2004',
-                                  college: 'كلية الهندسة وتكنولوجيا المعلومات',
-                                  specialization: 'علم الحاسوب',
-                                  universityBuilding: 'الحرم الجديد-الأكاديمية',
-                                ),
-                              );
-                            },
+                            onPressed: register,
                             style: ElevatedButton.styleFrom(
                               padding:
                                   EdgeInsetsDirectional.all(size.width * 0.025),

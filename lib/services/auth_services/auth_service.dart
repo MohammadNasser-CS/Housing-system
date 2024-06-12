@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_constatns.dart';
+import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/Utils/http_constants.dart';
 import 'package:housing_project/models/auth_models/owner_auth_model.dart';
 import 'package:housing_project/models/auth_models/student_auth_model.dart';
@@ -8,7 +9,7 @@ import 'package:housing_project/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthServices {
-  Future<bool> studnetRegister(StudentRegisterModel newStudent);
+  Future<bool> studentRegister(StudentRegisterModel newStudent);
   Future<String> ownerRegister(OwnerRegisterModel newOwner);
   Future<bool> login(String email, String password);
   Future<String> changePassword(String password, String newPassword);
@@ -18,6 +19,9 @@ abstract class AuthServices {
 
 class AuthServicesImplementation implements AuthServices {
   final dio = Dio(BaseOptions(
+    sendTimeout: const Duration(seconds: 7),
+    connectTimeout: const Duration(seconds: 7),
+    receiveTimeout: const Duration(seconds: 7),
     baseUrl: HttpConstants.baseUrl,
     followRedirects: false,
     validateStatus: (status) {
@@ -31,77 +35,141 @@ class AuthServicesImplementation implements AuthServices {
   ));
 
   @override
-  Future<bool> studnetRegister(StudentRegisterModel newStudent) async {
+  Future<bool> studentRegister(StudentRegisterModel newStudent) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     debugPrint('request base url: ${dio.options.baseUrl}');
-    final response = await dio.post(
-      HttpConstants.studentRegister,
-      data: newStudent.toJson(),
-    );
-    debugPrint(response.data.toString());
-    final responseData = response.data;
-    await prefs.setString(
-        AppConstants.accessToken, responseData['access_token']);
-    debugPrint('token: ${responseData['access_token']}');
-    return responseData['logged'];
-    // if (response.statusCode == 302) {
-    //   final redirectUrl = response.headers['location']?.first;
-    //   debugPrint('Redirecting to: $redirectUrl');
-    //   if (redirectUrl != null) {
-    //     final redirectResponse = await dio.get(redirectUrl);
-    //     debugPrint(redirectResponse.toString());
-    //     return redirectResponse.toString();
-    //   }
-    // } else if (response.statusCode == 200) {
-    //   debugPrint(response.data.toString());
-    //   return response.data.toString();
-    // }
-    // debugPrint(response.toString());
-    // return response.toString();
+    try {
+      final response = await dio.post(
+        HttpConstants.studentRegister,
+        data: newStudent.toJson(),
+      );
+      debugPrint(response.data.toString());
+      final responseData = response.data;
+      if (response.statusCode == 200) {
+        await prefs.setString(
+            AppConstants.accessToken, responseData['access_token']);
+        return true;
+      } else {
+        throw AuthException(
+            responseData['message'] ?? 'حصل خلل أثناء عملية إنشاء الحساب');
+      }
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+      }
+    } catch (e) {
+      throw AuthException('حصل خلل أثناء عملية إنشاء الحساب');
+    }
   }
 
   @override
   Future<String> ownerRegister(OwnerRegisterModel newOwner) async {
-    debugPrint('request base url: ${dio.options.baseUrl}');
-    final response = await dio.post(
-      HttpConstants.ownerRegister,
-      data: newOwner.toJson(),
-    );
-    if (response.statusCode == 302) {
-      final redirectUrl = response.headers['location']?.first;
-      debugPrint('Redirecting to: $redirectUrl');
-      if (redirectUrl != null) {
-        final redirectResponse = await dio.get(redirectUrl);
-        debugPrint(redirectResponse.toString());
-        return redirectResponse.toString();
+    try {
+      final response = await dio.post(
+        HttpConstants.ownerRegister,
+        data: newOwner.toJson(),
+      );
+
+      if (response.statusCode == 302) {
+        final redirectUrl = response.headers['location']?.first;
+        if (redirectUrl != null) {
+          final redirectResponse = await dio.get(redirectUrl);
+          return redirectResponse.toString();
+        }
+      } else if (response.statusCode == 200) {
+        return response.data.toString();
+      } else {
+        throw AuthException('فشل إنشاء الحساب');
       }
-    } else if (response.statusCode == 200) {
-      debugPrint(response.data.toString());
-      return response.data.toString();
+      return response.toString();
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إنشاء الحساب: ${e.message}');
+      }
+    } catch (e) {
+      throw AuthException('حصل خلل أثناء عملية إنشاء الحساب');
     }
-    debugPrint(response.toString());
-    return response.toString();
   }
 
   @override
   Future<bool> login(String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await dio.post(
-      HttpConstants.login,
-      data: {
-        'email': email,
-        'password': password,
-      },
-    );
-
-    if (response.statusCode == 403 || response.statusCode == 401) {
-      return false;
-    } else {
+    try {
+      final response = await dio.post(
+        HttpConstants.login,
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
       final responseData = response.data;
-      debugPrint('token: ${responseData['access_token']}');
-      await prefs.setString(
-          AppConstants.accessToken, responseData['access_token']);
-      return true;
+      if (response.statusCode == 403 || response.statusCode == 401) {
+        throw AuthException(responseData['message']);
+      } else {
+        await prefs.setString(
+            AppConstants.accessToken, responseData['access_token']);
+        return true;
+      }
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+      }
+    } catch (e) {
+      throw AuthException('حصل خلل أثناء عملية تسجيل الدخول');
     }
   }
 
@@ -117,16 +185,36 @@ class AuthServicesImplementation implements AuthServices {
           },
         ),
       );
-
       debugPrint(response.toString());
       final responseData = response.data;
       debugPrint(responseData.toString());
-      // Check if responseData is null or empty
       if (responseData == null || responseData.isEmpty) {
         return null;
       }
       UserModel user = UserModel.fromMap(responseData);
       return user;
+    } on DioException catch (e) {
+       switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+      }
     } catch (e) {
       debugPrint('Error fetching user: $e');
       return null;
@@ -146,8 +234,30 @@ class AuthServicesImplementation implements AuthServices {
         ),
       );
       prefs.remove(AppConstants.accessToken);
+    } on DioException catch (e) {
+       switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+      }
     } catch (e) {
-      debugPrint('Error logout : $e');
+      debugPrint('Error logout: $e');
     }
   }
 
@@ -155,50 +265,46 @@ class AuthServicesImplementation implements AuthServices {
   Future<String> changePassword(String password, String newPassword) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      final response = await dio.post(HttpConstants.changePassword,
-          options: Options(
-            headers: {
-              'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
-            },
-          ),
-          data: {
-            'password': password,
-            'newPassword': newPassword,
-          });
+      final response = await dio.post(
+        HttpConstants.changePassword,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+        data: {
+          'password': password,
+          'newPassword': newPassword,
+        },
+      );
       final responseData = response.data;
       debugPrint(responseData['message']);
       return responseData['message'];
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+      }
     } catch (e) {
-      debugPrint('Error logout : $e');
-      return 'Error logout : $e';
+      debugPrint('Error changing password: $e');
+      throw AuthException('حصل خطأ أثناء عملية تغيير كلمة المرور');
     }
   }
 }
-/*
-  @override
-  Future<TopHeadlinesApiResponse> getUsTopHeadlines() async {
-    dio.options.baseUrl = AppConstants.baseUrl;
-    debugPrint('request base url: ${dio.options.baseUrl}');
-    Response<Map<String, dynamic>> response = await dio.get(
-      AppConstants.topHeadlines,
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer 483cfdf815b34dd48e59c99e7767167f',
-        },
-      ),
-      queryParameters: {
-        'country': 'us',
-      },
-    );
-    debugPrint('response: ${response.data}');
-    return TopHeadlinesApiResponse.fromJson(response.data!);
-  }
- */
-// if (response.statusCode != 200) {
-    //   throw Exception('Failed to load top headlines');
-    // }
-
-
- // queryParameters: {
-      //   'country': 'us',
-      // },
