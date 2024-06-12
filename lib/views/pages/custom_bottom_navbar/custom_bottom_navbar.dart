@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
+import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/controllers/favorite_page_cubit/favorite_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/controllers/user_home_page_cubit/user_home_cubit.dart';
@@ -105,7 +106,10 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen: SettingsPage(user: widget.user),
+        screen: BlocProvider(
+          create: (context) => AuthCubit(),
+          child: SettingsPage(user: widget.user),
+        ),
         item: ItemConfig(
           icon: const Icon(Icons.person_2_outlined),
           title: "الإعدادت",
@@ -144,7 +148,10 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         ),
       ),
       PersistentTabConfig(
-        screen: SettingsPage(user: widget.user),
+        screen: BlocProvider(
+          create: (context) => AuthCubit(),
+          child: SettingsPage(user: widget.user),
+        ),
         item: ItemConfig(
           icon: const Icon(Icons.person_2_outlined),
           title: "الإعدادت",

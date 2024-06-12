@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/models/user_model.dart';
+import 'package:housing_project/controllers/change_password_page_cubit/change_password_cubit.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  final UserModel user;
-  const ChangePasswordPage({super.key, required this.user});
+  const ChangePasswordPage({super.key});
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -23,11 +23,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   void initState() {
     super.initState();
-    _passwordController = TextEditingController(text: widget.user.phoneNumber);
-    _newPasswordController =
-        TextEditingController(text: widget.user.phoneNumber);
-    _confirmNewPasswordController =
-        TextEditingController(text: widget.user.phoneNumber);
+    _passwordController = TextEditingController();
+    _newPasswordController = TextEditingController();
+    _confirmNewPasswordController = TextEditingController();
     _passwordFocusNode = FocusNode();
     _newPasswordFocusNode = FocusNode();
     _confirmNewPasswordFocusedNode = FocusNode();
@@ -44,188 +42,228 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: AppColor.white,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('معلوماتي'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsetsDirectional.symmetric(
-            horizontal: size.width * 0.03, vertical: size.height * 0.02),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'كلمة المرور الحالية',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+    final cubit = BlocProvider.of<ChangePasswordCubit>(context);
+    return BlocListener<ChangePasswordCubit, ChangePasswordState>(
+      listenWhen: (previous, current) => current is ChangePasswordInvoked,
+      listener: (context, state) {
+        if (state is ChangePasswordInvoked) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
             ),
-            const SizedBox(height: 12.0),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "الرجاء إدخال كلمة المرور";
-                } else if (value.length < 6) {
-                  return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
-                } else {
-                  return null;
-                }
-              },
-              onEditingComplete: () {
-                _passwordFocusNode.unfocus();
-                // register();
-              },
-              focusNode: _passwordFocusNode,
-              keyboardType: TextInputType.visiblePassword,
-              controller: _passwordController,
-              obscureText: !passwordVisibility,
-              decoration: InputDecoration(
-                hintText: 'أدخل كلمة المرور',
-                prefixIcon: const Icon(
-                  Icons.password,
-                ),
-                suffixIcon: InkWell(
-                  onTap: () {
-                    setState(
-                      () {
-                        passwordVisibility = !passwordVisibility;
-                      },
-                    );
-                  },
-                  child: Icon(
-                    passwordVisibility == true
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                  ),
-                ),
-                suffixIconColor: AppColor.grey,
-                prefixIconColor: AppColor.grey,
-              ),
+          );
+          Navigator.of(context).pop();
+        } else if (state is ChangePasswordError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
             ),
-            SizedBox(height: size.height * 0.03),
-            Text(
-              'كلمة المرور الجديدة',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColor.white,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title: const Text('تعديل كلمة المرور'),
+          centerTitle: true,
+        ),
+        body: BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
+          bloc: cubit,
+          buildWhen: (previous, current) =>
+              current is ChangePasswordLoading ||
+              current is ChangePasswordError,
+          builder: (context, state) {
+            if (state is ChangePasswordLoading) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            } else if (state is ChangePasswordError) {
+              return Center(
+                child: Text(state.message),
+              );
+            }
+            return Padding(
+              padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: size.width * 0.03, vertical: size.height * 0.02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'كلمة المرور الحالية',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
-            ),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "الرجاء إدخال كلمة المرور";
-                } else if (value.length < 6) {
-                  return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
-                } else {
-                  return null;
-                }
-              },
-              onEditingComplete: () {
-                _passwordFocusNode.unfocus();
-                // register();
-              },
-              focusNode: _newPasswordFocusNode,
-              keyboardType: TextInputType.visiblePassword,
-              controller: _newPasswordController,
-              obscureText: !newPasswordVisibility,
-              decoration: InputDecoration(
-                hintText: 'أدخل كلمة المرور',
-                prefixIcon: const Icon(
-                  Icons.password,
-                ),
-                suffixIcon: InkWell(
-                  onTap: () {
-                    setState(
-                      () {
-                        newPasswordVisibility = !newPasswordVisibility;
-                      },
-                    );
-                  },
-                  child: Icon(
-                    newPasswordVisibility == true
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                  ),
-                ),
-                suffixIconColor: AppColor.grey,
-                prefixIconColor: AppColor.grey,
-              ),
-            ),
-            SizedBox(height: size.height * 0.03),
-            Text(
-              'تأكيد كلمة المرور الجديدة',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-            ),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "الرجاء إدخال كلمة المرور";
-                } else if (value.length < 6) {
-                  return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
-                } else {
-                  return null;
-                }
-              },
-              onEditingComplete: () {
-                _passwordFocusNode.unfocus();
-                // register();
-              },
-              focusNode: _confirmNewPasswordFocusedNode,
-              keyboardType: TextInputType.visiblePassword,
-              controller: _confirmNewPasswordController,
-              obscureText: !confirmNewPasswordVisibility,
-              decoration: InputDecoration(
-                hintText: 'أدخل كلمة المرور',
-                prefixIcon: const Icon(
-                  Icons.password,
-                ),
-                suffixIcon: InkWell(
-                  onTap: () {
-                    setState(
-                      () {
-                        confirmNewPasswordVisibility =
-                            !confirmNewPasswordVisibility;
-                      },
-                    );
-                  },
-                  child: Icon(
-                    confirmNewPasswordVisibility == true
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                  ),
-                ),
-                suffixIconColor: AppColor.grey,
-                prefixIconColor: AppColor.grey,
-              ),
-            ),
-            // SizedBox(height: size.height * 0.03),
-            const Spacer(),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsetsDirectional.symmetric(
-                            vertical: size.width * 0.03),
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: AppColor.white),
-                    child: Text(
-                      'تغير',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: AppColor.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  const SizedBox(height: 12.0),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "الرجاء إدخال كلمة المرور";
+                      } else if (value.length < 6) {
+                        return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
+                      } else {
+                        return null;
+                      }
+                    },
+                    onEditingComplete: () {
+                      _passwordFocusNode.unfocus();
+                      FocusScope.of(context)
+                          .requestFocus(_newPasswordFocusNode);
+                    },
+                    focusNode: _passwordFocusNode,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: _passwordController,
+                    obscureText: !passwordVisibility,
+                    decoration: InputDecoration(
+                      hintText: 'أدخل كلمة المرور',
+                      prefixIcon: const Icon(
+                        Icons.password,
+                      ),
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            passwordVisibility = !passwordVisibility;
+                          });
+                        },
+                        child: Icon(
+                          passwordVisibility == true
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                      suffixIconColor: AppColor.grey,
+                      prefixIconColor: AppColor.grey,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  SizedBox(height: size.height * 0.03),
+                  Text(
+                    'كلمة المرور الجديدة',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "الرجاء إدخال كلمة المرور";
+                      } else if (value.length < 6) {
+                        return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
+                      } else {
+                        return null;
+                      }
+                    },
+                    onEditingComplete: () {
+                      _passwordFocusNode.unfocus();
+                      FocusScope.of(context)
+                          .requestFocus(_confirmNewPasswordFocusedNode);
+                      // register();
+                    },
+                    focusNode: _newPasswordFocusNode,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: _newPasswordController,
+                    obscureText: !newPasswordVisibility,
+                    decoration: InputDecoration(
+                      hintText: 'أدخل كلمة المرور',
+                      prefixIcon: const Icon(
+                        Icons.password,
+                      ),
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            newPasswordVisibility = !newPasswordVisibility;
+                          });
+                        },
+                        child: Icon(
+                          newPasswordVisibility == true
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                      suffixIconColor: AppColor.grey,
+                      prefixIconColor: AppColor.grey,
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.03),
+                  Text(
+                    'تأكيد كلمة المرور الجديدة',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "الرجاء إدخال كلمة المرور";
+                      } else if (value.length < 6) {
+                        return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
+                      } else {
+                        return null;
+                      }
+                    },
+                    onEditingComplete: () {
+                      _passwordFocusNode.unfocus();
+                      // register();
+                    },
+                    focusNode: _confirmNewPasswordFocusedNode,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: _confirmNewPasswordController,
+                    obscureText: !confirmNewPasswordVisibility,
+                    decoration: InputDecoration(
+                      hintText: 'أدخل كلمة المرور',
+                      prefixIcon: const Icon(
+                        Icons.password,
+                      ),
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            confirmNewPasswordVisibility =
+                                !confirmNewPasswordVisibility;
+                          });
+                        },
+                        child: Icon(
+                          confirmNewPasswordVisibility == true
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                      suffixIconColor: AppColor.grey,
+                      prefixIconColor: AppColor.grey,
+                    ),
+                  ),
+                  // SizedBox(height: size.height * 0.03),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            cubit.changePassword(_newPasswordController.text,
+                                _confirmNewPasswordController.text);
+                          },
+                          style: ElevatedButton.styleFrom(
+                              padding: EdgeInsetsDirectional.symmetric(
+                                  vertical: size.width * 0.03),
+                              backgroundColor: AppColor.orange8,
+                              foregroundColor: AppColor.white),
+                          child: Text(
+                            'تعديل كلمة المرور',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(
+                                  color: AppColor.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

@@ -52,7 +52,7 @@ class SettingsPageCard extends StatelessWidget {
               ? Navigator.of(context, rootNavigator: true)
                   .pushNamed(AppRoutes.profilePage, arguments: user)
               : Navigator.of(context, rootNavigator: true)
-                  .pushNamed(AppRoutes.changePasswordPage, arguments: user);
+                  .pushNamed(AppRoutes.changePasswordPage);
         },
       ),
     );

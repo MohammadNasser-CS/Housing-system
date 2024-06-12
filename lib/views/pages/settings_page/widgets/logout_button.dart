@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
+import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -8,12 +10,13 @@ class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final cubit = BlocProvider.of<AuthCubit>(context);
     return Row(
       children: [
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              debugPrint('tset');
+              cubit.logout();
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(AppRoutes.loginPage);
             },

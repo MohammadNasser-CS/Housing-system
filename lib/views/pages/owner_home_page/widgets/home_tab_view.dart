@@ -69,7 +69,7 @@ class HomeTabView extends StatelessWidget {
                   elevation: 0,
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true)
-                        .pushNamed(AppRoutes.addNewHouse,arguments: user)
+                        .pushNamed(AppRoutes.addNewHouse, arguments: user)
                         .then((value) {
                       return cubit.getHomeData(user);
                     });
@@ -82,7 +82,28 @@ class HomeTabView extends StatelessWidget {
             ],
           );
         } else {
-          return const NoItemsWidget(title: 'لم يتم إضافة أي عقار');
+          return Stack(
+            children: [
+              const NoItemsWidget(title: 'لم يتم إضافة أي عقار'),
+              Positioned(
+                bottom: 5.0,
+                right: 16.0,
+                child: FloatingActionButton(
+                  elevation: 0,
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true)
+                        .pushNamed(AppRoutes.addNewHouse, arguments: user)
+                        .then((value) {
+                      return cubit.getHomeData(user);
+                    });
+                  },
+                  foregroundColor: AppColor.white,
+                  backgroundColor: AppColor.orange8,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ],
+          );
         }
       },
     );

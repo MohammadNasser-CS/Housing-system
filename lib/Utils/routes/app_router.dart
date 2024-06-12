@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/controllers/add_new_house_cubit/add_new_house_cubit.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
+import 'package:housing_project/controllers/change_password_page_cubit/change_password_cubit.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/models/house_model.dart';
 import 'package:housing_project/models/user_model.dart';
@@ -77,9 +78,11 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.changePasswordPage:
-        final UserModel user = settings.arguments as UserModel;
         return MaterialPageRoute(
-          builder: (_) => ChangePasswordPage(user: user),
+          builder: (_) => BlocProvider(
+            create: (context) => ChangePasswordCubit(),
+            child: const ChangePasswordPage(),
+          ),
           settings: settings,
         );
       case AppRoutes.forgetPasswordPage:

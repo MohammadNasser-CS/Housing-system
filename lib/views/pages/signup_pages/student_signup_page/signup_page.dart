@@ -583,18 +583,30 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                           return ElevatedButton(
                             onPressed: () {
                               cubit.studentRegister(
+                                // StudentRegisterModel(
+                                //   name: _usernameController.text,
+                                //   password: _passwordController.text,
+                                //   email: _emailController.text,
+                                //   phoneNumber: _phoneNumberController.text,
+                                //   gender: genderValue!,
+                                //   role: 'طالب',
+                                //   birthDate: BoardDateFormat("yyyy-MM-dd")
+                                //       .format(date),
+                                //   college: colleqeName!,
+                                //   specialization: specializationName!,
+                                //   universityBuilding: univercityBuilding!,
+                                // ),
                                 StudentRegisterModel(
-                                  name: _usernameController.text,
-                                  password: _passwordController.text,
-                                  email: _emailController.text,
-                                  phoneNumber: _phoneNumberController.text,
-                                  gender: genderValue!,
+                                  name: 'جلنار حسن',
+                                  password: '123456789',
+                                  email: 'jolenar@gmail.com',
+                                  phoneNumber: '05688989921',
+                                  gender: 'أنثى',
                                   role: 'طالب',
-                                  birthDate: BoardDateFormat("yyyy-MM-dd")
-                                      .format(date),
-                                  college: colleqeName!,
-                                  specialization: specializationName!,
-                                  universityBuilding: univercityBuilding!,
+                                  birthDate: '28-10-2004',
+                                  college: 'كلية الهندسة وتكنولوجيا المعلومات',
+                                  specialization: 'علم الحاسوب',
+                                  universityBuilding: 'الحرم الجديد-الأكاديمية',
                                 ),
                               );
                             },

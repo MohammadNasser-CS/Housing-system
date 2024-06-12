@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_constatns.dart';
@@ -9,10 +8,12 @@ import 'package:housing_project/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthServices {
-  Future<String> studnetRegister(StudentRegisterModel newStudent);
+  Future<bool> studnetRegister(StudentRegisterModel newStudent);
   Future<String> ownerRegister(OwnerRegisterModel newOwner);
   Future<bool> login(String email, String password);
+  Future<String> changePassword(String password, String newPassword);
   Future<UserModel?> getUser();
+  Future<void> logout();
 }
 
 class AuthServicesImplementation implements AuthServices {
@@ -30,26 +31,33 @@ class AuthServicesImplementation implements AuthServices {
   ));
 
   @override
-  Future<String> studnetRegister(StudentRegisterModel newStudent) async {
+  Future<bool> studnetRegister(StudentRegisterModel newStudent) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     debugPrint('request base url: ${dio.options.baseUrl}');
     final response = await dio.post(
       HttpConstants.studentRegister,
       data: newStudent.toJson(),
     );
-    if (response.statusCode == 302) {
-      final redirectUrl = response.headers['location']?.first;
-      debugPrint('Redirecting to: $redirectUrl');
-      if (redirectUrl != null) {
-        final redirectResponse = await dio.get(redirectUrl);
-        debugPrint(redirectResponse.toString());
-        return redirectResponse.toString();
-      }
-    } else if (response.statusCode == 200) {
-      debugPrint(response.data.toString());
-      return response.data.toString();
-    }
-    debugPrint(response.toString());
-    return response.toString();
+    debugPrint(response.data.toString());
+    final responseData = response.data;
+    await prefs.setString(
+        AppConstants.accessToken, responseData['access_token']);
+    debugPrint('token: ${responseData['access_token']}');
+    return responseData['logged'];
+    // if (response.statusCode == 302) {
+    //   final redirectUrl = response.headers['location']?.first;
+    //   debugPrint('Redirecting to: $redirectUrl');
+    //   if (redirectUrl != null) {
+    //     final redirectResponse = await dio.get(redirectUrl);
+    //     debugPrint(redirectResponse.toString());
+    //     return redirectResponse.toString();
+    //   }
+    // } else if (response.statusCode == 200) {
+    //   debugPrint(response.data.toString());
+    //   return response.data.toString();
+    // }
+    // debugPrint(response.toString());
+    // return response.toString();
   }
 
   @override
@@ -85,22 +93,14 @@ class AuthServicesImplementation implements AuthServices {
         'password': password,
       },
     );
+
     if (response.statusCode == 403 || response.statusCode == 401) {
       return false;
     } else {
       final responseData = response.data;
+      debugPrint('token: ${responseData['access_token']}');
       await prefs.setString(
           AppConstants.accessToken, responseData['access_token']);
-      debugPrint('token: ${responseData['access_token']}');
-      // if (responseData['user'] == null) {
-      //   debugPrint('User data not found in response');
-      //   return false;
-      // }
-
-      // final userMap = responseData['user'];
-      // UserModel user = UserModel.fromMap(userMap);
-      // debugPrint('UserModel: $user');
-
       return true;
     }
   }
@@ -118,16 +118,59 @@ class AuthServicesImplementation implements AuthServices {
         ),
       );
 
+      debugPrint(response.toString());
       final responseData = response.data;
+      debugPrint(responseData.toString());
       // Check if responseData is null or empty
       if (responseData == null || responseData.isEmpty) {
         return null;
       }
-      UserModel user = UserModel.fromMap(responseData['user']);
+      UserModel user = UserModel.fromMap(responseData);
       return user;
     } catch (e) {
       debugPrint('Error fetching user: $e');
       return null;
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      await dio.post(
+        HttpConstants.logout,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+      prefs.remove(AppConstants.accessToken);
+    } catch (e) {
+      debugPrint('Error logout : $e');
+    }
+  }
+
+  @override
+  Future<String> changePassword(String password, String newPassword) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final response = await dio.post(HttpConstants.changePassword,
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+            },
+          ),
+          data: {
+            'password': password,
+            'newPassword': newPassword,
+          });
+      final responseData = response.data;
+      debugPrint(responseData['message']);
+      return responseData['message'];
+    } catch (e) {
+      debugPrint('Error logout : $e');
+      return 'Error logout : $e';
     }
   }
 }
