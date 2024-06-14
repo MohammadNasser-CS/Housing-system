@@ -217,23 +217,14 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                     focusNode: _passwordFocusNode,
                     obscureText: !visibility,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "قم بإدخال كلمة المرور";
-                      } else if (value.length < 8) {
-                        return "يجب أن تكون كلمة المرور 8 أحرف على الأقل";
-                      } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                        return "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل";
-                      } else if (!RegExp(r'[a-z]').hasMatch(value)) {
-                        return "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل";
-                      } else if (!RegExp(r'\d').hasMatch(value)) {
-                        return "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل";
-                      } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
-                          .hasMatch(value)) {
-                        return "يجب أن تحتوي كلمة المرور على حرف خاص واحد على الأقل";
-                      } else {
-                        return null;
-                      }
-                    },
+                          if (value == null || value.isEmpty) {
+                            return "قم بإدخال كلمة المرور";
+                          } else if (value.length < 8) {
+                            return "يجب أن تكون كلمة المرور 8 أحرف على الأقل";
+                          } else {
+                            return null;
+                          }
+                        },
                     textInputAction: TextInputAction.done,
                     onEditingComplete: () {
                       _passwordFocusNode.unfocus();

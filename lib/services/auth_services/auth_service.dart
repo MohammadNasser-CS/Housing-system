@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthServices {
   Future<bool> studentRegister(StudentRegisterModel newStudent);
+  Future<String> updateMyInformation(Map<String,dynamic> newData);
   Future<Map<String, dynamic>> ownerRegister(OwnerRegisterModel newOwner);
   Future<bool> login(String email, String password);
   Future<String> changePassword(String password, String newPassword);
@@ -18,21 +19,23 @@ abstract class AuthServices {
 }
 
 class AuthServicesImplementation implements AuthServices {
-  final dio = Dio(BaseOptions(
-    sendTimeout: const Duration(seconds: 7),
-    connectTimeout: const Duration(seconds: 7),
-    receiveTimeout: const Duration(seconds: 7),
-    baseUrl: HttpConstants.baseUrl,
-    followRedirects: false,
-    validateStatus: (status) {
-      return status != null &&
-          status < 500; // Accept all status codes less than 500
-    },
-    headers: {
-      "Accept": "application/vnd.api+json",
-      "Content-Type": "application/vnd.api+json",
-    },
-  ));
+  final dio = Dio(
+    BaseOptions(
+      sendTimeout: const Duration(seconds: 7),
+      connectTimeout: const Duration(seconds: 7),
+      receiveTimeout: const Duration(seconds: 7),
+      baseUrl: HttpConstants.baseUrl,
+      followRedirects: false,
+      validateStatus: (status) {
+        return status != null &&
+            status < 500; // Accept all status codes less than 500
+      },
+      headers: {
+        "Accept": "application/vnd.api+json",
+        "Content-Type": "application/vnd.api+json",
+      },
+    ),
+  );
 
   @override
   Future<bool> studentRegister(StudentRegisterModel newStudent) async {
@@ -301,5 +304,48 @@ class AuthServicesImplementation implements AuthServices {
       throw AuthException('حصل خطأ أثناء عملية تغيير كلمة المرور');
     }
   }
-
+  
+  @override
+  Future<String> updateMyInformation(Map<String, dynamic> newData)async {
+ SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final response = await dio.post(
+        HttpConstants.updateMyInformation,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+        data: newData,
+      );
+      final responseData = response.data;
+      debugPrint(responseData['message']);
+      return responseData['message'];
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية تعديل المعلومات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل تعديل المعلومات : ${e.message}');
+      }
+    } catch (e) {
+      debugPrint('Error changing password: $e');
+      throw AuthException('حصل خطأ أثناء عملية تعديل المعلومات');
+    }
+  }
 }

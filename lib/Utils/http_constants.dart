@@ -6,5 +6,6 @@ class HttpConstants {
   static const String getUser = '/user';
   static const String logout = '/logout';
   static const String changePassword = '/changePassword';
+  static const String updateMyInformation = '/updateMyInformation';
   static const String token = '483cfdf815b34dd48e59c99e7767167f';
 }
