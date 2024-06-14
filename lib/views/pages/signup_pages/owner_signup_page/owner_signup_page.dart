@@ -57,29 +57,23 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
   int fieldIndex = 0;
   bool isLastPage = false;
   late UserModel newUser;
-  // Future<void> login() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     await BlocProvider.of<AuthCubit>(context).register(
-  //       UserModel(
-  //         token: "",
-  //         name: _usernameController.text,
-  //         email: _emailController.text,
-  //         phoneNumber: _phoneNumberController.text,
-  //         gender: genderValue!,
-  //         role: 'student',
-  //         birthDate: BoardDateFormat("yyyy-MM-dd").format(date),
-  //         colleqe: _collegeNameController.text,
-  //         homeAddress: _addressController.text,
-  //         specialization: specializationName,
-  //         universityBuilding: univercityBuilding,
-  //       ),
-  //     );
-  //   }
-  // }
+  Future<void> register() async {
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<AuthCubit>(context).ownerRegister(
+        OwnerRegisterModel(
+          name: _usernameController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+          phoneNumber: _phoneNumberController.text,
+          gender: genderValue!,
+          role: 'صاحب سكن',
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<AuthCubit>(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -125,13 +119,15 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                   ),
                   SizedBox(height: size.height * 0.002),
                   TextFormField(
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return "الرجاء إدخال إسم المستخدم";
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "الرجاء إدخال الإسم الكامل";
+                      } else if (!RegExp(r'^[ء-ي\s]+$').hasMatch(value)) {
+                        return "الرجاء إدخال إسم صحيح يحتوي على الأحرف العربية فقط";
+                      } else {
+                        return null;
+                      }
+                    },
                     onEditingComplete: () {
                       _usernameFocusedNode.unfocus();
                       FocusScope.of(context).requestFocus(_emailFocusNode);
@@ -157,28 +153,44 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                   ),
                   SizedBox(height: size.height * 0.002),
                   TextFormField(
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return "الرجاء قم بإدخال الإيميل الخاص بك";
-                    //   } else if (!value.contains('@')) {
-                    //     return 'قم بإدخال بريد إلكتروني صالح!.';
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    textAlign: TextAlign.right,
+                    controller: _emailController,
+                    focusNode: _emailFocusNode,
                     onEditingComplete: () {
                       _emailFocusNode.unfocus();
                       FocusScope.of(context).requestFocus(_passwordFocusNode);
                     },
-                    textInputAction: TextInputAction.next,
-                    focusNode: _emailFocusNode,
                     keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "قم بإدخال البريد الإلكتروني الخاص بك.";
+                      } else {
+                        // Improved regular expression for validating email
+                        String emailPattern =
+                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                        RegExp regex = RegExp(emailPattern);
+                        if (!regex.hasMatch(value)) {
+                          return "البريد الإلكتروني غير مناسب";
+                        } else {
+                          // Additional check for common domains
+                          List<String> commonDomains = [
+                            "gmail.com",
+                            "yahoo.com",
+                            "hotmail.com",
+                            "outlook.com"
+                          ];
+                          String domain = value.split('@').last;
+                          if (!commonDomains.contains(domain)) {
+                            return "البريد الإلكتروني غير مناسب";
+                          }
+                          return null;
+                        }
+                      }
+                    },
                     decoration: const InputDecoration(
-                      hintText: 'أدخل بريدك الإلكتروني',
-                      prefixIcon: Icon(
-                        Icons.email,
-                      ),
+                      hintText: 'قم بإدخال البريد الإلكتروني الخاص بك.',
+                      prefixIcon: Icon(Icons.email_outlined),
                       prefixIconColor: AppColor.grey,
                     ),
                   ),
@@ -191,46 +203,51 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                   ),
                   SizedBox(height: size.height * 0.002),
                   TextFormField(
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     return "الرجاء إدخال كلمة المرور";
-                    //   } else if (value.length < 6) {
-                    //     return 'كلمة المرور يجب أن لا تكون أقل من 6 رموز';
-                    //   } else {
-                    //     return null;
-                    //   }
-                    // },
+                    controller: _passwordController,
+                    focusNode: _passwordFocusNode,
+                    obscureText: !visibility,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "قم بإدخال كلمة المرور";
+                      } else if (value.length < 8) {
+                        return "يجب أن تكون كلمة المرور 8 أحرف على الأقل";
+                      } else if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                        return "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل";
+                      } else if (!RegExp(r'[a-z]').hasMatch(value)) {
+                        return "يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل";
+                      } else if (!RegExp(r'\d').hasMatch(value)) {
+                        return "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل";
+                      } else if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                          .hasMatch(value)) {
+                        return "يجب أن تحتوي كلمة المرور على حرف خاص واحد على الأقل";
+                      } else {
+                        return null;
+                      }
+                    },
+                    textInputAction: TextInputAction.done,
                     onEditingComplete: () {
                       _passwordFocusNode.unfocus();
                       FocusScope.of(context)
                           .requestFocus(_phoneNumberFocusedNode);
                       // register();
                     },
-                    focusNode: _passwordFocusNode,
-                    keyboardType: TextInputType.visiblePassword,
-                    controller: _passwordController,
-                    obscureText: !visibility,
                     decoration: InputDecoration(
-                      hintText: 'أدخل كلمة المرور',
-                      prefixIcon: const Icon(
-                        Icons.password,
-                      ),
+                      hintText: 'قم بإدخال كلمة المرور',
+                      prefixIcon: const Icon(Icons.lock_outline_rounded),
                       suffixIcon: InkWell(
                         onTap: () {
-                          setState(
-                            () {
-                              visibility = !visibility;
-                            },
-                          );
+                          setState(() {
+                            visibility = !visibility;
+                          });
                         },
                         child: Icon(
-                          visibility == true
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                          visibility
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
                         ),
                       ),
-                      suffixIconColor: AppColor.grey,
                       prefixIconColor: AppColor.grey,
+                      suffixIconColor: AppColor.grey,
                     ),
                   ),
                   SizedBox(height: size.height * 0.02),
@@ -246,7 +263,15 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                       if (value == null || value.isEmpty) {
                         return "الرجاء إدخال رقم الهاتف";
                       } else {
-                        return null;
+                        // Regular expression for Palestinian and Israeli phone numbers
+                        String pattern =
+                            r'^(?:(?:\+|00)?(972|970)[\-]?)?(?:[2-9]\d{1,2}|\d{1,2})[\-]?\d{3}[\-]?\d{4}$';
+                        RegExp regex = RegExp(pattern);
+                        if (!regex.hasMatch(value)) {
+                          return "الرجاء إدخال رقم هاتف صحيح";
+                        } else {
+                          return null;
+                        }
                       }
                     },
                     onEditingComplete: () {
@@ -254,12 +279,12 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                     },
                     textInputAction: TextInputAction.next,
                     focusNode: _phoneNumberFocusedNode,
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.phone,
                     controller: _phoneNumberController,
                     decoration: const InputDecoration(
                       hintText: 'قم بإدخال رقم الهاتف',
                       prefixIcon: Icon(
-                        Icons.person_outline,
+                        Icons.phone,
                       ),
                       prefixIconColor: AppColor.grey,
                     ),
@@ -312,16 +337,15 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                     child: BlocConsumer<AuthCubit, AuthState>(
                       bloc: BlocProvider.of<AuthCubit>(context),
                       listenWhen: (previous, current) =>
-                          current is AuthSuccess || current is AuthError,
+                          current is OwnerAuthSuccess || current is AuthError,
                       listener: (context, state) {
-                        if (state is AuthSuccess) {
+                        if (state is OwnerAuthSuccess) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('تم إنشاء الحساب بنجاح'),
+                            SnackBar(
+                              content: Text(state.message),
                             ),
                           );
-                          Navigator.of(context)
-                              .pushNamed(AppRoutes.home, arguments: state.user);
+                          Navigator.of(context).pushNamed(AppRoutes.loginPage);
                         } else if (state is AuthError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -348,18 +372,7 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                           );
                         } else {
                           return ElevatedButton(
-                            onPressed: () {
-                              cubit.ownerRegister(
-                                OwnerRegisterModel(
-                                  name: _usernameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  phoneNumber: _phoneNumberController.text,
-                                  gender: genderValue!,
-                                  role: 'صاحب سكن',
-                                ),
-                              );
-                            },
+                            onPressed: register,
                             style: ElevatedButton.styleFrom(
                               padding:
                                   EdgeInsetsDirectional.all(size.width * 0.025),

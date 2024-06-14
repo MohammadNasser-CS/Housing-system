@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthServices {
   Future<bool> studentRegister(StudentRegisterModel newStudent);
-  Future<String> ownerRegister(OwnerRegisterModel newOwner);
+  Future<Map<String, dynamic>> ownerRegister(OwnerRegisterModel newOwner);
   Future<bool> login(String email, String password);
   Future<String> changePassword(String password, String newPassword);
   Future<UserModel?> getUser();
@@ -43,7 +43,6 @@ class AuthServicesImplementation implements AuthServices {
         HttpConstants.studentRegister,
         data: newStudent.toJson(),
       );
-      debugPrint(response.data.toString());
       final responseData = response.data;
       if (response.statusCode == 200) {
         await prefs.setString(
@@ -81,25 +80,18 @@ class AuthServicesImplementation implements AuthServices {
   }
 
   @override
-  Future<String> ownerRegister(OwnerRegisterModel newOwner) async {
+  Future<Map<String, dynamic>> ownerRegister(
+      OwnerRegisterModel newOwner) async {
     try {
       final response = await dio.post(
         HttpConstants.ownerRegister,
         data: newOwner.toJson(),
       );
-
-      if (response.statusCode == 302) {
-        final redirectUrl = response.headers['location']?.first;
-        if (redirectUrl != null) {
-          final redirectResponse = await dio.get(redirectUrl);
-          return redirectResponse.toString();
-        }
-      } else if (response.statusCode == 200) {
-        return response.data.toString();
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return response.data;
       } else {
-        throw AuthException('فشل إنشاء الحساب');
+        throw AuthException(response.data['message']);
       }
-      return response.toString();
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
@@ -122,8 +114,10 @@ class AuthServicesImplementation implements AuthServices {
         default:
           throw AuthException('فشل إنشاء الحساب: ${e.message}');
       }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
     } catch (e) {
-      throw AuthException('حصل خلل أثناء عملية إنشاء الحساب');
+      throw AuthException(e.toString());
     }
   }
 
@@ -194,7 +188,7 @@ class AuthServicesImplementation implements AuthServices {
       UserModel user = UserModel.fromMap(responseData);
       return user;
     } on DioException catch (e) {
-       switch (e.type) {
+      switch (e.type) {
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.sendTimeout:
         case DioExceptionType.receiveTimeout:
@@ -235,7 +229,7 @@ class AuthServicesImplementation implements AuthServices {
       );
       prefs.remove(AppConstants.accessToken);
     } on DioException catch (e) {
-       switch (e.type) {
+      switch (e.type) {
         case DioExceptionType.connectionTimeout:
         case DioExceptionType.sendTimeout:
         case DioExceptionType.receiveTimeout:
@@ -307,4 +301,5 @@ class AuthServicesImplementation implements AuthServices {
       throw AuthException('حصل خطأ أثناء عملية تغيير كلمة المرور');
     }
   }
+
 }

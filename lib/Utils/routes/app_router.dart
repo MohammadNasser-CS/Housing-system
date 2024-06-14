@@ -16,8 +16,8 @@ import 'package:housing_project/views/pages/login_page/login_page.dart';
 import 'package:housing_project/views/pages/password_reset_page/password_reset_page.dart';
 import 'package:housing_project/views/pages/phone_number_confirm_page/phone_number_confirm_page.dart';
 import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';
-import 'package:housing_project/views/pages/signup_pages/owner_signup_page/signup_page.dart';
-import 'package:housing_project/views/pages/signup_pages/student_signup_page/signup_page.dart';
+import 'package:housing_project/views/pages/signup_pages/owner_signup_page/owner_signup_page.dart';
+import 'package:housing_project/views/pages/signup_pages/student_signup_page/student_signup_page.dart';
 import 'package:housing_project/views/pages/profile_page/profile_page.dart';
 
 class AppRouter {
@@ -74,7 +74,10 @@ class AppRouter {
       case AppRoutes.profilePage:
         final UserModel user = settings.arguments as UserModel;
         return MaterialPageRoute(
-          builder: (_) => ProfilePage(user: user),
+          builder: (_) => BlocProvider(
+            create: (context) => AuthCubit(),
+            child: ProfilePage(user: user),
+          ),
           settings: settings,
         );
       case AppRoutes.changePasswordPage:

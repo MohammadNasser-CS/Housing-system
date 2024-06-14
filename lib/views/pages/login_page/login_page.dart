@@ -15,7 +15,6 @@ class _LoginPageState extends State<LoginPage> {
   late final GlobalKey<FormState> _formKey;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
-  String? email, password;
   late FocusNode _emailFocusNode, _passwordFocusNode;
   bool visibility = false;
   @override
@@ -35,9 +34,10 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void login(VoidCallback loginF) {
+  Future<void> login() async {
     if (_formKey.currentState!.validate()) {
-      loginF();
+      BlocProvider.of<AuthCubit>(context)
+          .login(_emailController.text, _passwordController.text);
     }
   }
 
@@ -70,7 +70,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Center(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 12.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -121,16 +122,30 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
-                        onChanged: (value) {
-                          email = value;
-                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "قم بإدخال البريد الإلكتروني الخاص بك.";
-                          } else if (!value.contains('@')) {
-                            return "البريد الإلكتروني غير مناسب";
                           } else {
-                            return null;
+                            // Improved regular expression for validating email
+                            String emailPattern =
+                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                            RegExp regex = RegExp(emailPattern);
+                            if (!regex.hasMatch(value)) {
+                              return "البريد الإلكتروني غير مناسب";
+                            } else {
+                              // Additional check for common domains
+                              List<String> commonDomains = [
+                                "gmail.com",
+                                "yahoo.com",
+                                "hotmail.com",
+                                "outlook.com"
+                              ];
+                              String domain = value.split('@').last;
+                              if (!commonDomains.contains(domain)) {
+                                return "البريد الإلكتروني غير مناسب";
+                              }
+                              return null;
+                            }
                           }
                         },
                         decoration: const InputDecoration(
@@ -151,11 +166,12 @@ class _LoginPageState extends State<LoginPage> {
                       TextFormField(
                         controller: _passwordController,
                         focusNode: _passwordFocusNode,
-                        onChanged: (value) => password = value,
                         obscureText: !visibility,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "قم إدخال كلمة المرور";
+                            return "قم بإدخال كلمة المرور";
+                          } else if (value.length < 8) {
+                            return "يجب أن تكون كلمة المرور 8 أحرف على الأقل";
                           } else {
                             return null;
                           }
@@ -164,12 +180,11 @@ class _LoginPageState extends State<LoginPage> {
                         onEditingComplete: () {
                           _passwordFocusNode.unfocus();
                           if (_formKey.currentState!.validate()) {
-                            cubit.login(_emailController.text,
-                                _passwordController.text);
+                            login();
                           }
                         },
                         decoration: InputDecoration(
-                          hintText: 'قم إدخال كلمة المرور',
+                          hintText: 'قم بإدخال كلمة المرور',
                           prefixIcon: const Icon(Icons.lock_outline_rounded),
                           suffixIcon: InkWell(
                             onTap: () {
@@ -177,9 +192,11 @@ class _LoginPageState extends State<LoginPage> {
                                 visibility = !visibility;
                               });
                             },
-                            child: Icon(visibility
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined),
+                            child: Icon(
+                              visibility
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            ),
                           ),
                           prefixIconColor: AppColor.grey,
                           suffixIconColor: AppColor.grey,
@@ -225,12 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ));
                             } else {
                               return ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    cubit.login(_emailController.text,
-                                        _passwordController.text);
-                                  }
-                                },
+                                onPressed: login,
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColor.orange8,
                                     foregroundColor: AppColor.white),
