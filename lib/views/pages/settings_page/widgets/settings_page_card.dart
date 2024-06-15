@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
+import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
 
 class SettingsPageCard extends StatelessWidget {
@@ -13,6 +15,7 @@ class SettingsPageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final cubit = BlocProvider.of<AuthCubit>(context);
     return DecoratedBox(
       decoration: BoxDecoration(
           color: AppColor.white, border: Border.all(color: AppColor.grey4)),
@@ -50,7 +53,8 @@ class SettingsPageCard extends StatelessWidget {
         onTap: () {
           !isChangePassword
               ? Navigator.of(context, rootNavigator: true)
-                  .pushNamed(AppRoutes.profilePage, arguments: user)
+                  .pushNamed(AppRoutes.profilePage)
+                  .then((value) => cubit.getUser())
               : Navigator.of(context, rootNavigator: true)
                   .pushNamed(AppRoutes.changePasswordPage);
         },

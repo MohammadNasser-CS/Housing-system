@@ -27,7 +27,11 @@ class AppRouter {
       case AppRoutes.loginPage:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => AuthCubit(),
+            create: (context) {
+              final cubit = AuthCubit();
+              cubit.getUser();
+              return cubit;
+            },
             child: const LoginPage(),
           ),
           settings: settings,
@@ -73,11 +77,21 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.profilePage:
-        final UserModel user = settings.arguments as UserModel;
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => MyProfileCubit(),
-            child: ProfilePage(user: user),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider<AuthCubit>(
+                create: (BuildContext context) {
+                  final cubit=AuthCubit();
+                  cubit.getUser();
+                  return cubit;
+                },
+              ),
+              BlocProvider<MyProfileCubit>(
+                create: (BuildContext context) => MyProfileCubit(),
+              ),
+            ],
+            child: const ProfilePage(),
           ),
           settings: settings,
         );

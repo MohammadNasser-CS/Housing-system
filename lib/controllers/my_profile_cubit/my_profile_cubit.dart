@@ -13,6 +13,7 @@ class MyProfileCubit extends Cubit<MyProfileState> {
     emit(MyProfileLoading());
     try {
       String response = await _authServices.updateMyInformation(newData);
+
       emit(MyProfileUpdateInvoked(message: response));
     } on StateError catch (e) {
       emit(MyProfileUpdateError(message: e.message));

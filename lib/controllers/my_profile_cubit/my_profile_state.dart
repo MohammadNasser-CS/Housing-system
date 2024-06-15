@@ -17,6 +17,7 @@ final class MyProfileLoaded extends MyProfileState {
 
 final class MyProfileUpdateInvoked extends MyProfileState {
   final String message;
+  
   MyProfileUpdateInvoked({required this.message});
 }
 

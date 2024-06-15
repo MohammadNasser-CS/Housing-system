@@ -107,8 +107,12 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       ),
       PersistentTabConfig(
         screen: BlocProvider(
-          create: (context) => AuthCubit(),
-          child: SettingsPage(user: widget.user),
+          create: (context) {
+            final cubit=AuthCubit();
+            cubit.getUser();
+            return cubit;
+          },
+          child: const SettingsPage(),
         ),
         item: ItemConfig(
           icon: const Icon(Icons.person_2_outlined),
@@ -149,8 +153,12 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       ),
       PersistentTabConfig(
         screen: BlocProvider(
-          create: (context) => AuthCubit(),
-          child: SettingsPage(user: widget.user),
+          create: (context) {
+            final cubit=AuthCubit();
+            cubit.getUser();
+            return cubit;
+          },
+          child: const SettingsPage(),
         ),
         item: ItemConfig(
           icon: const Icon(Icons.person_2_outlined),
@@ -165,42 +173,48 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: size.height * 0.1,
-        backgroundColor: Theme.of(context).primaryColor,
-        centerTitle: true,
-        leading: ClipRRect(
-          child: Padding(
-            padding: const EdgeInsetsDirectional.all(2.0),
-            child: Image.asset(
-              'assets/images/majles_logo.png',
-              fit: BoxFit.cover,
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: size.height * 0.1,
+          backgroundColor: Theme.of(context).primaryColor,
+          centerTitle: true,
+          leading: ClipRRect(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.all(2.0),
+              child: Image.asset(
+                'assets/images/majles_logo.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
+          title: widget.user.role == 'صاحب سكن'
+              ? AppBarTitleForOwner(index: _controller.index)
+              : AppBarTitleForUser(index: _controller.index),
         ),
-        title: widget.user.role == 'صاحب سكن'
-            ? AppBarTitleForOwner(index: _controller.index)
-            : AppBarTitleForUser(index: _controller.index),
-      ),
-      body: PersistentTabView(
-        margin: EdgeInsets.only(top: size.height * 0.02),
-        backgroundColor: AppColor.grey1,
-        controller: _controller,
-        navBarBuilder: (navBarConfig) => Style1BottomNavBar(
-          navBarConfig: navBarConfig,
-          navBarDecoration:
-              NavBarDecoration(color: Theme.of(context).primaryColor),
+        body: PersistentTabView(
+          margin: EdgeInsets.only(top: size.height * 0.02),
+          backgroundColor: AppColor.grey1,
+          controller: _controller,
+          navBarBuilder: (navBarConfig) => Style1BottomNavBar(
+            navBarConfig: navBarConfig,
+            navBarDecoration:
+                NavBarDecoration(color: Theme.of(context).primaryColor),
+          ),
+          tabs: widget.user.role == 'صاحب سكن'
+              ? _buildOwnerScreens()
+              : _buildUserScreens(),
+          screenTransitionAnimation: const ScreenTransitionAnimation(
+            // Screen transition animation on change of selected tab.
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 400),
+          ),
+          onTabChanged: (value) {
+            debugPrint(value.toString());
+          },
+          stateManagement: false,
         ),
-        tabs: widget.user.role == 'صاحب سكن'
-            ? _buildOwnerScreens()
-            : _buildUserScreens(),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          // Screen transition animation on change of selected tab.
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 400),
-        ),
-        stateManagement: false,
       ),
     );
   }

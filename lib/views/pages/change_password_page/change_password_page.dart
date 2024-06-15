@@ -218,6 +218,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   fontWeight: FontWeight.w600,
                                 ),
                       ),
+                      SizedBox(height: size.height * 0.03),
                       TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -266,7 +267,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           prefixIconColor: AppColor.grey,
                         ),
                       ),
-                      // SizedBox(height: size.height * 0.03),
                       SizedBox(height: size.height * 0.1),
                       Row(
                         children: [

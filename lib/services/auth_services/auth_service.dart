@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthServices {
   Future<bool> studentRegister(StudentRegisterModel newStudent);
-  Future<String> updateMyInformation(Map<String,dynamic> newData);
+  Future<String> updateMyInformation(Map<String, dynamic> newData);
   Future<Map<String, dynamic>> ownerRegister(OwnerRegisterModel newOwner);
   Future<bool> login(String email, String password);
   Future<String> changePassword(String password, String newPassword);
@@ -77,7 +77,9 @@ class AuthServicesImplementation implements AuthServices {
         default:
           throw AuthException('فشل إنشاء الحساب : ${e.message}');
       }
-    } catch (e) {
+    }on AuthException catch (e) {
+      throw AuthException(e.message);
+    }  catch (e) {
       throw AuthException('حصل خلل أثناء عملية إنشاء الحساب');
     }
   }
@@ -165,6 +167,8 @@ class AuthServicesImplementation implements AuthServices {
         default:
           throw AuthException('فشل إنشاء الحساب : ${e.message}');
       }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
     } catch (e) {
       throw AuthException('حصل خلل أثناء عملية تسجيل الدخول');
     }
@@ -174,6 +178,9 @@ class AuthServicesImplementation implements AuthServices {
   Future<UserModel?> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
       final response = await dio.get(
         HttpConstants.getUser,
         options: Options(
@@ -182,11 +189,9 @@ class AuthServicesImplementation implements AuthServices {
           },
         ),
       );
-      debugPrint(response.toString());
       final responseData = response.data;
-      debugPrint(responseData.toString());
       if (responseData == null || responseData.isEmpty) {
-        return null;
+        throw AuthException('لم تقم بتسجيل الدخول');
       }
       UserModel user = UserModel.fromMap(responseData);
       return user;
@@ -212,6 +217,8 @@ class AuthServicesImplementation implements AuthServices {
         default:
           throw AuthException('فشل إنشاء الحساب : ${e.message}');
       }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
     } catch (e) {
       debugPrint('Error fetching user: $e');
       return null;
@@ -253,6 +260,8 @@ class AuthServicesImplementation implements AuthServices {
         default:
           throw AuthException('فشل إنشاء الحساب : ${e.message}');
       }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
     } catch (e) {
       debugPrint('Error logout: $e');
     }
@@ -304,10 +313,10 @@ class AuthServicesImplementation implements AuthServices {
       throw AuthException('حصل خطأ أثناء عملية تغيير كلمة المرور');
     }
   }
-  
+
   @override
-  Future<String> updateMyInformation(Map<String, dynamic> newData)async {
- SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<String> updateMyInformation(Map<String, dynamic> newData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       final response = await dio.post(
         HttpConstants.updateMyInformation,
@@ -343,8 +352,10 @@ class AuthServicesImplementation implements AuthServices {
         default:
           throw AuthException('فشل تعديل المعلومات : ${e.message}');
       }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
     } catch (e) {
-      debugPrint('Error changing password: $e');
+
       throw AuthException('حصل خطأ أثناء عملية تعديل المعلومات');
     }
   }

@@ -10,12 +10,16 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
   final AuthServices _authServices = AuthServicesImplementation();
-  Future<void> loadLoginPage()async{
+  Future<void> loadLoginPage() async {
     emit(AuthLoading());
-    Future.delayed(const Duration(seconds: 2),() {
-      emit(AuthLoaded());
-    },);
+    Future.delayed(
+      const Duration(seconds: 2),
+      () {
+        emit(AuthLoaded());
+      },
+    );
   }
+
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
@@ -37,7 +41,7 @@ class AuthCubit extends Cubit<AuthState> {
       final result = await _authServices.ownerRegister(newOwner);
       if (result['isRegistered']) {
         emit(OwnerAuthSuccess(message: result['message']));
-         emit(AuthLoaded());
+        emit(AuthLoaded());
       }
     } on AuthException catch (exp) {
       emit(AuthError(message: exp.message));
@@ -61,18 +65,20 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-//   Future<void> getUser() async {
-//     try {
-//       User? user = await _authServices.getUser();
-//       if (user != null) {
-//         emit(AuthSuccess(user: user));
-//       } else {
-//         emit(AuthError(message: 'User not found'));
-//       }
-//     } on FirebaseAuthException catch (e) {
-//       emit(AuthError(message: e.message!));
-//     }
-//   }
+  Future<void> getUser() async {
+    emit(AuthLoading());
+    try {
+      UserModel? user = await _authServices.getUser();
+      if (user != null) {
+        emit(AuthSuccess(user: user));
+      }
+    } on AuthException catch (e) {
+      emit(AuthError(message: e.message));
+    }catch (exp) {
+      emit(AuthError(message: 'حصل خلل أثناء عملية إنشاء الحساب'));
+    }
+  }
+
   Future<void> logout() async {
     emit(AuthLoading());
     try {
@@ -81,5 +87,4 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthError(message: e.message));
     }
   }
-  
 }
