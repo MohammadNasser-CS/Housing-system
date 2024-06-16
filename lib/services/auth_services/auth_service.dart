@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_constatns.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/Utils/http_constants.dart';
@@ -40,7 +39,6 @@ class AuthServicesImplementation implements AuthServices {
   @override
   Future<bool> studentRegister(StudentRegisterModel newStudent) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    debugPrint('request base url: ${dio.options.baseUrl}');
     try {
       final response = await dio.post(
         HttpConstants.studentRegister,
@@ -77,9 +75,9 @@ class AuthServicesImplementation implements AuthServices {
         default:
           throw AuthException('فشل إنشاء الحساب : ${e.message}');
       }
-    }on AuthException catch (e) {
+    } on AuthException catch (e) {
       throw AuthException(e.message);
-    }  catch (e) {
+    } catch (e) {
       throw AuthException('حصل خلل أثناء عملية إنشاء الحساب');
     }
   }
@@ -190,10 +188,12 @@ class AuthServicesImplementation implements AuthServices {
         ),
       );
       final responseData = response.data;
-      if (responseData == null || responseData.isEmpty) {
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
       }
-      UserModel user = UserModel.fromMap(responseData);
+      UserModel user = UserModel.fromMap(responseData['user']);
       return user;
     } on DioException catch (e) {
       switch (e.type) {
@@ -220,7 +220,6 @@ class AuthServicesImplementation implements AuthServices {
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
-      debugPrint('Error fetching user: $e');
       return null;
     }
   }
@@ -237,7 +236,7 @@ class AuthServicesImplementation implements AuthServices {
           },
         ),
       );
-      prefs.remove(AppConstants.accessToken);
+      await prefs.remove(AppConstants.accessToken);
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
@@ -263,7 +262,6 @@ class AuthServicesImplementation implements AuthServices {
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
-      debugPrint('Error logout: $e');
     }
   }
 
@@ -284,7 +282,6 @@ class AuthServicesImplementation implements AuthServices {
         },
       );
       final responseData = response.data;
-      debugPrint(responseData['message']);
       return responseData['message'];
     } on DioException catch (e) {
       switch (e.type) {
@@ -309,7 +306,6 @@ class AuthServicesImplementation implements AuthServices {
           throw AuthException('فشل إنشاء الحساب : ${e.message}');
       }
     } catch (e) {
-      debugPrint('Error changing password: $e');
       throw AuthException('حصل خطأ أثناء عملية تغيير كلمة المرور');
     }
   }
@@ -328,7 +324,6 @@ class AuthServicesImplementation implements AuthServices {
         data: newData,
       );
       final responseData = response.data;
-      debugPrint(responseData['message']);
       return responseData['message'];
     } on DioException catch (e) {
       switch (e.type) {
@@ -355,7 +350,6 @@ class AuthServicesImplementation implements AuthServices {
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
-
       throw AuthException('حصل خطأ أثناء عملية تعديل المعلومات');
     }
   }

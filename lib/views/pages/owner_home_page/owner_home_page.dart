@@ -68,7 +68,7 @@ class _OwnerHomePageState extends State<OwnerHomePage>
                     labelColor: AppColor.orange8,
                     tabs: const [
                       Tab(text: 'عقاراتي'),
-                      Tab(text: 'المحجوزة'),
+                      Tab(text: 'الطلبات'),
                     ],
                   ),
                 ),

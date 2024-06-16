@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/controllers/my_profile_cubit/my_profile_cubit.dart';
+import 'package:housing_project/models/user_model.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final UserModel user;
+  const ProfilePage({super.key,required this.user});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -82,7 +83,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final cubitA = BlocProvider.of<AuthCubit>(context);
     final cubitB = BlocProvider.of<MyProfileCubit>(context);
     return BlocListener<MyProfileCubit, MyProfileState>(
       bloc: cubitB,
@@ -110,23 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
           title: const Text('معلوماتي'),
           centerTitle: true,
         ),
-        body: BlocBuilder<AuthCubit, AuthState>(
-          bloc: cubitA,
-          buildWhen: (previous, current) =>
-              current is AuthLoading ||
-              current is AuthError ||
-              current is AuthSuccess,
-          builder: (context, state) {
-            if (state is AuthLoading) {
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
-            } else if (state is AuthError) {
-              return Center(
-                child: Text(state.message),
-              );
-            } else if (state is AuthSuccess) {
-              return SingleChildScrollView(
+        body: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsetsDirectional.symmetric(
                       horizontal: size.width * 0.03,
@@ -151,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             } else if (!RegExp(r'^[ء-ي\s]+$').hasMatch(value)) {
                               return "الرجاء إدخال إسم صحيح يحتوي على الأحرف العربية فقط";
                             } else if (value.trim() ==
-                                state.user.name.trim()) {
+                                widget.user.name.trim()) {
                               return "الإسم الذي أدخلته مطابق للإسم الحالي الفعلي";
                             } else {
                               return null;
@@ -167,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           keyboardType: TextInputType.name,
                           controller: _userNameController,
                           decoration: InputDecoration(
-                            hintText: state.user.name,
+                            hintText: widget.user.name,
                             prefixIcon: const Icon(
                               Icons.person_outline,
                             ),
@@ -197,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               if (!regex.hasMatch(value)) {
                                 return "الرجاء إدخال رقم هاتف صحيح";
                               } else if (value.trim() ==
-                                  state.user.phoneNumber.trim()) {
+                                  widget.user.phoneNumber.trim()) {
                                 return "رقم الهاتف الذي أدخلته مطابق لرقم الهاتف الحالي المسجل للحساب";
                               } else {
                                 return null;
@@ -214,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           keyboardType: TextInputType.phone,
                           controller: _phoneNumberController,
                           decoration: InputDecoration(
-                            hintText: state.user.phoneNumber,
+                            hintText: widget.user.phoneNumber,
                             prefixIcon: const Icon(
                               Icons.phone,
                             ),
@@ -251,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               if (!regex.hasMatch(value)) {
                                 return "البريد الإلكتروني غير مناسب";
                               } else if (value.trim() ==
-                                  state.user.email.trim()) {
+                                  widget.user.email.trim()) {
                                 return "البريد الإلكتروني الذي أدخلته مطابق للبريد الإلكتروني الحالي المسجل للحساب";
                               } else {
                                 // Additional check for common domains
@@ -270,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
                           },
                           decoration: InputDecoration(
-                            hintText: state.user.email,
+                            hintText: widget.user.email,
                             prefixIcon: const Icon(Icons.email_outlined),
                             prefixIconColor: AppColor.grey,
                           ),
@@ -324,12 +308,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
+              ),
       ),
     );
   }

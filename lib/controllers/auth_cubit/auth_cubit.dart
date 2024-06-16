@@ -10,15 +10,7 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
   final AuthServices _authServices = AuthServicesImplementation();
-  Future<void> loadLoginPage() async {
-    emit(AuthLoading());
-    Future.delayed(
-      const Duration(seconds: 2),
-      () {
-        emit(AuthLoaded());
-      },
-    );
-  }
+
 
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
@@ -66,15 +58,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> getUser() async {
-    emit(AuthLoading());
     try {
       UserModel? user = await _authServices.getUser();
       if (user != null) {
         emit(AuthSuccess(user: user));
-      }
+      } 
     } on AuthException catch (e) {
       emit(AuthError(message: e.message));
-    }catch (exp) {
+    } catch (exp) {
       emit(AuthError(message: 'حصل خلل أثناء عملية إنشاء الحساب'));
     }
   }

@@ -53,10 +53,14 @@ class SettingsPageCard extends StatelessWidget {
         onTap: () {
           !isChangePassword
               ? Navigator.of(context, rootNavigator: true)
-                  .pushNamed(AppRoutes.profilePage)
+                  .pushNamed(
+                    AppRoutes.profilePage,
+                    arguments: user,
+                  )
                   .then((value) => cubit.getUser())
               : Navigator.of(context, rootNavigator: true)
-                  .pushNamed(AppRoutes.changePasswordPage);
+                  .pushNamed(AppRoutes.changePasswordPage)
+                  .then((value) => cubit.getUser());
         },
       ),
     );

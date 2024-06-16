@@ -3,7 +3,7 @@ class HttpConstants {
   static const String login = '/login';
   static const String studentRegister = '/studentRegister';
   static const String ownerRegister = '/houseOwnerRegister';
-  static const String getUser = '/user';
+  static const String getUser = '/getUser';
   static const String logout = '/logout';
   static const String changePassword = '/changePassword';
   static const String updateMyInformation = '/updateMyInformation';
