@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/controllers/favorite_page_cubit/favorite_cubit.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/views/pages/user_home_page/widgets/house_item.dart';
+import 'package:housing_project/views/widgets/no_items_wiget.dart';
 
 class FavoriteHousesSection extends StatelessWidget {
   const FavoriteHousesSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cubitBase = BlocProvider.of<FavoriteCubit>(context);
-    return BlocBuilder<FavoriteCubit, FavoriteState>(
-      bloc: cubitBase,
+    final cubit = BlocProvider.of<FavoriteCubit>(context);
+    return BlocConsumer<FavoriteCubit, FavoriteState>(
+      bloc: cubit,
+      listenWhen: (previous, current) => current is FavroiteChangedSuccess,
+      listener: (context, state) {
+        if (state is FavroiteChangedSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        }
+      },
       buildWhen: (previous, current) => current is! HouseDetailsLoaded,
       builder: (context, state) {
         if (state is FavoriteLoading) {
@@ -21,61 +34,31 @@ class FavoriteHousesSection extends StatelessWidget {
           );
         } else if (state is FavoriteError) {
           return Center(
-            child: Text(state.message),
+            child: NoItemsWidget(
+                title: state.message, icon: FontAwesomeIcons.heartCircleXmark),
           );
         } else if (state is FavoriteLoaded) {
           return SingleChildScrollView(
             child: Column(
               children: [
-                BlocBuilder<FavoriteCubit, FavoriteState>(
-                  bloc: cubitBase,
-                  buildWhen: (previous, current) => current is FavoriteLoaded,
-                  builder: (context, state) {
-                    if (state is FavroiteChangeLoaded) {
-                      return ListView.builder(
-                        itemCount: state.houses.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => InkWell(
-                          onTap: () async {
-                            debugPrint(state.houses[index].toString());
-                            Navigator.of(context, rootNavigator: true)
-                                .pushNamed(
-                                  AppRoutes.details,
-                                  arguments: state.houses[index],
-                                )
-                                .then((value) => cubitBase.getFavoriteHouses());
-                          },
-                          child: HouseItem(
-                            cubit: cubitBase,
-                            houseItemModel: state.houses[index],
-                          ),
-                        ),
-                      );
-                    } else if (state is FavoriteLoaded) {
-                      return ListView.builder(
-                        itemCount: state.houses.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => InkWell(
-                          onTap: () async {
-                            Navigator.of(context, rootNavigator: true)
-                                .pushNamed(
-                                  AppRoutes.details,
-                                  arguments: state.houses[index],
-                                )
-                                .then((value) => cubitBase.getFavoriteHouses());
-                          },
-                          child: HouseItem(
-                            cubit: cubitBase,
-                            houseItemModel: state.houses[index],
-                          ),
-                        ),
-                      );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
+                ListView.builder(
+                  itemCount: state.houses.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () async {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(
+                            AppRoutes.details,
+                            arguments: state.houses[index],
+                          )
+                          .then((value) => cubit.getFavoriteHouses());
+                    },
+                    child: HouseItem(
+                      cubit: cubit,
+                      houseItemModel: state.houses[index],
+                    ),
+                  ),
                 ),
               ],
             ),

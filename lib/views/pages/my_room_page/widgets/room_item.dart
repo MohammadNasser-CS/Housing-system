@@ -2,7 +2,7 @@ import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/contact_section.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
@@ -99,7 +99,10 @@ class _RoomItemState extends State<RoomItem> {
           Divider(color: AppColor.orange8),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
-            child: ContactSection(ownerName: widget.house.ownerName),
+            child: ContactSection(
+              ownerName: widget.house.ownerName,
+              phoneNumber: '0568891980',
+            ),
           ),
         ],
       ),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
 
 class NoItemsWidget extends StatelessWidget {
-  final String title;
-  const NoItemsWidget({super.key, required this.title});
+   final String title;
+  final IconData icon;
+  const NoItemsWidget({super.key, required this.title,required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class NoItemsWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
-            Icons.not_interested_rounded,
+            icon,
             size: size.width * 0.2,
             color: AppColor.grey4,
           ),

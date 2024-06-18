@@ -2,7 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/dropdown_lists_options.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
 
 class AddNewHouseFields extends StatefulWidget {
   const AddNewHouseFields({super.key});

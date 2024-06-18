@@ -15,7 +15,20 @@ class HouseDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final cubit = BlocProvider.of<HouseDetailsCubit>(context);
-    return BlocBuilder<HouseDetailsCubit, HouseDetailsState>(
+    return BlocConsumer<HouseDetailsCubit, HouseDetailsState>(
+      bloc: cubit,
+      listenWhen: (previous, current) =>
+          current is FavroiteDetailsChangedSuccess,
+      listener: (context, state) {
+        if (state is FavroiteDetailsChangedSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        }
+      },
       buildWhen: (previous, current) =>
           current is HouseDetailsLoading ||
           current is HouseDetailsLoaded ||
@@ -42,24 +55,25 @@ class HouseDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       HouseBaseImage(
-                          id: state.house.id,
-                          imgUrl: state.house.imgUrl,
-                          isFav: state.house.isFavorite,
+                          id: state.houseDetails.houseId,
+                          imgUrl: state.houseDetails.housePhoto,
+                          isFav: state.houseDetails.isFavorite,
                           cubit: cubit),
                       SizedBox(height: size.height * 0.03),
                       HouseDescriptionSection(
-                        house: state.house,
+                        houseDetails: state.houseDetails,
                       ),
                       SizedBox(height: size.height * 0.03),
-                      ContactSection(ownerName: state.house.ownerName),
+                      ContactSection(
+                          ownerName: state.houseDetails.ownerName,
+                          phoneNumber: state.houseDetails.phoneNumber),
                       SizedBox(height: size.height * 0.03),
                       BedRoomsGallerySection(
-                        houseBedRooms: state.house.bedRooms!,
-                        studentRoomRequestsModel:
-                            state.studentRoomRequestsModel,
+                        roomsModel: state.houseDetails.primaryRooms,
                       ),
                       SizedBox(height: size.height * 0.03),
-                      RoomsGallerySection(housRooms: state.house.rooms!),
+                      RoomsGallerySection(
+                          housRooms: state.houseDetails.secondaryRooms),
                     ],
                   ),
                 ),

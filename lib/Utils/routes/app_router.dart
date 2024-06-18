@@ -6,7 +6,6 @@ import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/controllers/change_password_page_cubit/change_password_cubit.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/my_profile_cubit/my_profile_cubit.dart';
-import 'package:housing_project/models/house_model.dart';
 import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/add_new_house_page/add_new_house_page.dart';
 import 'package:housing_project/views/pages/change_password_page/change_password_page.dart';
@@ -59,12 +58,12 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.details:
-        final HouseModel houseItem = settings.arguments as HouseModel;
+        final String houseId = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) {
               final cubit = HouseDetailsCubit();
-              cubit.getProductDetails(houseItem.id);
+              cubit.getHouseDetails(houseId);
               return cubit;
             },
             child: const HouseDetailsPage(),

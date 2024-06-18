@@ -13,7 +13,10 @@ final List<HouseModel> houses;
     required this.houses,
   });
 }
-
+final class FavroiteChangedSuccess extends FavoriteState {
+  final String message;
+   FavroiteChangedSuccess({required this.message});
+}
 final class FavoriteLoaded extends FavoriteState {
   final List<HouseModel> houses;
   const FavoriteLoaded({required this.houses});

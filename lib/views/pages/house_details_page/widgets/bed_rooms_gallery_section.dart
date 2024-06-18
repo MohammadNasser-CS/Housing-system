@@ -3,18 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
-import 'package:housing_project/models/room_requests_model.dart';
-import 'package:housing_project/models/rooms_model.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/bed_rooms_gallery_widgets/bed_room_discovering_dialog.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
 class BedRoomsGallerySection extends StatefulWidget {
-  final List<BedRoomModel> houseBedRooms;
-  final StudentRoomRequestsModel studentRoomRequestsModel;
+  final List<Map<String, String>> roomsModel;
   const BedRoomsGallerySection({
     super.key,
-    required this.houseBedRooms,
-    required this.studentRoomRequestsModel,
+    required this.roomsModel,
   });
 
   @override
@@ -55,11 +51,11 @@ class _BedRoomsGallerySectionState extends State<BedRoomsGallerySection>
           height: size.height * 0.15,
           width: double.infinity,
           child: ListView.builder(
-            itemCount: widget.houseBedRooms.length,
+            itemCount: widget.roomsModel.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => InkWell(
-              onTap: () {
-                showModalBottomSheet<void>(
+              onTap: () async {
+                await showModalBottomSheet<void>(
                   context: context,
                   isScrollControlled: true,
                   useRootNavigator: true,
@@ -73,13 +69,14 @@ class _BedRoomsGallerySectionState extends State<BedRoomsGallerySection>
                       onClosing: () {},
                       animationController: _animationController,
                       builder: (context) => StatefulBuilder(
-                        builder: (context, setState) => BlocProvider.value(
-                          value: cubit,
-                          child: BedRoomDiscoveringDialog(
-                            room: widget.houseBedRooms[index],
-                            studentRoomRequestsModel: widget.studentRoomRequestsModel ,
-                          ),
-                        ),
+                        builder: (context, setState) {
+                          cubit.getRoomDetails(
+                              widget.roomsModel[index]['roomId']!);
+                          return BlocProvider.value(
+                            value: cubit,
+                            child: const BedRoomDiscoveringDialog(),
+                          );
+                        },
                       ),
                     );
                   },
@@ -93,7 +90,7 @@ class _BedRoomsGallerySectionState extends State<BedRoomsGallerySection>
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: CachedNetworkImage(
-                        imageUrl: widget.houseBedRooms[index].imagesUrl[0],
+                        imageUrl: widget.roomsModel[index]['photo']!,
                         // height: size.height * 0.06,
                         fit: BoxFit.fill,
                         placeholder: (context, url) => const Center(
@@ -115,7 +112,7 @@ class _BedRoomsGallerySectionState extends State<BedRoomsGallerySection>
                             border: Border.all(color: AppColor.grey4)),
                         child: TextWidget(
                             title: 'رقم الغرفة: ',
-                            value: widget.houseBedRooms[index].roomId)),
+                            value: widget.roomsModel[index]['roomId']!)),
                   ),
                 ],
               ),

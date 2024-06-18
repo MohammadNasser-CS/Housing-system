@@ -108,7 +108,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       PersistentTabConfig(
         screen: BlocProvider(
           create: (context) {
-            final cubit=AuthCubit();
+            final cubit = AuthCubit();
             cubit.getUser();
             return cubit;
           },
@@ -154,7 +154,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       PersistentTabConfig(
         screen: BlocProvider(
           create: (context) {
-            final cubit=AuthCubit();
+            final cubit = AuthCubit();
             cubit.getUser();
             return cubit;
           },

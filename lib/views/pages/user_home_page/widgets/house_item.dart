@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
 class HouseItem extends StatelessWidget {
@@ -35,7 +35,7 @@ class HouseItem extends StatelessWidget {
                 child: Stack(
                   children: [
                     CachedNetworkImage(
-                      imageUrl: houseItemModel.imgUrl,
+                      imageUrl: houseItemModel.housePhoto,
                       fit: BoxFit.fill,
                       width: double.infinity,
                       height: size.height * 0.3,
@@ -55,7 +55,7 @@ class HouseItem extends StatelessWidget {
                         child: IconButton(
                           onPressed: () {
                             // debugPrint(houseItemModel.id);
-                            cubit.changeFavorite(houseItemModel.id);
+                            cubit.changeFavorite(houseItemModel.houseId);
                           },
                           icon: Icon(
                             houseItemModel.isFavorite
@@ -90,7 +90,7 @@ class HouseItem extends StatelessWidget {
                                     ),
                               ),
                               TextSpan(
-                                text: houseItemModel.category,
+                                text: houseItemModel.houseType,
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelMedium!
@@ -115,65 +115,31 @@ class HouseItem extends StatelessWidget {
                       vertical: size.width * 0.02),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextWidget(
                               title: 'مالك السكن: ',
                               value: houseItemModel.ownerName),
                           TextWidget(
                               title: 'عدد الغرف المتاحة: ',
-                              value: '${houseItemModel.freeRoomsNumber}'),
+                              value: '${houseItemModel.availableRoom}'),
                         ],
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(Icons.location_on_outlined,
-                                      size: size.width * 0.03),
-                                ),
-                                TextSpan(
-                                  text: houseItemModel.location,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: size.width * 0.03,
-                                      ),
-                                ),
-                              ],
-                            ),
+                          TextWidget(
+                            title: 'الموقع: ',
+                            value: houseItemModel.address,
                           ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                  child: Icon(
-                                    Icons.bed_outlined,
-                                    size: size.width * 0.03,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text:
-                                      ' عدد غرف النوم : ${houseItemModel.roomsNumber}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: size.width * 0.03,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          TextWidget(
+                              title: 'عدد غرف النوم: ',
+                              value: '${houseItemModel.numberOfRooms}'),
                         ],
                       )
                     ],

@@ -19,6 +19,13 @@ class LogoutButton extends StatelessWidget {
               cubit.logout();
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(AppRoutes.loginPage);
+              //  Navigator.of(context, rootNavigator: true)
+              //     .popAndPushNamed(AppRoutes.loginPage);
+              // Navigator.of(context, rootNavigator: true)
+              //     .pushNamedAndRemoveUntil(
+              //   AppRoutes.loginPage,
+              //   (Route<dynamic> route) => false,
+              // );
             },
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsetsDirectional.symmetric(

@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
 import 'package:housing_project/models/owner_room_requests_model.dart';
 import 'package:housing_project/models/user_model.dart';
 
@@ -57,7 +57,7 @@ class OwnerHomePageCubit extends Cubit<OwnerHomePageState> {
     List<HouseModel> myHouses =
         dummyItems.where((element) => element.ownerName == user.name).toList();
     final List<HouseModel> filterdSearchHouses =
-        myHouses.where((product) => product.id.contains(houesNumber)).toList();
+        myHouses.where((product) => product.houseId.contains(houesNumber)).toList();
     // debugPrint(filterdSearchHouses.toString());
     emit(OwnerHomePageLoaded(houses: filterdSearchHouses));
   }

@@ -5,12 +5,12 @@ part 'category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   CategoryCubit() : super(CategoryInitial());
-    void getCategoryData() {
+  void getCategoryData() {
     emit(CategoryLoading());
     Future.delayed(const Duration(seconds: 1), () {
       emit(
         CategoryLoaded(
-          categoryItem: dummyCategories,
+          categoryItem: categories,
         ),
       );
     });

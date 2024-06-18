@@ -4,7 +4,7 @@ import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dar
 import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_item.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_requests_widget.dart';
-import 'package:housing_project/views/widgets/owner_no_requests_wiget.dart';
+import 'package:housing_project/views/widgets/no_items_wiget.dart';
 
 class MyRoomPage extends StatelessWidget {
   final UserModel user;
@@ -50,7 +50,7 @@ class MyRoomPage extends StatelessWidget {
           return const RoomRequestsWidget();
         } else if (state is NoRequestAndNoRoom) {
           return const NoItemsWidget(
-              title: 'لم تقم بحجز أو طلب حجز لأي غرفة');
+              title: 'لم تقم بحجز أو طلب حجز لأي غرفة',icon: Icons.block,);
         } else {
           return const SizedBox.shrink();
         }

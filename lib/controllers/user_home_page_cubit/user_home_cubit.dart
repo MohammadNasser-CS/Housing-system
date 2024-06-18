@@ -1,86 +1,70 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/home_category_model.dart';
 
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
+import 'package:housing_project/services/student_services/student_service.dart';
 
 part 'user_home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
-  // final HomeServices _homeServices = HomeServicesImpl();
+  final StudentServices _studentServices = StudentServicesImplementation();
   Future<void> getHomeData() async {
-    emit(HomeLoading());
-    // final products = await _homeServices.getProducts();
-    Future.delayed(const Duration(seconds: 2), () {
-      emit(
-        HomeLoaded(
-          houses: dummyItems,
-          // carouselItems: dummyCarouselItems,
-        ),
-      );
-    });
-
-    // final products = _homeServices.getProductsStream();
-    // products.listen((event) {
-    //   emit(
-    //     HomeLoaded(
-    //       products: event,
-    //       carouselItems: dummyCarouselItems,
-    //     ),
-    //   );
-    // });
-  }
-
-  void changeCategory(int? selectedCategoryIndex) async {
-    if (selectedCategoryIndex == null) {
-      emit(const HomePageCategoryChanged());
-      // debugPrint(filterdHouses.toString());
-      // debugPrint('========================================');
-      // debugPrint(dummyItems.toString());
-      filterdHouses = dummyItems;
-      emit(HomeLoaded(houses: filterdHouses));
-    } else {
-      final selectedCategory = dummyCategories[selectedCategoryIndex];
-      filterdHouses = dummyItems
-          .where((element) => element.category == selectedCategory.category)
-          .toList();
-      emit(const HomePageCategoryChanged());
-      emit(HomeLoaded(houses: filterdHouses));
+    try {
+      emit(HomeLoading());
+      final houses = await _studentServices.getAllHouses();
+      emit(HomeLoaded(houses: houses));
+    } on AuthException catch (exp) {
+      emit(HomeError(message: exp.message));
+    } catch (exp) {
+      emit(HomeError(message: exp.toString()));
     }
   }
-// Future<void> addProduct(ProductItemModel product) async {
-//     await _homeServices.addProduct(product);
-//   }
 
-//   Future<void> deleteProduct(String id) async {
-//     await _homeServices.deleteProduct(id);
-//   }
-
-  void changeFavorite(String itemId) {
-    final index = filterdHouses.indexWhere((item) {
-      return item.id == itemId;
-    });
-    filterdHouses[index] = filterdHouses[index].copyWith(
-      isFavorite: !filterdHouses[index].isFavorite,
-    );
-    // final index1 = dummyItems.indexWhere((item) => item.id == itemId);
-    // dummyItems[index1] = dummyItems[index1].copyWith(
-    //   isFavorite: !dummyItems[index1].isFavorite,
-    // );
-    // debugPrint(filterdHouses[index].toString());
-    // debugPrint(filterdHouses.toString());
-    emit(
-      HomeLoaded(
-        houses: filterdHouses,
-        // carouselItems: dummyCarouselItems,
-      ),
-    );
+  Future<void> changeCategory(int? selectedCategoryIndex) async {
+    try {
+      emit(HomePageCategoryChanged(
+          selectedCategoryIndex: selectedCategoryIndex));
+      if (selectedCategoryIndex == null) {
+        getHomeData();
+      } else {
+        emit(HomeLoading());
+        String selectedCategory = categories[selectedCategoryIndex].category;
+        final houses =
+            await _studentServices.getCategorizedHouses(selectedCategory);
+        emit(HomeLoaded(houses: houses));
+      }
+    } on AuthException catch (exp) {
+      emit(HomeError(message: exp.message));
+    } catch (exp) {
+      emit(HomeError(message: exp.toString()));
+    }
   }
 
-  void searchFilled(String houseNumber) {
-    final List<HouseModel> filterdSearchHouses = filterdHouses
-        .where((product) => product.id.contains(houseNumber))
-        .toList();
-    emit(HomeLoaded(houses: filterdSearchHouses));
+  Future<void> searchFilled(String ownerName) async {
+    try {
+      emit(HomePageCategoryChanged(selectedCategoryIndex: null));
+      emit(HomeLoading());
+      final houses = await _studentServices.searchForSpecificOwner(ownerName);
+      emit(HomeLoaded(houses: houses));
+    } on AuthException catch (exp) {
+      emit(HomeError(message: exp.message));
+    } catch (exp) {
+      emit(HomeError(message: exp.toString()));
+    }
+  }
+
+  Future<void> changeFavorite(String houseId) async {
+    try {
+      emit(HomeLoading());
+      String message = await _studentServices.changeFavorite(houseId);
+      emit(FavroiteChangedSuccess(message: message));
+      getHomeData();
+    } on AuthException catch (exp) {
+      emit(HomeError(message: exp.message));
+    } catch (exp) {
+      emit(HomeError(message: exp.toString()));
+    }
   }
 }

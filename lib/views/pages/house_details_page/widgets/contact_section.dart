@@ -4,13 +4,15 @@ import 'package:housing_project/Utils/app_color.dart';
 
 class ContactSection extends StatelessWidget {
   final String ownerName;
-  const ContactSection({super.key, required this.ownerName});
+  final String phoneNumber;
+  const ContactSection(
+      {super.key, required this.ownerName, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsetsDirectional.all(size.width * 0.015),
+      padding: EdgeInsetsDirectional.all(size.width * 0.05),
       decoration: BoxDecoration(
         border: Border.all(color: AppColor.grey),
         color: AppColor.white,
@@ -32,7 +34,7 @@ class ContactSection extends StatelessWidget {
               ),
               SizedBox(width: size.width * 0.02),
               Text(
-                '$ownerName:',
+                '$ownerName: ',
                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -40,7 +42,7 @@ class ContactSection extends StatelessWidget {
             ],
           ),
           Text(
-            '0568894982',
+            phoneNumber,
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),

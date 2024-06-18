@@ -1,23 +1,24 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_constatns.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/Utils/http_constants.dart';
-import 'package:housing_project/models/auth_models/owner_auth_model.dart';
-import 'package:housing_project/models/auth_models/student_auth_model.dart';
-import 'package:housing_project/models/user_model.dart';
+import 'package:housing_project/models/houses_models/house_details_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
+import 'package:housing_project/models/houses_models/room_details_models/rooms_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class AuthServices {
-  Future<bool> studentRegister(StudentRegisterModel newStudent);
-  Future<String> updateMyInformation(Map<String, dynamic> newData);
-  Future<Map<String, dynamic>> ownerRegister(OwnerRegisterModel newOwner);
-  Future<bool> login(String email, String password);
-  Future<String> changePassword(String password, String newPassword);
-  Future<UserModel?> getUser();
-  Future<void> logout();
+abstract class StudentServices {
+  Future<List<HouseModel>> getAllHouses();
+  Future<List<HouseModel>> getCategorizedHouses(String category);
+  Future<List<HouseModel>> searchForSpecificOwner(String ownerName);
+  Future<String> changeFavorite(String houseId);
+  Future<List<HouseModel>> getFavoriteHouses();
+  Future<HouseDetailsModel> getHouseDetails(String houseId);
+  Future<RoomModel> getRoomDetails(String roomId);
 }
 
-class AuthServicesImplementation implements AuthServices {
+class StudentServicesImplementation implements StudentServices {
   final dio = Dio(
     BaseOptions(
       sendTimeout: const Duration(seconds: 7),
@@ -37,64 +38,33 @@ class AuthServicesImplementation implements AuthServices {
   );
 
   @override
-  Future<bool> studentRegister(StudentRegisterModel newStudent) async {
+  Future<List<HouseModel>> getAllHouses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      final response = await dio.post(
-        HttpConstants.studentRegister,
-        data: newStudent.toJson(),
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.get(
+        HttpConstants.getAllHouses,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
       );
-      final responseData = response.data;
-      if (response.statusCode == 200) {
-        await prefs.setString(
-            AppConstants.accessToken, responseData['access_token']);
-        return true;
-      } else {
-        throw AuthException(
-            responseData['message'] ?? 'حصل خلل أثناء عملية إنشاء الحساب');
-      }
-    } on DioException catch (e) {
-      switch (e.type) {
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          throw AuthException('إنتهى وقت الطلب');
-        case DioExceptionType.badResponse:
-          if (e.response != null && e.response!.data is Map) {
-            final errorData = e.response!.data as Map;
-            throw AuthException(
-                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
-          } else {
-            throw AuthException('إستقبال خاطئ');
-          }
-        case DioExceptionType.cancel:
-          throw AuthException('تم إلغاء الطلب');
-        case DioExceptionType.unknown:
-          throw AuthException(
-              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
-        default:
-          throw AuthException('فشل إنشاء الحساب : ${e.message}');
-      }
-    } on AuthException catch (e) {
-      throw AuthException(e.message);
-    } catch (e) {
-      throw AuthException('حصل خلل أثناء عملية إنشاء الحساب');
-    }
-  }
 
-  @override
-  Future<Map<String, dynamic>> ownerRegister(
-      OwnerRegisterModel newOwner) async {
-    try {
-      final response = await dio.post(
-        HttpConstants.ownerRegister,
-        data: newOwner.toJson(),
-      );
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        return response.data;
-      } else {
-        throw AuthException(response.data['message']);
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
       }
+
+      List<HouseModel> houses = (responseData['houses'] as List)
+          .map((houseMap) => HouseModel.fromMap(houseMap))
+          .toList();
+
+      return houses;
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
@@ -105,7 +75,7 @@ class AuthServicesImplementation implements AuthServices {
           if (e.response != null && e.response!.data is Map) {
             final errorData = e.response!.data as Map;
             throw AuthException(
-                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
           } else {
             throw AuthException('إستقبال خاطئ');
           }
@@ -115,7 +85,7 @@ class AuthServicesImplementation implements AuthServices {
           throw AuthException(
               'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
         default:
-          throw AuthException('فشل إنشاء الحساب: ${e.message}');
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
       }
     } on AuthException catch (e) {
       throw AuthException(e.message);
@@ -125,24 +95,34 @@ class AuthServicesImplementation implements AuthServices {
   }
 
   @override
-  Future<bool> login(String email, String password) async {
+  Future<List<HouseModel>> getCategorizedHouses(String category) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      final response = await dio.post(
-        HttpConstants.login,
-        data: {
-          'email': email,
-          'password': password,
-        },
-      );
-      final responseData = response.data;
-      if (response.statusCode == 403 || response.statusCode == 401) {
-        throw AuthException(responseData['message']);
-      } else {
-        await prefs.setString(
-            AppConstants.accessToken, responseData['access_token']);
-        return true;
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
       }
+      final response = await dio.post(
+        HttpConstants.getCategorizedHouses,
+        data: {
+          'houseType': category,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      List<HouseModel> houses = (responseData['houses'] as List)
+          .map((houseMap) => HouseModel.fromMap(houseMap))
+          .toList();
+      return houses;
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
@@ -153,7 +133,7 @@ class AuthServicesImplementation implements AuthServices {
           if (e.response != null && e.response!.data is Map) {
             final errorData = e.response!.data as Map;
             throw AuthException(
-                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
           } else {
             throw AuthException('إستقبال خاطئ');
           }
@@ -163,24 +143,133 @@ class AuthServicesImplementation implements AuthServices {
           throw AuthException(
               'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
         default:
-          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
       }
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
-      throw AuthException('حصل خلل أثناء عملية تسجيل الدخول');
+      throw AuthException(e.toString());
     }
   }
 
   @override
-  Future<UserModel?> getUser() async {
+  Future<List<HouseModel>> searchForSpecificOwner(String ownerName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
       }
       final response = await dio.get(
-        HttpConstants.getUser,
+        HttpConstants.searchForSpecificOwner(ownerName),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (responseData.containsKey('message')) {
+        throw AuthException(responseData['message']);
+      }
+      List<HouseModel> houses = (responseData['houses'] as List)
+          .map((houseMap) => HouseModel.fromMap(houseMap))
+          .toList();
+      return houses;
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
+      }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> changeFavorite(String houseId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.put(
+        HttpConstants.changeFavorite(int.parse(houseId)),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      return responseData['message'];
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
+      }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<HouseModel>> getFavoriteHouses() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.get(
+        HttpConstants.getFavoriteHouses,
         options: Options(
           headers: {
             'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
@@ -192,9 +281,15 @@ class AuthServicesImplementation implements AuthServices {
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (responseData.containsKey('message')) {
+        throw AuthException(responseData['message']);
       }
-      UserModel user = UserModel.fromMap(responseData['user']);
-      return user;
+
+      List<HouseModel> houses = (responseData['houses'] as List)
+          .map((houseMap) => HouseModel.fromMap(houseMap))
+          .toList();
+
+      return houses;
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
@@ -205,7 +300,7 @@ class AuthServicesImplementation implements AuthServices {
           if (e.response != null && e.response!.data is Map) {
             final errorData = e.response!.data as Map;
             throw AuthException(
-                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
           } else {
             throw AuthException('إستقبال خاطئ');
           }
@@ -215,75 +310,42 @@ class AuthServicesImplementation implements AuthServices {
           throw AuthException(
               'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
         default:
-          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
       }
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
-     throw AuthException('حصل خلل أثناء عملية تسجيل الدخول');
+      throw AuthException(e.toString());
     }
   }
 
   @override
-  Future<void> logout() async {
+  Future<HouseDetailsModel> getHouseDetails(String houseId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      await dio.post(
-        HttpConstants.logout,
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.get(
+        HttpConstants.getHouseDetails(int.parse(houseId)),
         options: Options(
           headers: {
             'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
           },
         ),
-      );
-      await prefs.remove(AppConstants.accessToken);
-    } on DioException catch (e) {
-      switch (e.type) {
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          throw AuthException('إنتهى وقت الطلب');
-        case DioExceptionType.badResponse:
-          if (e.response != null && e.response!.data is Map) {
-            final errorData = e.response!.data as Map;
-            throw AuthException(
-                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
-          } else {
-            throw AuthException('إستقبال خاطئ');
-          }
-        case DioExceptionType.cancel:
-          throw AuthException('تم إلغاء الطلب');
-        case DioExceptionType.unknown:
-          throw AuthException(
-              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
-        default:
-          throw AuthException('فشل إنشاء الحساب : ${e.message}');
-      }
-    } on AuthException catch (e) {
-      throw AuthException(e.message);
-    } catch (e) {
-      throw AuthException('حصل خلل أثناء عملية تسجيل الدخول');
-    }
-  }
-
-  @override
-  Future<String> changePassword(String password, String newPassword) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      final response = await dio.post(
-        HttpConstants.changePassword,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
-          },
-        ),
-        data: {
-          'password': password,
-          'newPassword': newPassword,
-        },
       );
       final responseData = response.data;
-      return responseData['message'];
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (responseData.containsKey('message')) {
+        throw AuthException(responseData['message']);
+      }
+      HouseDetailsModel houseDetail =
+          HouseDetailsModel.fromMap(responseData['data']);
+
+      return houseDetail;
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
@@ -294,7 +356,7 @@ class AuthServicesImplementation implements AuthServices {
           if (e.response != null && e.response!.data is Map) {
             final errorData = e.response!.data as Map;
             throw AuthException(
-                errorData['message'] ?? 'حصل خطأ أثناء عملية إنشاء الحساب');
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
           } else {
             throw AuthException('إستقبال خاطئ');
           }
@@ -304,28 +366,42 @@ class AuthServicesImplementation implements AuthServices {
           throw AuthException(
               'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
         default:
-          throw AuthException('فشل إنشاء الحساب : ${e.message}');
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
       }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
     } catch (e) {
-      throw AuthException('حصل خطأ أثناء عملية تغيير كلمة المرور');
+      throw AuthException(e.toString());
     }
   }
 
   @override
-  Future<String> updateMyInformation(Map<String, dynamic> newData) async {
+  Future<RoomModel> getRoomDetails(String roomId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      final response = await dio.post(
-        HttpConstants.updateMyInformation,
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.get(
+        HttpConstants.getRoomDetails(int.parse(roomId)),
         options: Options(
           headers: {
             'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
           },
         ),
-        data: newData,
       );
       final responseData = response.data;
-      return responseData['message'];
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (responseData.containsKey('message')) {
+        throw AuthException(responseData['message']);
+      }
+      debugPrint(responseData.toString());
+      RoomModel roomDetail = RoomModel.fromMap(responseData['result']);
+
+      return roomDetail;
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:
@@ -336,7 +412,7 @@ class AuthServicesImplementation implements AuthServices {
           if (e.response != null && e.response!.data is Map) {
             final errorData = e.response!.data as Map;
             throw AuthException(
-                errorData['message'] ?? 'حصل خطأ أثناء عملية تعديل المعلومات');
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
           } else {
             throw AuthException('إستقبال خاطئ');
           }
@@ -346,12 +422,12 @@ class AuthServicesImplementation implements AuthServices {
           throw AuthException(
               'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
         default:
-          throw AuthException('فشل تعديل المعلومات : ${e.message}');
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
       }
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
-      throw AuthException('حصل خطأ أثناء عملية تعديل المعلومات');
+      throw AuthException(e.toString());
     }
   }
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/home_tap_view_widgets/owner_house_item.dart';
-import 'package:housing_project/views/widgets/owner_no_requests_wiget.dart';
+import 'package:housing_project/views/widgets/no_items_wiget.dart';
 
 class HomeTabView extends StatelessWidget {
   final UserModel user;
@@ -84,7 +85,7 @@ class HomeTabView extends StatelessWidget {
         } else {
           return Stack(
             children: [
-              const NoItemsWidget(title: 'لم يتم إضافة أي عقار'),
+              const NoItemsWidget(title: 'لم يتم إضافة أي عقار',icon: FontAwesomeIcons.building),
               Positioned(
                 bottom: 5.0,
                 right: 16.0,

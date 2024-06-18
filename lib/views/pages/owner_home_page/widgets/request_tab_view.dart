@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
-import 'package:housing_project/views/widgets/owner_no_requests_wiget.dart';
+import 'package:housing_project/views/widgets/no_items_wiget.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/request_tap_view_widgets/owner_room_request_card.dart';
 
 class RequestsTabView extends StatelessWidget {
@@ -57,6 +57,7 @@ class RequestsTabView extends StatelessWidget {
         } else {
           return const NoItemsWidget(
             title: 'لا يوجد أي طلبات',
+            icon: Icons.block,
           );
         }
       },

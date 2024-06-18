@@ -9,16 +9,17 @@ final class HouseDetailsInitial extends HouseDetailsState {}
 final class HouseDetailsLoading extends HouseDetailsState {}
 
 final class HouseDetailsLoaded extends HouseDetailsState {
-  final StudentRoomRequestsModel studentRoomRequestsModel;
-  final HouseModel house;
-  HouseDetailsLoaded({required this.house,required this.studentRoomRequestsModel});
+  final HouseDetailsModel houseDetails;
+  HouseDetailsLoaded({required this.houseDetails});
 }
-
 final class HouseAddedToCart extends HouseDetailsState {
   final String houseId;
   HouseAddedToCart({required this.houseId});
 }
-
+final class FavroiteDetailsChangedSuccess extends HouseDetailsState {
+  final String message;
+   FavroiteDetailsChangedSuccess({required this.message});
+}
 final class DayTimeSlotChanged extends HouseDetailsState {
  
   DayTimeSlotChanged();
@@ -29,4 +30,13 @@ final class HouseAddingToCart extends HouseDetailsState {}
 final class HouseDetailsError extends HouseDetailsState {
   final String message;
   HouseDetailsError({required this.message});
+}
+final class RoomDetailsLoading extends HouseDetailsState {}
+final class RoomDetailsLoaded extends HouseDetailsState {
+  final RoomModel room;
+  RoomDetailsLoaded({required this.room});
+}
+final class RoomDetailsError extends HouseDetailsState {
+  final String message;
+  RoomDetailsError({required this.message});
 }

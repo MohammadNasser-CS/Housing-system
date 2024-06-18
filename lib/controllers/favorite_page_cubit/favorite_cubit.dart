@@ -1,28 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/Utils/auth_exceptions.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
+import 'package:housing_project/services/student_services/student_service.dart';
 
 part 'favorite_state.dart';
 
 class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit() : super(FavoriteInitial());
-  void getFavoriteHouses() {
-    emit(FavoriteLoading());
-    Future.delayed(const Duration(seconds: 1), () {
-      emit(FavoriteLoaded(
-          houses:
-              dummyItems.where((item) => item.isFavorite == true).toList()),);
-    });
+  final StudentServices _studentServices = StudentServicesImplementation();
+  Future<void> getFavoriteHouses() async {
+    try {
+      emit(FavoriteLoading());
+      final houses = await _studentServices.getFavoriteHouses();
+      emit(FavoriteLoaded(houses: houses));
+    } on AuthException catch (exp) {
+      emit(FavoriteError(message: exp.message));
+    } catch (exp) {
+      emit(FavoriteError(message: exp.toString()));
+    }
   }
 
-  void changeFavorite(String itemId) {
-    final index = dummyItems.indexWhere((item) => item.id == itemId);
-    dummyItems[index] = dummyItems[index].copyWith(
-      isFavorite: !dummyItems[index].isFavorite,
-    );
-    emit(
-      FavoriteLoaded(
-          houses:
-              dummyItems.where((item) => item.isFavorite == true).toList()),
-    );
+ Future<void> changeFavorite(String houseId) async {
+    try {
+      emit(FavoriteLoading());
+      String message = await _studentServices.changeFavorite(houseId);
+      emit(FavroiteChangedSuccess(message: message));
+      getFavoriteHouses();
+    } on AuthException catch (exp) {
+      emit(FavoriteError(message: exp.message));
+    } catch (exp) {
+      emit(FavoriteError(message: exp.toString()));
+    }
   }
 }

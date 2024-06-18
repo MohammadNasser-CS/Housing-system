@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
 class OwnerHouseItem extends StatelessWidget {
@@ -35,7 +35,7 @@ class OwnerHouseItem extends StatelessWidget {
                 child: Stack(
                   children: [
                     CachedNetworkImage(
-                      imageUrl: houseItemModel.imgUrl,
+                      imageUrl: houseItemModel.housePhoto,
                       fit: BoxFit.fill,
                       width: double.infinity,
                       height: size.height * 0.3,
@@ -56,7 +56,7 @@ class OwnerHouseItem extends StatelessWidget {
                         ),
                         child: TextWidget(
                           title: 'نوع العقار: ',
-                          value: houseItemModel.category,
+                          value: houseItemModel.houseType,
                         ),
                       ),
                     ),
@@ -81,7 +81,7 @@ class OwnerHouseItem extends StatelessWidget {
                               value: houseItemModel.ownerName),
                           TextWidget(
                               title: 'عدد الغرف المتاحة: ',
-                              value: '${houseItemModel.freeRoomsNumber}'),
+                              value: '${houseItemModel.availableRoom}'),
                         ],
                       ),
                       Row(
@@ -118,7 +118,7 @@ class OwnerHouseItem extends StatelessWidget {
                                 ),
                                 TextSpan(
                                   text:
-                                      ' عدد غرف النوم : ${houseItemModel.roomsNumber}',
+                                      ' عدد غرف النوم : ${houseItemModel.numberOfRooms}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelMedium!

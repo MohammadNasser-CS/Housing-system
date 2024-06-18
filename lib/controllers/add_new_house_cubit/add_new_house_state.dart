@@ -9,6 +9,10 @@ final class AddNewHouseDoneSuccess extends AddNewHouseState {
   final HouseModel house;
   AddNewHouseDoneSuccess({required this.house});
 }
+final class AddNewHouseSuccess extends AddNewHouseState {
+  final String message;
+  AddNewHouseSuccess({required this.message});
+}
 
 final class AddNewHouseError extends AddNewHouseState {
   final String message;

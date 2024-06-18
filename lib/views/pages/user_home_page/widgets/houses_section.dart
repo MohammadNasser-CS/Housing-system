@@ -10,9 +10,9 @@ class HousesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubitBase = BlocProvider.of<HomeCubit>(context);
+    final cubit = BlocProvider.of<HomeCubit>(context);
     return BlocBuilder<HomeCubit, HomeState>(
-      bloc: cubitBase,
+      bloc: cubit,
       buildWhen: (previous, current) => current is! HouseDetailsLoaded,
       builder: (context, state) {
         if (state is HomeLoading) {
@@ -26,13 +26,14 @@ class HousesSection extends StatelessWidget {
         } else if (state is HomeLoaded) {
           return RefreshIndicator(
             onRefresh: () async {
-              return await cubitBase.getHomeData();
+              await cubit.getHomeData();
+              await cubit.changeCategory(null);
             },
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   BlocBuilder<HomeCubit, HomeState>(
-                    bloc: cubitBase,
+                    bloc: cubit,
                     buildWhen: (previous, current) => current is HomeLoaded,
                     builder: (context, state) {
                       if (state is HomeLoaded) {
@@ -45,12 +46,12 @@ class HousesSection extends StatelessWidget {
                               Navigator.of(context, rootNavigator: true)
                                   .pushNamed(
                                     AppRoutes.details,
-                                    arguments: state.houses[index],
+                                    arguments: state.houses[index].houseId,
                                   )
-                                  .then((value) => cubitBase.getHomeData());
+                                  .then((value) => cubit.getHomeData());
                             },
                             child: HouseItem(
-                              cubit: cubitBase,
+                              cubit: cubit,
                               houseItemModel: state.houses[index],
                             ),
                           ),

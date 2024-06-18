@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/user_home_page_cubit/user_home_cubit.dart';
 import 'package:housing_project/models/home_category_model.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
 
 class CategorySlider extends StatefulWidget {
   const CategorySlider({
@@ -16,7 +16,6 @@ class CategorySlider extends StatefulWidget {
 
 class _CategorySliderState extends State<CategorySlider> {
   int? selectedCategoryIndex;
-
   late List<HouseModel> filterdHouses;
 
   @override
@@ -33,34 +32,23 @@ class _CategorySliderState extends State<CategorySlider> {
               SizedBox(
                 height: size.height * 0.07,
                 child: ListView.builder(
-                  itemCount: dummyCategories.length,
+                  itemCount: categories.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsetsDirectional.only(end: 10.0),
                     child: InkWell(
                       onTap: () {
-                        if (selectedCategoryIndex == null ||
-                            selectedCategoryIndex != index) {
-                          selectedCategoryIndex = index;
+                        if (state.selectedCategoryIndex == null ||
+                            state.selectedCategoryIndex != index) {
+                          cubit.changeCategory(index);
                         } else {
-                          selectedCategoryIndex = null;
-                          filterdHouses = dummyItems;
-                          cubit.changeCategory(selectedCategoryIndex);
-                        }
-                        if (selectedCategoryIndex != null) {
-                          // final selectedCategory =
-                          //     dummyCategories[selectedCategoryIndex!];
-                          // filterdHouses = dummyItems
-                          //     .where((element) =>
-                          //         element.category == selectedCategory.category)
-                          //     .toList();
-                          cubit.changeCategory(selectedCategoryIndex);
+                          cubit.changeCategory(null);
                         }
                       },
                       child: Container(
                         width: size.width * 0.2,
                         decoration: BoxDecoration(
-                          color: selectedCategoryIndex == index
+                          color: state.selectedCategoryIndex == index
                               ? AppColor.orange8
                               : Colors.white,
                           shape: BoxShape.rectangle,
@@ -71,14 +59,14 @@ class _CategorySliderState extends State<CategorySlider> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              dummyCategories[index].category,
+                              categories[index].category,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.w900,
                                     fontSize: size.width * 0.03,
-                                    color: selectedCategoryIndex == index
+                                    color: state.selectedCategoryIndex == index
                                         ? Colors.white
                                         : AppColor.orange8,
                                   ),
@@ -90,7 +78,6 @@ class _CategorySliderState extends State<CategorySlider> {
                   ),
                 ),
               ),
-              // Positioned(top: 1.0, right: 1.0, child: Column()),
             ],
           );
         } else {
@@ -99,7 +86,7 @@ class _CategorySliderState extends State<CategorySlider> {
               SizedBox(
                 height: size.height * 0.07,
                 child: ListView.builder(
-                  itemCount: dummyCategories.length,
+                  itemCount: categories.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsetsDirectional.only(end: 10.0),
@@ -110,16 +97,9 @@ class _CategorySliderState extends State<CategorySlider> {
                           selectedCategoryIndex = index;
                         } else {
                           selectedCategoryIndex = null;
-                          filterdHouses = dummyItems;
                           cubit.changeCategory(selectedCategoryIndex);
                         }
                         if (selectedCategoryIndex != null) {
-                          // final selectedCategory =
-                          //     dummyCategories[selectedCategoryIndex!];
-                          // filterdHouses = dummyItems
-                          //     .where((element) =>
-                          //         element.category == selectedCategory.category)
-                          //     .toList();
                           cubit.changeCategory(selectedCategoryIndex);
                         }
                       },
@@ -137,7 +117,7 @@ class _CategorySliderState extends State<CategorySlider> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              dummyCategories[index].category,
+                              categories[index].category,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium!
@@ -156,7 +136,6 @@ class _CategorySliderState extends State<CategorySlider> {
                   ),
                 ),
               ),
-              // Positioned(top: 1.0, right: 1.0, child: Column()),
             ],
           );
         }

@@ -45,27 +45,33 @@ class _SearchSectionState extends State<SearchSection> {
             textAlign: TextAlign.right,
             controller: _searchController,
             focusNode: _searchFocusNode,
-            // onEditingComplete: () {
-            //   _searchFocusNode.unfocus();
-            //   FocusScope.of(context)
-            //       .requestFocus(_passwordFocusNode);
-            // },
+            onEditingComplete: () async {
+              _searchFocusNode.unfocus();
+              if (_searchController.text.isNotEmpty) {
+                await cubit.searchFilled(_searchController.text);
+              } else {
+                await cubit.getHomeData();
+              }
+            },
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
-            onChanged: (value) {
+            onChanged: (value) async {
               // debugPrint(value);
-              cubit.searchFilled(value);
-              onwerName = value;
+              if (value.isNotEmpty) {
+                await cubit.searchFilled(value);
+              } else {
+                await cubit.getHomeData();
+              }
             },
-            // validator: (value) {
-            //   if (value == null || value.isEmpty) {
-            //     return "قم بإدخال إسم المستخدم الخاص بك.";
-            //   } else if (!value.contains('@')) {
-            //     return "إسم المستخدم غير مناسب";
-            //   } else {
-            //     return null;
-            //   }
-            // },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "الرجاء إدخال الإسم الكامل";
+              } else if (!RegExp(r'^[ء-ي\s]+$').hasMatch(value)) {
+                return "الرجاء إدخال إسم صحيح يحتوي على الأحرف العربية فقط";
+              } else {
+                return null;
+              }
+            },
             decoration: InputDecoration(
               contentPadding: EdgeInsetsDirectional.all(size.width * 0.03),
               hintText: 'رقم العقار...',

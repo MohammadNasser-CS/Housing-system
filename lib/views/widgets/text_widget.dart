@@ -22,7 +22,7 @@ class TextWidget extends StatelessWidget {
             text: value,
             style: Theme.of(context)
                 .textTheme
-                .labelLarge!
+                .labelMedium!
                 .copyWith(fontWeight: FontWeight.w700, color: AppColor.black),
           ),
         ],

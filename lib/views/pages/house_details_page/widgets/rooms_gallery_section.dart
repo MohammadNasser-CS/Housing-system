@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:housing_project/models/rooms_model.dart';
 
 class RoomsGallerySection extends StatelessWidget {
-  final List<RoomModel> housRooms;
+  final List<Map<String, String>> housRooms;
   const RoomsGallerySection({
     super.key,
     required this.housRooms,
@@ -33,7 +32,7 @@ class RoomsGallerySection extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: CachedNetworkImage(
-                  imageUrl: housRooms[index].imagesUrl[0],
+                  imageUrl: housRooms[index]['photo']!,
                   // height: size.height * 0.06,
                   fit: BoxFit.fill,
                   placeholder: (context, url) =>

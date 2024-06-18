@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/models/house_model.dart';
+import 'package:housing_project/models/houses_models/house_details_model.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 import 'package:readmore/readmore.dart';
 
 class HouseDescriptionSection extends StatelessWidget {
-  final HouseModel house;
+  final HouseDetailsModel houseDetails;
   const HouseDescriptionSection({
     super.key,
-    required this.house,
+    required this.houseDetails,
   });
 
   @override
@@ -41,23 +41,21 @@ class HouseDescriptionSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextWidget(
-                      title: 'خدمة الكهرباء:',
-                      value: house.electricityServiceIncluded ? ' نعم' : ' لا'),
+                      title: 'خدمة الكهرباء:', value: houseDetails.electricity),
                   TextWidget(
                     title: 'خدمة الماء:',
-                    value: house.waterServiceIncluded ? ' نعم' : ' لا',
+                    value: houseDetails.water,
                   ),
                 ],
               ),
+              const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  TextWidget(
-                      title: 'خدمة الغاز:',
-                      value: house.gazServiceIncluded ? ' نعم' : ' لا'),
+                  TextWidget(title: 'خدمة الغاز:', value: houseDetails.gas),
                   TextWidget(
                     title: 'خدمة الإنترنت:',
-                    value: house.internetServiceIncluded ? ' نعم' : ' لا',
+                    value: houseDetails.internet,
                   ),
                 ],
               ),
@@ -88,7 +86,7 @@ class HouseDescriptionSection extends StatelessWidget {
                   trimExpandedText: 'أقل',
                   trimLines: 3,
                   trimMode: TrimMode.Line,
-                  house.description,
+                  houseDetails.description,
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
                         fontWeight: FontWeight.w400,
                         color: AppColor.grey,
