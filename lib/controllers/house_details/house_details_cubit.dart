@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/houses_models/house_details_model.dart';
-import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/models/houses_models/room_details_models/rooms_model.dart';
 import 'package:housing_project/services/student_services/student_service.dart';
 
@@ -15,7 +13,6 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
     try {
       emit(HouseDetailsLoading());
       final houses = await _studentServices.getHouseDetails(houseId);
-      debugPrint(houses.toString());
       emit(HouseDetailsLoaded(houseDetails: houses));
     } on AuthException catch (exp) {
       emit(HouseDetailsError(message: exp.message));
@@ -41,7 +38,6 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
     try {
       emit(RoomDetailsLoading());
       final room = await _studentServices.getRoomDetails(roomId);
-      debugPrint(room.toString());
       emit(RoomDetailsLoaded(room: room));
     } on AuthException catch (exp) {
       emit(RoomDetailsError(message: exp.message));
@@ -50,16 +46,17 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
     }
   }
 
-  Future<void> selectDateTimeSlot(
-  
-      String roomId, String newSelectedTimeSlot) async {
-    final index = dummyStdRoomRequests.indexWhere((item) {
-      return item.roomId == roomId;
-    });
-
-    dummyStdRoomRequests[index] = dummyStdRoomRequests[index].copyWith(
-      selectedDateTimeSlot: newSelectedTimeSlot,
-    );
+  Future<void> selectDateTimeSlot(String roomId, String timeSlotId) async {
+    try {
+      // emit(RoomDetailsLoading());
+      String result =
+          await _studentServices.makeRequestReservation(roomId, timeSlotId);
+      emit(RequestReservationDone(message: result));
+    } on AuthException catch (exp) {
+      emit(RoomDetailsError(message: exp.message));
+    } catch (exp) {
+      emit(RoomDetailsError(message: exp.toString()));
+    }
     // emit(DayTimeSlotChanged());
   }
 }

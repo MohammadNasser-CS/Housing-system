@@ -18,7 +18,9 @@ class HouseDetailsPage extends StatelessWidget {
     return BlocConsumer<HouseDetailsCubit, HouseDetailsState>(
       bloc: cubit,
       listenWhen: (previous, current) =>
-          current is FavroiteDetailsChangedSuccess,
+          current is FavroiteDetailsChangedSuccess ||
+          current is RequestReservationDone ||
+          current is RoomDetailsError,
       listener: (context, state) {
         if (state is FavroiteDetailsChangedSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(

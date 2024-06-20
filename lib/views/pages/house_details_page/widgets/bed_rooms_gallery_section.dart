@@ -74,7 +74,26 @@ class _BedRoomsGallerySectionState extends State<BedRoomsGallerySection>
                               widget.roomsModel[index]['roomId']!);
                           return BlocProvider.value(
                             value: cubit,
-                            child: const BedRoomDiscoveringDialog(),
+                            child: Container(
+                              height: size.height * 0.6,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(24.0),
+                                  topRight: Radius.circular(24.0),
+                                ),
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              alignment: Alignment.topCenter,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8.0),
+                              constraints: BoxConstraints(
+                                maxHeight: size.height * 0.6,
+                              ),
+                              child: const Scaffold(
+                                  backgroundColor: Colors.transparent,
+                                  body: BedRoomDiscoveringDialog()),
+                            ),
                           );
                         },
                       ),

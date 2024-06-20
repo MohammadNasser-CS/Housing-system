@@ -1,27 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
-import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_item.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_requests_widget.dart';
 import 'package:housing_project/views/widgets/no_items_wiget.dart';
 
 class MyRoomPage extends StatelessWidget {
-  final UserModel user;
-  const MyRoomPage({super.key, required this.user});
+  const MyRoomPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final cubit = BlocProvider.of<MyRoomCubit>(context);
-    return BlocBuilder<MyRoomCubit, MyRoomState>(
+    return BlocConsumer<MyRoomCubit, MyRoomState>(
       bloc: cubit,
+      listenWhen: (previous, current) =>
+          current is RequestDeleted || current is MyRoomError,
+      listener: (context, state) {
+        if (state is RequestDeleted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        } else if (state is MyRoomError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        }
+      },
       buildWhen: (previous, current) =>
           current is MyRoomLoading ||
           current is MyRoomLoaded ||
           current is RoomRequestsLoaded ||
-          current is NoRequestAndNoRoom ||
-          current is MyRoomError,
+          current is NoRequestAndNoRoom,
       builder: (context, state) {
         if (state is MyRoomLoading) {
           return const Scaffold(
@@ -39,7 +55,6 @@ class MyRoomPage extends StatelessWidget {
                   children: [
                     RoomItem(
                       room: state.room,
-                      house: state.house,
                     ),
                   ],
                 ),
@@ -47,10 +62,12 @@ class MyRoomPage extends StatelessWidget {
             ),
           );
         } else if (state is RoomRequestsLoaded) {
-          return const RoomRequestsWidget();
+          return RoomRequestsWidget(requestsModel: state.roomRequests);
         } else if (state is NoRequestAndNoRoom) {
           return const NoItemsWidget(
-              title: 'لم تقم بحجز أو طلب حجز لأي غرفة',icon: Icons.block,);
+            title: 'لم تقم بحجز أو طلب حجز لأي غرفة',
+            icon: Icons.block,
+          );
         } else {
           return const SizedBox.shrink();
         }

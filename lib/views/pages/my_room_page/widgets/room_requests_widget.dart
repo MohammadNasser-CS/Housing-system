@@ -3,7 +3,8 @@ import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_request_widget_components/room_request_card.dart';
 
 class RoomRequestsWidget extends StatefulWidget {
-  const RoomRequestsWidget({super.key});
+  final List<StudentRoomRequestsModel> requestsModel;
+  const RoomRequestsWidget({super.key, required this.requestsModel});
 
   @override
   State<RoomRequestsWidget> createState() => _RoomRequestsWidgetState();
@@ -19,11 +20,11 @@ class _RoomRequestsWidgetState extends State<RoomRequestsWidget> {
             const SizedBox(height: 20),
             ListView.builder(
               padding: const EdgeInsetsDirectional.symmetric(horizontal: 8.0),
-              itemCount: dummyStdRoomRequests.length,
+              itemCount: widget.requestsModel.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final roomRequest = dummyStdRoomRequests[index];
+                final roomRequest = widget.requestsModel[index];
                 return Container(
                   margin: const EdgeInsetsDirectional.only(bottom: 8.0),
                   child: RoomRequestCard(roomRequestsModel: roomRequest),

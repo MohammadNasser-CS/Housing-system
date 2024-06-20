@@ -20,9 +20,9 @@ final class FavroiteDetailsChangedSuccess extends HouseDetailsState {
   final String message;
    FavroiteDetailsChangedSuccess({required this.message});
 }
-final class DayTimeSlotChanged extends HouseDetailsState {
- 
-  DayTimeSlotChanged();
+final class RequestReservationDone extends HouseDetailsState {
+  final String message;
+   RequestReservationDone({required this.message});
 }
 
 final class HouseAddingToCart extends HouseDetailsState {}

@@ -4,118 +4,126 @@ import 'package:flutter/foundation.dart';
 
 class StudentRoomRequestsModel {
   final String requestId;
-  final String houseOwnerName;
-  final String houseId;
-  final String roomId;
-  final String studentName;
-  final String ownerPhoneNumber;
   final String requestStatus;
   final String? selectedDateTimeSlot;
-  final Map<String, String> dateTimeSlots;
+  final String roomId;
+  final String houseId;
+  final String houseOwnerName;
+  final String houseOwnerPhoneNumber;
+  final String? studentName;
+  final Map<String, String>? availableTimes;
   StudentRoomRequestsModel({
     required this.requestId,
-    required this.houseOwnerName,
-    required this.houseId,
-    required this.roomId,
-    required this.studentName,
-    required this.ownerPhoneNumber,
     required this.requestStatus,
     this.selectedDateTimeSlot,
-    required this.dateTimeSlots,
+    required this.roomId,
+    required this.houseId,
+    required this.houseOwnerName,
+    required this.houseOwnerPhoneNumber,
+    this.studentName,
+    this.availableTimes,
   });
 
   StudentRoomRequestsModel copyWith({
     String? requestId,
-    String? houseOwnerName,
-    String? houseId,
-    String? roomId,
-    String? studentName,
-    String? ownerPhoneNumber,
     String? requestStatus,
     String? selectedDateTimeSlot,
-    Map<String, String>? dateTimeSlots,
+    String? roomId,
+    String? houseId,
+    String? houseOwnerName,
+    String? houseOwnerPhoneNumber,
+    String? studentName,
+    Map<String, String>? availableTimes,
   }) {
     return StudentRoomRequestsModel(
       requestId: requestId ?? this.requestId,
-      houseOwnerName: houseOwnerName ?? this.houseOwnerName,
-      houseId: houseId ?? this.houseId,
-      roomId: roomId ?? this.roomId,
-      studentName: studentName ?? this.studentName,
-      ownerPhoneNumber: ownerPhoneNumber ?? this.ownerPhoneNumber,
       requestStatus: requestStatus ?? this.requestStatus,
       selectedDateTimeSlot: selectedDateTimeSlot ?? this.selectedDateTimeSlot,
-      dateTimeSlots: dateTimeSlots ?? this.dateTimeSlots,
+      roomId: roomId ?? this.roomId,
+      houseId: houseId ?? this.houseId,
+      houseOwnerName: houseOwnerName ?? this.houseOwnerName,
+      houseOwnerPhoneNumber:
+          houseOwnerPhoneNumber ?? this.houseOwnerPhoneNumber,
+      studentName: studentName ?? this.studentName,
+      availableTimes: availableTimes ?? this.availableTimes,
     );
   }
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'requestId': requestId});
-    result.addAll({'houseOwnerName': houseOwnerName});
-    result.addAll({'houseId': houseId});
-    result.addAll({'roomId': roomId});
-    result.addAll({'studentName': studentName});
-    result.addAll({'ownerPhoneNumber': ownerPhoneNumber});
     result.addAll({'requestStatus': requestStatus});
-    if(selectedDateTimeSlot != null){
+    if (selectedDateTimeSlot != null) {
       result.addAll({'selectedDateTimeSlot': selectedDateTimeSlot});
     }
-    result.addAll({'dateTimeSlots': dateTimeSlots});
-  
+    result.addAll({'roomId': roomId});
+    result.addAll({'houseId': houseId});
+    result.addAll({'houseOwnerName': houseOwnerName});
+    result.addAll({'houseOwnerPhoneNumber': houseOwnerPhoneNumber});
+    if (studentName != null) {
+      result.addAll({'studentName': studentName});
+    }
+    if (availableTimes != null) {
+      result.addAll({'availableTimes': availableTimes});
+    }
+
     return result;
   }
 
   factory StudentRoomRequestsModel.fromMap(Map<String, dynamic> map) {
     return StudentRoomRequestsModel(
       requestId: map['requestId'] ?? '',
-      houseOwnerName: map['houseOwnerName'] ?? '',
-      houseId: map['houseId'] ?? '',
-      roomId: map['roomId'] ?? '',
-      studentName: map['studentName'] ?? '',
-      ownerPhoneNumber: map['ownerPhoneNumber'] ?? '',
       requestStatus: map['requestStatus'] ?? '',
       selectedDateTimeSlot: map['selectedDateTimeSlot'],
-      dateTimeSlots: Map<String, String>.from(map['dateTimeSlots']),
+      roomId: map['roomId'] ?? '',
+      houseId: map['houseId'] ?? '',
+      houseOwnerName: map['houseOwnerName'] ?? '',
+      houseOwnerPhoneNumber: map['houseOwnerPhoneNumber'] ?? '',
+      studentName: map['studentName'],
+      availableTimes: map['availableTimes'] != null
+          ? Map<String, String>.from(map['availableTimes'])
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory StudentRoomRequestsModel.fromJson(String source) => StudentRoomRequestsModel.fromMap(json.decode(source));
+  factory StudentRoomRequestsModel.fromJson(String source) =>
+      StudentRoomRequestsModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'StudentRoomRequestsModel(requestId: $requestId, houseOwnerName: $houseOwnerName, houseId: $houseId, roomId: $roomId, studentName: $studentName, ownerPhoneNumber: $ownerPhoneNumber, requestStatus: $requestStatus, selectedDateTimeSlot: $selectedDateTimeSlot, dateTimeSlots: $dateTimeSlots)';
+    return 'StudentRoomRequestsModel(requestId: $requestId, requestStatus: $requestStatus, selectedDateTimeSlot: $selectedDateTimeSlot, roomId: $roomId, houseId: $houseId, houseOwnerName: $houseOwnerName, houseOwnerPhoneNumber: $houseOwnerPhoneNumber, studentName: $studentName, availableTimes: $availableTimes)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is StudentRoomRequestsModel &&
-      other.requestId == requestId &&
-      other.houseOwnerName == houseOwnerName &&
-      other.houseId == houseId &&
-      other.roomId == roomId &&
-      other.studentName == studentName &&
-      other.ownerPhoneNumber == ownerPhoneNumber &&
-      other.requestStatus == requestStatus &&
-      other.selectedDateTimeSlot == selectedDateTimeSlot &&
-      mapEquals(other.dateTimeSlots, dateTimeSlots);
+        other.requestId == requestId &&
+        other.requestStatus == requestStatus &&
+        other.selectedDateTimeSlot == selectedDateTimeSlot &&
+        other.roomId == roomId &&
+        other.houseId == houseId &&
+        other.houseOwnerName == houseOwnerName &&
+        other.houseOwnerPhoneNumber == houseOwnerPhoneNumber &&
+        other.studentName == studentName &&
+        mapEquals(other.availableTimes, availableTimes);
   }
 
   @override
   int get hashCode {
     return requestId.hashCode ^
-      houseOwnerName.hashCode ^
-      houseId.hashCode ^
-      roomId.hashCode ^
-      studentName.hashCode ^
-      ownerPhoneNumber.hashCode ^
-      requestStatus.hashCode ^
-      selectedDateTimeSlot.hashCode ^
-      dateTimeSlots.hashCode;
+        requestStatus.hashCode ^
+        selectedDateTimeSlot.hashCode ^
+        roomId.hashCode ^
+        houseId.hashCode ^
+        houseOwnerName.hashCode ^
+        houseOwnerPhoneNumber.hashCode ^
+        studentName.hashCode ^
+        availableTimes.hashCode;
   }
 }
 
@@ -126,9 +134,9 @@ List<StudentRoomRequestsModel> dummyStdRoomRequests = [
     houseId: '1',
     roomId: '68',
     studentName: 'محمد ناصر',
-    ownerPhoneNumber: '0561234567',
+    houseOwnerPhoneNumber: '0561234567',
     requestStatus: 'إختيار موعد',
-    dateTimeSlots: {
+    availableTimes: {
       '1': 'الأحد: 8-9',
       '2': 'الأحد: 9-10',
       '3': 'الأحد: 10-11',
@@ -162,10 +170,10 @@ List<StudentRoomRequestsModel> dummyStdRoomRequests = [
     houseId: '1',
     roomId: '70',
     studentName: 'محمد ناصر',
-    ownerPhoneNumber: '0561234567',
+    houseOwnerPhoneNumber: '0561234567',
     requestStatus: 'تم تحديد موعد',
-    dateTimeSlots: {
-        '1': 'الأحد: 8-9',
+    availableTimes: {
+      '1': 'الأحد: 8-9',
       '2': 'الأحد: 9-10',
       '3': 'الأحد: 10-11',
       '4': 'الأحد: 1-2',

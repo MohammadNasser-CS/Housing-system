@@ -10,8 +10,12 @@ class HttpConstants {
   static const String getAllHouses = '/getAllHouses';
   static const String getCategorizedHouses = '/getCategorizedHouses';
   static const String getFavoriteHouses = '/getFavoriteHouses';
+  static const String requestReservation = '/requestReservation';
+  static const String getReservationRoomRequest = '/getReservationRoomRequest';
+  static const String getMyReservationRoom = '/getMyReservationRoom';
   static String searchForSpecificOwner(String name) => '/search/$name';
   static String getHouseDetails(int houseId) => '/getHouseDetails/$houseId';
   static String getRoomDetails(int roomId) => '/getRoomDetails/$roomId';
   static String changeFavorite(int houseId) => '/changeFavorite/$houseId';
+  static String cancelRequest(int requestId) => '/cancelRequest/$requestId';
 }

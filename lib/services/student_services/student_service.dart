@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_constatns.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/Utils/http_constants.dart';
 import 'package:housing_project/models/houses_models/house_details_model.dart';
 import 'package:housing_project/models/houses_models/house_model.dart';
+import 'package:housing_project/models/houses_models/my_room_model.dart';
 import 'package:housing_project/models/houses_models/room_details_models/rooms_model.dart';
+import 'package:housing_project/models/room_requests_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class StudentServices {
@@ -16,6 +17,10 @@ abstract class StudentServices {
   Future<List<HouseModel>> getFavoriteHouses();
   Future<HouseDetailsModel> getHouseDetails(String houseId);
   Future<RoomModel> getRoomDetails(String roomId);
+  Future<String> makeRequestReservation(String roomId, String timeSlotId);
+  Future<List<StudentRoomRequestsModel>?> getReservationRoomRequest();
+  Future<String> cancelRequest(String requestId);
+  Future<MyRoomModel?> getMyReservationRoom();
 }
 
 class StudentServicesImplementation implements StudentServices {
@@ -398,10 +403,232 @@ class StudentServicesImplementation implements StudentServices {
       } else if (responseData.containsKey('message')) {
         throw AuthException(responseData['message']);
       }
-      debugPrint(responseData.toString());
       RoomModel roomDetail = RoomModel.fromMap(responseData['result']);
 
       return roomDetail;
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
+      }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> makeRequestReservation(
+      String roomId, String timeSlotId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.post(
+        HttpConstants.requestReservation,
+        data: {
+          'roomId': roomId,
+          'timeSlotId': timeSlotId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (responseData.containsKey('error')) {
+        throw AuthException(responseData['error']);
+      }
+
+      return responseData['message'];
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
+      }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<StudentRoomRequestsModel>?> getReservationRoomRequest() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.get(
+        HttpConstants.getReservationRoomRequest,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (responseData['requests'] == null) {
+        return null;
+      }
+      List<StudentRoomRequestsModel> roomRequests =
+          (responseData['requests'] as List)
+              .map((requestMap) => StudentRoomRequestsModel.fromMap(requestMap))
+              .toList();
+      return roomRequests;
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
+      }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> cancelRequest(String requestId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.delete(
+        HttpConstants.cancelRequest(int.parse(requestId)),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      return responseData['message'];
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
+      }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<MyRoomModel?> getMyReservationRoom() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.get(
+        HttpConstants.getMyReservationRoom,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (responseData.containsKey('message')) {
+        throw AuthException(responseData['message']);
+      }
+      MyRoomModel roomModel = MyRoomModel.fromMap(responseData['myRoom']);
+      return roomModel;
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:

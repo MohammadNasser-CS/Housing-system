@@ -9,9 +9,8 @@ final class MyRoomInitial extends MyRoomState {}
 final class MyRoomLoading extends MyRoomState {}
 
 final class MyRoomLoaded extends MyRoomState {
-  final RoomModel room;
-  final HouseModel house;
-  MyRoomLoaded({required this.room, required this.house});
+  final MyRoomModel room;
+  MyRoomLoaded({required this.room});
 }
 
 final class RoomRequestsLoaded extends MyRoomState {
@@ -28,7 +27,10 @@ final class DayTimeSlotChanged extends MyRoomState {
   final String requestId;
   DayTimeSlotChanged({required this.newDateTime,required this.requestId});
 }
-
+final class RequestDeleted extends MyRoomState {
+  final String message;
+  RequestDeleted({required this.message});
+}
 final class MyRoomError extends MyRoomState {
   final String message;
   MyRoomError({required this.message});
