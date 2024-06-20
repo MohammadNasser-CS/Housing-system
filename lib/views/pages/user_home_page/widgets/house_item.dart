@@ -58,7 +58,7 @@ class HouseItem extends StatelessWidget {
                             cubit.changeFavorite(houseItemModel.houseId);
                           },
                           icon: Icon(
-                            houseItemModel.isFavorite
+                            houseItemModel.isFavorite!
                                 ? Icons.favorite
                                 : Icons.favorite_border,
                             color: AppColor.red,

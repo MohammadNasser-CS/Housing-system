@@ -4,13 +4,11 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/calender_select_cubit/calender_select_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/models/owner_free_date_time_model.dart';
-import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/search_section_widgets/date_time_dialog.dart';
 
 class OwnerHomePageSearchSectionSearchSection extends StatefulWidget {
-  final UserModel user;
   const OwnerHomePageSearchSectionSearchSection(
-      {super.key, required this.user});
+      {super.key});
 
   @override
   State<OwnerHomePageSearchSectionSearchSection> createState() =>
@@ -59,7 +57,7 @@ class _OwnerHomePageSearchSectionSearchSectionState
             textInputAction: TextInputAction.next,
             onChanged: (value) {
               // debugPrint(value);
-              cubit.searchFilled(value, widget.user);
+              cubit.searchFilled(value);
               onwerName = value;
             },
             // validator: (value) {

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_constatns.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/Utils/http_constants.dart';
+import 'package:housing_project/models/houses_models/house_model.dart';
 import 'package:housing_project/models/houses_models/requestModels/house_request_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class HouseOwnerServices {
   Future<String> addNewHouse(HouseRequestModel newHouseModel);
   Future<String> addtimeSlotsAvailable(List<Map<String, String?>> times);
+  Future<List<HouseModel>> getAllHousesHouseOwner();
 }
 
 class HouseOwnerServicesImplementation implements HouseOwnerServices {
@@ -108,6 +110,61 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
         throw AuthException('لم تقم بتسجيل الدخول');
       }
       return responseData['message'];
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw AuthException('إنتهى وقت الطلب');
+        case DioExceptionType.badResponse:
+          if (e.response != null && e.response!.data is Map) {
+            final errorData = e.response!.data as Map;
+            throw AuthException(
+                errorData['message'] ?? 'حصل خطأ أثناء عملية إسترجاع السكنات');
+          } else {
+            throw AuthException('إستقبال خاطئ');
+          }
+        case DioExceptionType.cancel:
+          throw AuthException('تم إلغاء الطلب');
+        case DioExceptionType.unknown:
+          throw AuthException(
+              'فشل الإتصال بالخادم، الرجاء التأكد من إتصال الإنترنت');
+        default:
+          throw AuthException('فشل إسترجاع السكنات : ${e.message}');
+      }
+    } on AuthException catch (e) {
+      throw AuthException(e.message);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<HouseModel>> getAllHousesHouseOwner() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (!(prefs.containsKey(AppConstants.accessToken))) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      final response = await dio.get(
+        HttpConstants.getAllHousesHouseOwner,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${prefs.get(AppConstants.accessToken)}',
+          },
+        ),
+      );
+
+      final responseData = response.data;
+      if (responseData == null ||
+          responseData.isEmpty ||
+          response.statusCode == 401) {
+        throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      List<HouseModel> houses = (responseData['houses'] as List)
+          .map((houseMap) => HouseModel.fromMap(houseMap))
+          .toList();
+      return houses;
     } on DioException catch (e) {
       switch (e.type) {
         case DioExceptionType.connectionTimeout:

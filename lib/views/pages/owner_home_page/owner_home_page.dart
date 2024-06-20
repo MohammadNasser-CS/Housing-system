@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
-import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/request_tab_view.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/home_tab_view.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/owner_home_search_section.dart';
 
 class OwnerHomePage extends StatefulWidget {
-  final UserModel user;
-  const OwnerHomePage({super.key, required this.user});
+  const OwnerHomePage({
+    super.key,
+  });
   @override
   State<OwnerHomePage> createState() => _OwnerHomePageState();
 }
@@ -40,7 +40,7 @@ class _OwnerHomePageState extends State<OwnerHomePage>
             return Column(
               children: [
                 _tabController.index == 0
-                    ? OwnerHomePageSearchSectionSearchSection(user: widget.user)
+                    ? const OwnerHomePageSearchSectionSearchSection()
                     : const SizedBox.shrink(),
                 SizedBox(height: size.height * 0.025),
                 DecoratedBox(
@@ -80,18 +80,18 @@ class _OwnerHomePageState extends State<OwnerHomePage>
                       BlocProvider(
                         create: (context) {
                           final homeCubit = OwnerHomePageCubit();
-                          homeCubit.getHomeData(widget.user);
+                          homeCubit.getHomeData();
                           return homeCubit;
                         },
-                        child: HomeTabView(user: widget.user),
+                        child: const HomeTabView(),
                       ),
                       BlocProvider(
                         create: (context) {
                           final requestCubit = OwnerHomePageCubit();
-                          requestCubit.getRequestsData(widget.user);
+                          requestCubit.getRequestsData();
                           return requestCubit;
                         },
-                        child: RequestsTabView(user: widget.user),
+                        child: const RequestsTabView(),
                       ),
                     ],
                   ),

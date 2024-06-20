@@ -8,6 +8,7 @@ class HttpConstants {
   static const String changePassword = '/changePassword';
   static const String updateMyInformation = '/updateMyInformation';
   static const String getAllHouses = '/getAllHouses';
+  static const String getAllHousesHouseOwner = '/getAllHousesHouseOwner';
   static const String getCategorizedHouses = '/getCategorizedHouses';
   static const String getFavoriteHouses = '/getFavoriteHouses';
   static const String requestReservation = '/requestReservation';

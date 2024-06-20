@@ -9,7 +9,7 @@ class HouseModel {
   final int? availableRoom;
   final String ownerName;
   final String housePhoto;
-  final bool isFavorite;
+  final bool? isFavorite;
   HouseModel({
     required this.houseId,
     required this.houseType,
@@ -19,7 +19,7 @@ class HouseModel {
     this.availableRoom,
     required this.ownerName,
     required this.housePhoto,
-    this.isFavorite = false,
+    this.isFavorite,
   });
 
   HouseModel copyWith({

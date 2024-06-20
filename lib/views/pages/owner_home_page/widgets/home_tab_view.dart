@@ -5,13 +5,11 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
-import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/home_tap_view_widgets/owner_house_item.dart';
 import 'package:housing_project/views/widgets/no_items_wiget.dart';
 
 class HomeTabView extends StatelessWidget {
-  final UserModel user;
-  const HomeTabView({super.key, required this.user});
+  const HomeTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class HomeTabView extends StatelessWidget {
             children: [
               RefreshIndicator(
                   onRefresh: () async {
-                    return await cubit.getHomeData(user);
+                    return await cubit.getHomeData();
                   },
                   child: SingleChildScrollView(
                     child: Column(
@@ -52,7 +50,7 @@ class HomeTabView extends StatelessWidget {
                                     AppRoutes.details,
                                     arguments: state.houses[index],
                                   )
-                                  .then((value) => cubit.getHomeData(user));
+                                  .then((value) => cubit.getHomeData());
                             },
                             child: OwnerHouseItem(
                               cubit: cubit,
@@ -70,9 +68,9 @@ class HomeTabView extends StatelessWidget {
                   elevation: 0,
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true)
-                        .pushNamed(AppRoutes.addNewHouse, arguments: user)
+                        .pushNamed(AppRoutes.addNewHouse)
                         .then((value) {
-                      return cubit.getHomeData(user);
+                      return cubit.getHomeData();
                     });
                   },
                   foregroundColor: AppColor.white,
@@ -85,7 +83,9 @@ class HomeTabView extends StatelessWidget {
         } else {
           return Stack(
             children: [
-              const NoItemsWidget(title: 'لم يتم إضافة أي عقار',icon: FontAwesomeIcons.building),
+              const NoItemsWidget(
+                  title: 'لم يتم إضافة أي عقار',
+                  icon: FontAwesomeIcons.building),
               Positioned(
                 bottom: 5.0,
                 right: 16.0,
@@ -93,9 +93,9 @@ class HomeTabView extends StatelessWidget {
                   elevation: 0,
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true)
-                        .pushNamed(AppRoutes.addNewHouse, arguments: user)
+                        .pushNamed(AppRoutes.addNewHouse)
                         .then((value) {
-                      return cubit.getHomeData(user);
+                      return cubit.getHomeData();
                     });
                   },
                   foregroundColor: AppColor.white,

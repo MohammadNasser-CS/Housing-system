@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
-import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/widgets/no_items_wiget.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/request_tap_view_widgets/owner_room_request_card.dart';
 
 class RequestsTabView extends StatelessWidget {
-  final UserModel user;
-  const RequestsTabView({super.key, required this.user});
+  const RequestsTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class RequestsTabView extends StatelessWidget {
             state.request.isNotEmpty) {
           return RefreshIndicator(
               onRefresh: () async {
-                return await cubit.getHomeData(user);
+                return await cubit.getHomeData();
               },
               child: SingleChildScrollView(
                 child: Column(

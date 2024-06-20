@@ -130,10 +130,10 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
         screen: BlocProvider(
           create: (context) {
             final cubit = OwnerHomePageCubit();
-            cubit.getHomeData(widget.user);
+            cubit.getHomeData();
             return cubit;
           },
-          child: OwnerHomePage(user: widget.user),
+          child: const OwnerHomePage(),
         ),
         item: ItemConfig(
           icon: const Icon(FontAwesomeIcons.building),
