@@ -17,6 +17,7 @@ class HttpConstants {
   static const String addtimeSlotsAvailable = '/addtimeSlotsAvailable';
   static const String addHouse = '/addHouse';
   static String searchForSpecificOwner(String name) => '/search/$name';
+  static String searchForSpecificHouse(int houseId) => '/searchHouse/$houseId';
   static String getHouseDetails(int houseId) => '/getHouseDetails/$houseId';
   static String getRoomDetails(int roomId) => '/getRoomDetails/$roomId';
   static String changeFavorite(int houseId) => '/changeFavorite/$houseId';

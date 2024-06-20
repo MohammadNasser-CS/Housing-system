@@ -4,7 +4,6 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/request_tab_view.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/home_tab_view.dart';
-import 'package:housing_project/views/pages/owner_home_page/widgets/owner_home_search_section.dart';
 
 class OwnerHomePage extends StatefulWidget {
   const OwnerHomePage({
@@ -39,14 +38,11 @@ class _OwnerHomePageState extends State<OwnerHomePage>
           builder: (context, state) {
             return Column(
               children: [
-                _tabController.index == 0
-                    ? const OwnerHomePageSearchSectionSearchSection()
-                    : const SizedBox.shrink(),
-                SizedBox(height: size.height * 0.025),
                 DecoratedBox(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppColor.white,
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    border: Border.all(color: AppColor.grey, width: 2.0),
                   ),
                   child: TabBar(
                     onTap: (value) {

@@ -40,13 +40,16 @@ class OwnerHomePageCubit extends Cubit<OwnerHomePageState> {
     }
   }
 
-  void searchFilled(String houesNumber) {
-    // List<HouseModel> myHouses =
-    //     dummyItems.where((element) => element.ownerName == user.name).toList();
-    // final List<HouseModel> filterdSearchHouses =
-    //     myHouses.where((product) => product.houseId.contains(houesNumber)).toList();
-    // // debugPrint(filterdSearchHouses.toString());
-    // emit(OwnerHomePageLoaded(houses: filterdSearchHouses));
+  Future<void> searchFilled(String houseId) async {
+    try {
+      emit(OwnerHomePageLoading());
+      final houses = await _houseOwnerServices.searchForSpecificHouse(houseId);
+      emit(OwnerHomePageLoaded(houses: houses));
+    } on AuthException catch (exp) {
+      emit(OwnerHomePageError(message: exp.message));
+    } catch (exp) {
+      emit(OwnerHomePageError(message: exp.toString()));
+    }
   }
 
   void chaneTapView() {

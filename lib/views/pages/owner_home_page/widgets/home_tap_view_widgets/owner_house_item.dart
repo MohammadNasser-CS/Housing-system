@@ -60,6 +60,22 @@ class OwnerHouseItem extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Positioned(
+                      top: 3.0,
+                      right: 3.0,
+                      child: Container(
+                        padding: const EdgeInsetsDirectional.symmetric(
+                            horizontal: 8.0, vertical: 4.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: AppColor.white,
+                        ),
+                        child: TextWidget(
+                          title: 'رقم العقار : ',
+                          value: houseItemModel.houseId,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

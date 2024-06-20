@@ -6,7 +6,8 @@ class OwnerRoomRequestsWidget extends StatefulWidget {
   const OwnerRoomRequestsWidget({super.key});
 
   @override
-  State<OwnerRoomRequestsWidget> createState() => _OwnerRoomRequestsWidgetState();
+  State<OwnerRoomRequestsWidget> createState() =>
+      _OwnerRoomRequestsWidgetState();
 }
 
 class _OwnerRoomRequestsWidgetState extends State<OwnerRoomRequestsWidget> {

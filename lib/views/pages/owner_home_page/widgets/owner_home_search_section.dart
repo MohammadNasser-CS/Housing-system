@@ -7,8 +7,7 @@ import 'package:housing_project/models/owner_free_date_time_model.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/search_section_widgets/date_time_dialog.dart';
 
 class OwnerHomePageSearchSectionSearchSection extends StatefulWidget {
-  const OwnerHomePageSearchSectionSearchSection(
-      {super.key});
+  const OwnerHomePageSearchSectionSearchSection({super.key});
 
   @override
   State<OwnerHomePageSearchSectionSearchSection> createState() =>
@@ -53,22 +52,16 @@ class _OwnerHomePageSearchSectionSearchSectionState
             textAlign: TextAlign.right,
             controller: _searchController,
             focusNode: _searchFocusNode,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
-            onChanged: (value) {
-              // debugPrint(value);
-              cubit.searchFilled(value);
-              onwerName = value;
+            onEditingComplete: () async {
+              _searchFocusNode.unfocus();
+              if (_searchController.text.isNotEmpty) {
+                await cubit.searchFilled(_searchController.text);
+              } else {
+                await cubit.getHomeData();
+              }
             },
-            // validator: (value) {
-            //   if (value == null || value.isEmpty) {
-            //     return "قم بإدخال إسم المستخدم الخاص بك.";
-            //   } else if (!value.contains('@')) {
-            //     return "إسم المستخدم غير مناسب";
-            //   } else {
-            //     return null;
-            //   }
-            // },
             decoration: InputDecoration(
               contentPadding: EdgeInsetsDirectional.all(size.width * 0.03),
               hintText: 'رقم العقار...',

@@ -37,24 +37,33 @@ class HousesSection extends StatelessWidget {
                     buildWhen: (previous, current) => current is HomeLoaded,
                     builder: (context, state) {
                       if (state is HomeLoaded) {
-                        return ListView.builder(
-                          itemCount: state.houses.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => InkWell(
-                            onTap: () async {
-                              Navigator.of(context, rootNavigator: true)
-                                  .pushNamed(
-                                    AppRoutes.details,
-                                    arguments: state.houses[index].houseId,
-                                  )
-                                  .then((value) => cubit.getHomeData());
-                            },
-                            child: HouseItem(
-                              cubit: cubit,
-                              houseItemModel: state.houses[index],
+                        return Column(
+                          children: [
+                            ListView.builder(
+                              itemCount: state.houses.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => InkWell(
+                                onTap: () async {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pushNamed(
+                                        AppRoutes.details,
+                                        arguments: state.houses[index].houseId,
+                                      )
+                                      .then((value) => cubit.getHomeData());
+                                },
+                                child: HouseItem(
+                                  cubit: cubit,
+                                  houseItemModel: state.houses[index],
+                                ),
+                              ),
                             ),
-                          ),
+                            if (state.houses.length < 2)
+                              Container(
+                                height: MediaQuery.of(context).size.height,
+                                color: Colors.transparent,
+                              ),
+                          ],
                         );
                       } else {
                         return const SizedBox.shrink();
