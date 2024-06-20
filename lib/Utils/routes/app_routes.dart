@@ -4,6 +4,7 @@ class AppRoutes {
   static const String ownregister = '/register_ownregister';
   static const String home = '/home';
   static const String details = '/house_details';
+  static const String ownerHouseDetails = '/owner_house_details';
   static const String search = '/search_page';
   static const String ordersPage = '/order_page';
   static const String paymentPage = '/payment_page';
@@ -16,4 +17,6 @@ class AppRoutes {
   static const String phoneNumberConfirmationPage = '/phoneNumberConfirmation_page';
   static const String passwordResetPage = '/passwordReset_page';
   static const String addNewHouse = '/addNewHouse_page';
+  static const String addNewRoom = '/addNewRoom_page';
+  static const String addNewSecondaryRoom = '/addNewSecondaryRoom_page';
 }

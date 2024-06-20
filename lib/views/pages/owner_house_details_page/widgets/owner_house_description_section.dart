@@ -3,9 +3,9 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 import 'package:readmore/readmore.dart';
 
-class HouseDescriptionSection extends StatelessWidget {
-  final String electricity, water, internet, gas, description;
-  const HouseDescriptionSection({
+class OwnerHouseDescriptionSection extends StatelessWidget {
+final String electricity, water, internet, gas, description;
+  const OwnerHouseDescriptionSection({
     super.key,
     required this.electricity,
     required this.water,
@@ -43,7 +43,8 @@ class HouseDescriptionSection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  TextWidget(title: 'خدمة الكهرباء:', value: electricity),
+                  TextWidget(
+                      title: 'خدمة الكهرباء:', value: electricity),
                   TextWidget(
                     title: 'خدمة الماء:',
                     value: water,

@@ -38,7 +38,6 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
   String? specializationName;
   String? colleqeName;
 
-  void addPhoto() {}
   @override
   void initState() {
     super.initState();

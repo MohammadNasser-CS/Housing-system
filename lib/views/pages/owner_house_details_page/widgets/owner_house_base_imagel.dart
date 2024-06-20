@@ -5,14 +5,14 @@ import 'package:housing_project/Utils/app_color.dart';
 class HouseBaseImage extends StatelessWidget {
   final String imgUrl;
   final String id;
-  final bool? isFav;
+  final bool isFav;
   final dynamic cubit;
   const HouseBaseImage({
     super.key,
     required this.id,
     required this.imgUrl,
-    this.isFav,
-     this.cubit,
+    required this.isFav,
+    required this.cubit,
   });
 
   @override
@@ -38,26 +38,25 @@ class HouseBaseImage extends StatelessWidget {
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         ),
-        if (isFav != null)
-          Positioned(
-            top: 3.0,
-            right: 3.0,
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.black26,
-              ),
-              child: IconButton(
-                onPressed: () {
-                  cubit.changeFavorite(id);
-                },
-                icon: Icon(
-                  isFav! ? Icons.favorite : Icons.favorite_border,
-                  color: AppColor.red,
-                ),
+        Positioned(
+          top: 3.0,
+          right: 3.0,
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black26,
+            ),
+            child: IconButton(
+              onPressed: () {
+                cubit.changeFavorite(id);
+              },
+              icon: Icon(
+                isFav ? Icons.favorite : Icons.favorite_border,
+                color: AppColor.red,
               ),
             ),
           ),
+        ),
       ],
     );
   }

@@ -20,4 +20,5 @@ class AddNewHouseCubit extends Cubit<AddNewHouseState> {
       emit(AddNewHouseError(message: exp.toString()));
     }
   }
+  
 }

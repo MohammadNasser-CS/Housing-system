@@ -6,13 +6,17 @@ import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/controllers/change_password_page_cubit/change_password_cubit.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
 import 'package:housing_project/controllers/my_profile_cubit/my_profile_cubit.dart';
+import 'package:housing_project/controllers/owner_house_details_cubit/owner_house_details_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/add_new_house_page/add_new_house_page.dart';
+import 'package:housing_project/views/pages/add_new_room_page/add_new_room_page.dart';
+import 'package:housing_project/views/pages/add_new_room_page/add_new_secondary_room_page.dart';
 import 'package:housing_project/views/pages/change_password_page/change_password_page.dart';
 import 'package:housing_project/views/pages/forget_password_page/forget_password_page.dart';
 import 'package:housing_project/views/pages/house_details_page/house_details_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/custom_bottom_navbar.dart';
 import 'package:housing_project/views/pages/login_page/login_page.dart';
+import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_house_details_page.dart';
 import 'package:housing_project/views/pages/password_reset_page/password_reset_page.dart';
 import 'package:housing_project/views/pages/phone_number_confirm_page/phone_number_confirm_page.dart';
 import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';
@@ -70,6 +74,19 @@ class AppRouter {
           ),
           settings: settings,
         );
+      case AppRoutes.ownerHouseDetails:
+        final String houseId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) {
+              final cubit = OwnerHouseDetailsCubit();
+              cubit.getOwnerHouseDetails(houseId);
+              return cubit;
+            },
+            child: const OwnerHouseDetailsPage(),
+          ),
+          settings: settings,
+        );
       case AppRoutes.roleSelectionPage:
         return MaterialPageRoute(
           builder: (_) => const RoleSelectionPage(),
@@ -110,11 +127,28 @@ class AppRouter {
           settings: settings,
         );
       case AppRoutes.addNewHouse:
-        final UserModel user = settings.arguments as UserModel;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => AddNewHouseCubit(),
-            child: AddNewHousePage(user: user),
+            child: const AddNewHousePage(),
+          ),
+          settings: settings,
+        );
+      case AppRoutes.addNewRoom:
+        final String houseId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => OwnerHouseDetailsCubit(),
+            child: AddNewRoomPage(houseId: houseId),
+          ),
+          settings: settings,
+        );
+        case AppRoutes.addNewSecondaryRoom:
+        final String houseId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => OwnerHouseDetailsCubit(),
+            child:  AddNewSecondaryRoomPage(houseId: houseId,),
           ),
           settings: settings,
         );

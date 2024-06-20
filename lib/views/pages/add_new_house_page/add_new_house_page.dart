@@ -6,12 +6,10 @@ import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/add_new_house_cubit/add_new_house_cubit.dart';
 import 'package:housing_project/models/houses_models/house_model.dart';
 import 'package:housing_project/models/houses_models/requestModels/house_request_model.dart';
-import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/title_value_widget.dart';
 
 class AddNewHousePage extends StatefulWidget {
-  final UserModel user;
-  const AddNewHousePage({super.key, required this.user});
+  const AddNewHousePage({super.key});
 
   @override
   State<AddNewHousePage> createState() => _AddNewHousePageState();

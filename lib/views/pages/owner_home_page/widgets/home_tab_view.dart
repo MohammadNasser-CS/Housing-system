@@ -49,8 +49,8 @@ class HomeTabView extends StatelessWidget {
                           onTap: () async {
                             Navigator.of(context, rootNavigator: true)
                                 .pushNamed(
-                                  AppRoutes.details,
-                                  arguments: state.houses[index],
+                                  AppRoutes.ownerHouseDetails,
+                                  arguments: state.houses[index].houseId,
                                 )
                                 .then((value) => cubit.getHomeData());
                           },

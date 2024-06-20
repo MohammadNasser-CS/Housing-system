@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/houses_models/house_details_model.dart';
-import 'package:housing_project/models/houses_models/room_details_models/rooms_model.dart';
+import 'package:housing_project/models/houses_models/room_details_models/rooms_response_model.dart';
 import 'package:housing_project/services/student_services/student_service.dart';
 
 part 'house_details_state.dart';

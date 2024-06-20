@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
-import 'package:housing_project/views/pages/house_details_page/widgets/contact_section.dart';
-import 'package:housing_project/views/pages/house_details_page/widgets/bed_rooms_gallery_section.dart';
+import 'package:housing_project/controllers/owner_house_details_cubit/owner_house_details_cubit.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/house_base_imagel.dart';
-import 'package:housing_project/views/pages/house_details_page/widgets/house_description_section.dart';
-import 'package:housing_project/views/pages/house_details_page/widgets/rooms_gallery_section.dart';
+import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_bed_rooms_gallery_section.dart';
+import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_house_description_section.dart';
+import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_rooms_gallery_section.dart';
 
-class HouseDetailsPage extends StatelessWidget {
-  const HouseDetailsPage({super.key});
+class OwnerHouseDetailsPage extends StatelessWidget {
+  const OwnerHouseDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final cubit = BlocProvider.of<HouseDetailsCubit>(context);
-    return BlocConsumer<HouseDetailsCubit, HouseDetailsState>(
+    final cubit = BlocProvider.of<OwnerHouseDetailsCubit>(context);
+    return BlocConsumer<OwnerHouseDetailsCubit, OwnerHouseDetailsState>(
       bloc: cubit,
       listenWhen: (previous, current) =>
-          current is FavroiteDetailsChangedSuccess ||
-          current is RequestReservationDone ||
-          current is RoomDetailsError,
+          current is AddNewRoomSuccess || current is OwnerRoomDetailsError,
       listener: (context, state) {
-        if (state is FavroiteDetailsChangedSuccess) {
+        if (state is AddNewRoomSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -32,14 +29,14 @@ class HouseDetailsPage extends StatelessWidget {
         }
       },
       buildWhen: (previous, current) =>
-          current is HouseDetailsLoading ||
-          current is HouseDetailsLoaded ||
-          current is HouseDetailsError,
+          current is OwnerHouseDetailsLoading ||
+          current is OwnerHouseDetailsLoaded ||
+          current is OwnerHouseDetailsError,
       builder: (context, state) {
-        if (state is HouseDetailsLoading) {
+        if (state is OwnerHouseDetailsLoading) {
           return const Scaffold(
               body: Center(child: CircularProgressIndicator.adaptive()));
-        } else if (state is HouseDetailsLoaded) {
+        } else if (state is OwnerHouseDetailsLoaded) {
           return Scaffold(
             appBar: AppBar(
               title: const Text('التفاصيل'),
@@ -57,12 +54,11 @@ class HouseDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       HouseBaseImage(
-                          id: state.houseDetails.houseId,
-                          imgUrl: state.houseDetails.housePhoto,
-                          isFav: state.houseDetails.isFavorite,
-                          cubit: cubit),
+                        id: state.houseDetails.houseId,
+                        imgUrl: state.houseDetails.housePhoto,
+                      ),
                       SizedBox(height: size.height * 0.03),
-                      HouseDescriptionSection(
+                      OwnerHouseDescriptionSection(
                         description: state.houseDetails.description,
                         electricity: state.houseDetails.electricity,
                         gas: state.houseDetails.gas,
@@ -70,15 +66,17 @@ class HouseDetailsPage extends StatelessWidget {
                         water: state.houseDetails.water,
                       ),
                       SizedBox(height: size.height * 0.03),
-                      ContactSection(
-                          ownerName: state.houseDetails.ownerName,
-                          phoneNumber: state.houseDetails.phoneNumber),
+                      // ContactSection(
+                      //     ownerName: state.houseDetails.ownerName,
+                      //     phoneNumber: state.houseDetails.phoneNumber),
                       SizedBox(height: size.height * 0.03),
-                      BedRoomsGallerySection(
+                      OwnerBedRoomsGallerySection(
+                        id: state.houseDetails.houseId,
                         roomsModel: state.houseDetails.primaryRooms,
                       ),
                       SizedBox(height: size.height * 0.03),
-                      RoomsGallerySection(
+                      OwnerRoomsGallerySection(
+                          id: state.houseDetails.houseId,
                           housRooms: state.houseDetails.secondaryRooms),
                     ],
                   ),
@@ -87,7 +85,7 @@ class HouseDetailsPage extends StatelessWidget {
             ),
           );
         } else {
-          return const SizedBox.shrink();
+          return const Scaffold(body: Center(child: Text('failed')));
         }
       },
     );

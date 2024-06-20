@@ -5,7 +5,7 @@ import 'package:housing_project/Utils/http_constants.dart';
 import 'package:housing_project/models/houses_models/house_details_model.dart';
 import 'package:housing_project/models/houses_models/house_model.dart';
 import 'package:housing_project/models/houses_models/my_room_model.dart';
-import 'package:housing_project/models/houses_models/room_details_models/rooms_model.dart';
+import 'package:housing_project/models/houses_models/room_details_models/rooms_response_model.dart';
 import 'package:housing_project/models/room_requests_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
