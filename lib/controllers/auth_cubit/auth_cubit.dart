@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/auth_models/owner_auth_model.dart';
@@ -10,7 +11,6 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
   final AuthServices _authServices = AuthServicesImplementation();
-
 
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
@@ -36,8 +36,11 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthLoaded());
       }
     } on AuthException catch (exp) {
+      debugPrint(exp.message);
+
       emit(AuthError(message: exp.message));
     } catch (exp) {
+      debugPrint(exp.toString());
       emit(AuthError(message: exp.toString()));
     }
   }
@@ -62,7 +65,7 @@ class AuthCubit extends Cubit<AuthState> {
       UserModel? user = await _authServices.getUser();
       if (user != null) {
         emit(AuthSuccess(user: user));
-      } 
+      }
     } on AuthException catch (e) {
       emit(AuthError(message: e.message));
     } catch (exp) {

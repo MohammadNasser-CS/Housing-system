@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +10,8 @@ import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/models/auth_models/owner_auth_model.dart';
 import 'package:housing_project/models/user_model.dart';
+import 'package:housing_project/views/widgets/text_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OwnerSignupPage extends StatefulWidget {
   const OwnerSignupPage({super.key});
@@ -26,11 +31,14 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
       _passwordFocusNode,
       _usernameFocusedNode,
       _phoneNumberFocusedNode;
-  bool visibility = false;
+  bool visibility = false, wantToAddPhoto = false;
+  File? _file;
   String? genderValue;
   String? univercityBuilding;
   String? specializationName;
   String? colleqeName;
+
+  void addPhoto() {}
   @override
   void initState() {
     super.initState();
@@ -57,18 +65,46 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
   int fieldIndex = 0;
   bool isLastPage = false;
   late UserModel newUser;
+
+  Future<void> pickPhoto() async {
+    final photo = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (photo != null) {
+      setState(() {
+        _file = File(photo.path);
+      });
+    }
+  }
+
   Future<void> register() async {
     if (_formKey.currentState!.validate()) {
-      BlocProvider.of<AuthCubit>(context).ownerRegister(
-        OwnerRegisterModel(
-          name: _usernameController.text,
-          email: _emailController.text,
-          password: _passwordController.text,
-          phoneNumber: _phoneNumberController.text,
-          gender: genderValue!,
-          role: 'صاحب سكن',
-        ),
-      );
+      if (_file != null && wantToAddPhoto) {
+        String base64Image = base64Encode(_file!.readAsBytesSync());
+        String imageName = _file!.path.split('/').last;
+        String imageExtension = imageName.split('.').last;
+        BlocProvider.of<AuthCubit>(context).ownerRegister(
+          OwnerRegisterModel(
+            name: _usernameController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            phoneNumber: _phoneNumberController.text,
+            gender: genderValue!,
+            role: 'صاحب سكن',
+            base64Image: base64Image,
+            imageExtension: imageExtension,
+          ),
+        );
+      } else {
+        BlocProvider.of<AuthCubit>(context).ownerRegister(
+          OwnerRegisterModel(
+            name: _usernameController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            phoneNumber: _phoneNumberController.text,
+            gender: genderValue!,
+            role: 'صاحب سكن',
+          ),
+        );
+      }
     }
   }
 
@@ -322,6 +358,54 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                       }).toList(),
                     ),
                   ),
+                  SizedBox(height: size.height * 0.02),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: TextWidget(
+                          title: 'ورقة الملكية ليست إجبارية: ',
+                          value:
+                              'إن أردت أن ترفع صورة تثبت ملكيتك لسكن واحد عالأقل؛ هذا قد يسرع من عملية تأكيد حسابك.\nيمكنك الإستمرار من دون رفع صورة.',
+                        ),
+                      ),
+                      Checkbox(
+                        value: wantToAddPhoto,
+                        onChanged: (value) {
+                          setState(() {
+                            if (value != null) {
+                              if (value == false) {
+                                _file = null;
+                              }
+                              wantToAddPhoto = value;
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.002),
+                  wantToAddPhoto
+                      ? InkWell(
+                          onTap: pickPhoto,
+                          child: Container(
+                            width: size.width,
+                            height: size.height * 0.5,
+                            decoration: BoxDecoration(
+                                color: AppColor.white,
+                                border: Border.all(color: AppColor.grey)),
+                            child: _file == null
+                                ? Icon(
+                                    Icons.add_a_photo_outlined,
+                                    size: size.width * 0.2,
+                                    color: AppColor.grey,
+                                  )
+                                : Image.file(
+                                    _file!,
+                                    fit: BoxFit.fill,
+                                  ),
+                          ),
+                        )
+                      : const SizedBox(),
                   SizedBox(height: size.height * 0.02),
                   SizedBox(
                     width: double.infinity,

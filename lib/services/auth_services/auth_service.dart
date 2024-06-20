@@ -220,7 +220,7 @@ class AuthServicesImplementation implements AuthServices {
     } on AuthException catch (e) {
       throw AuthException(e.message);
     } catch (e) {
-     throw AuthException('حصل خلل أثناء عملية تسجيل الدخول');
+      throw AuthException('حصل خلل أثناء عملية تسجيل الدخول');
     }
   }
 

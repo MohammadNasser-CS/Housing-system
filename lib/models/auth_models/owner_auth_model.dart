@@ -7,6 +7,8 @@ class OwnerRegisterModel {
   final String phoneNumber;
   final String gender;
   final String role;
+  final String? base64Image;
+  final String? imageExtension;
   OwnerRegisterModel({
     required this.name,
     required this.email,
@@ -14,6 +16,8 @@ class OwnerRegisterModel {
     required this.phoneNumber,
     required this.gender,
     required this.role,
+    this.base64Image,
+    this.imageExtension,
   });
 
   OwnerRegisterModel copyWith({
@@ -23,6 +27,8 @@ class OwnerRegisterModel {
     String? phoneNumber,
     String? gender,
     String? role,
+    String? base64Image,
+    String? imageExtension,
   }) {
     return OwnerRegisterModel(
       name: name ?? this.name,
@@ -31,6 +37,8 @@ class OwnerRegisterModel {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       gender: gender ?? this.gender,
       role: role ?? this.role,
+      base64Image: base64Image ?? this.base64Image,
+      imageExtension: imageExtension ?? this.imageExtension,
     );
   }
 
@@ -43,6 +51,12 @@ class OwnerRegisterModel {
     result.addAll({'phoneNumber': phoneNumber});
     result.addAll({'gender': gender});
     result.addAll({'role': role});
+    if(base64Image != null){
+      result.addAll({'base64Image': base64Image});
+    }
+    if(imageExtension != null){
+      result.addAll({'imageExtension': imageExtension});
+    }
   
     return result;
   }
@@ -55,6 +69,8 @@ class OwnerRegisterModel {
       phoneNumber: map['phoneNumber'] ?? '',
       gender: map['gender'] ?? '',
       role: map['role'] ?? '',
+      base64Image: map['base64Image'],
+      imageExtension: map['imageExtension'],
     );
   }
 
@@ -64,7 +80,7 @@ class OwnerRegisterModel {
 
   @override
   String toString() {
-    return 'OwnerRegisterModel(name: $name, email: $email, password: $password, phoneNumber: $phoneNumber, gender: $gender, role: $role)';
+    return 'OwnerRegisterModel(name: $name, email: $email, password: $password, phoneNumber: $phoneNumber, gender: $gender, role: $role, base64Image: $base64Image, imageExtension: $imageExtension)';
   }
 
   @override
@@ -77,7 +93,9 @@ class OwnerRegisterModel {
       other.password == password &&
       other.phoneNumber == phoneNumber &&
       other.gender == gender &&
-      other.role == role;
+      other.role == role &&
+      other.base64Image == base64Image &&
+      other.imageExtension == imageExtension;
   }
 
   @override
@@ -87,6 +105,8 @@ class OwnerRegisterModel {
       password.hashCode ^
       phoneNumber.hashCode ^
       gender.hashCode ^
-      role.hashCode;
+      role.hashCode ^
+      base64Image.hashCode ^
+      imageExtension.hashCode;
   }
 }
