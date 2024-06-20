@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/calender_select_cubit/calender_select_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
+import 'package:housing_project/models/owner_free_date_time_model.dart';
 import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/owner_home_page/widgets/search_section_widgets/date_time_dialog.dart';
 
@@ -98,14 +99,31 @@ class _OwnerHomePageSearchSectionSearchSectionState
                       value: cubit,
                       child: BlocProvider(
                         create: (context) => CalenderSelectCubit(),
-                        child: const FreeDateTimeSlotDialog(),
+                        child: Container(
+                            height: size.height * 0.55,
+                            decoration: BoxDecoration(
+                              color: AppColor.grey1,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(24.0),
+                                topRight: Radius.circular(24.0),
+                              ),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(8.0),
+                            child:
+                                const Scaffold(body: FreeDateTimeSlotDialog())),
                       ),
                     ),
                   ),
                 );
               },
             ).then((value) {
-              debugPrint('after done');
+              for (var day in days) {
+                day.startTime = null;
+                day.endTime = null;
+                day.included = false;
+              }
             });
           },
           child: Container(

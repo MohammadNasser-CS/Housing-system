@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class OwnerFreeDateTimeModel {
-  final String dateTimeSlotId;
-  final String dayName;
-  final String? startTime;
-  final String? endTime;
-  final bool included;
+  final String? dateTimeSlotId;
+  final String? dayName;
+  String? startTime;
+  String? endTime;
+  bool included;
   OwnerFreeDateTimeModel({
-    required this.dateTimeSlotId,
-    required this.dayName,
+    this.dateTimeSlotId,
+    this.dayName,
     this.startTime,
     this.endTime,
     this.included = false,
@@ -24,8 +24,8 @@ class OwnerFreeDateTimeModel {
     return OwnerFreeDateTimeModel(
       dateTimeSlotId: dateTimeSlotId ?? this.dateTimeSlotId,
       dayName: dayName ?? this.dayName,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
+      startTime: startTime,
+      endTime: endTime,
       included: included ?? this.included,
     );
   }
@@ -33,8 +33,12 @@ class OwnerFreeDateTimeModel {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    result.addAll({'dateTimeSlotId': dateTimeSlotId});
-    result.addAll({'dayName': dayName});
+    if (dateTimeSlotId != null) {
+      result.addAll({'dateTimeSlotId': dateTimeSlotId});
+    }
+    if (dayName != null) {
+      result.addAll({'dayName': dayName});
+    }
     if (startTime != null) {
       result.addAll({'startTime': startTime});
     }
@@ -48,8 +52,8 @@ class OwnerFreeDateTimeModel {
 
   factory OwnerFreeDateTimeModel.fromMap(Map<String, dynamic> map) {
     return OwnerFreeDateTimeModel(
-      dateTimeSlotId: map['dateTimeSlotId'] ?? '',
-      dayName: map['dayName'] ?? '',
+      dateTimeSlotId: map['dateTimeSlotId'],
+      dayName: map['dayName'],
       startTime: map['startTime'],
       endTime: map['endTime'],
       included: map['included'] ?? false,
@@ -96,3 +100,4 @@ List<OwnerFreeDateTimeModel> days = [
   OwnerFreeDateTimeModel(dateTimeSlotId: '5', dayName: 'الأربعاء'),
   OwnerFreeDateTimeModel(dateTimeSlotId: '6', dayName: 'الخميس'),
 ];
+List<OwnerFreeDateTimeModel> dayss = [];

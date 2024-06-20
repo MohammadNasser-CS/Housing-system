@@ -20,19 +20,28 @@ class _FreeDateTimeSlotDialogState extends State<FreeDateTimeSlotDialog> {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<CalenderSelectCubit>(context);
-    final size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height * 0.55,
-      decoration: BoxDecoration(
-        color: AppColor.grey1,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24.0),
-          topRight: Radius.circular(24.0),
-        ),
-      ),
-      clipBehavior: Clip.antiAlias,
-      width: double.infinity,
-      padding: const EdgeInsets.all(8.0),
+    return BlocListener<CalenderSelectCubit, CalenderSelectState>(
+      listenWhen: (previous, current) =>
+          current is AddtimeSlotsAvailableDone ||
+          current is CalenderSelectError,
+      listener: (context, state) {
+        if (state is AddtimeSlotsAvailableDone) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+          Navigator.of(context).pop(context);
+        } else if (state is CalenderSelectError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        }
+      }, //
       child: Column(
         children: [
           Expanded(
@@ -61,9 +70,38 @@ class _FreeDateTimeSlotDialogState extends State<FreeDateTimeSlotDialog> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigator.of(context)
-                    //     .pushNamed(AppRoutes.ordersPage)
-                    //     .then((value) => Navigator.of(context).pop(context));
+                    bool anyDayWithoutTimes = days.any((day) =>
+                        day.included &&
+                        (day.startTime == null || day.endTime == null));
+                    if (anyDayWithoutTimes) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'تأكد من تحديد ساعة البداية والنهاية لجميع الأيام التي اخترتها'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    } else {
+                      List<Map<String, String?>> filteredDays = days
+                          .where((day) => day.included)
+                          .map((day) => {
+                                'dayName': day.dayName,
+                                'startTime': day.startTime,
+                                'endTime': day.endTime,
+                              })
+                          .toList();
+                      if (filteredDays.isNotEmpty) {
+                        cubit.addtimeSlotsAvailable(filteredDays);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('لم تقم بتحديد أي أيام أو مواعيد'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                        Navigator.of(context).pop(context);
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(12.0),

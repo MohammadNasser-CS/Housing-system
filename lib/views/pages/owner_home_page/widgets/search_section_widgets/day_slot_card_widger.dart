@@ -42,11 +42,7 @@ class DaySlotCard extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        debugPrint('test');
-                        cubit.changeDayIncludedStatus(day.dateTimeSlotId);
-                        // setState(() {
-                        //   day.included = !day.included;
-                        // });
+                        cubit.changeDayIncludedStatus(day.dateTimeSlotId!);
                       },
                       child: Container(
                         padding: const EdgeInsetsDirectional.all(4.0),
@@ -100,13 +96,10 @@ class DaySlotCard extends StatelessWidget {
                                       result.hour,
                                       result.minute);
                                   String formattedTime =
-                                      BoardDateFormat('hh:mm')
+                                      BoardDateFormat('HH:mm')
                                           .format(selectedDateTime);
-                                  String amPm = selectedDateTime.hour >= 12
-                                      ? '$formattedTime م'
-                                      : '$formattedTime ص';
                                   cubit.startDateUpdated(
-                                      day.dateTimeSlotId, amPm);
+                                      day.dateTimeSlotId!, formattedTime);
                                 }
                               },
                               child: Container(
@@ -161,7 +154,6 @@ class DaySlotCard extends StatelessWidget {
                                   context: context,
                                   helpText: 'إختر نطاق وقت الفراغ الخاص بك',
                                 );
-
                                 if (result != null) {
                                   DateTime now = DateTime.now();
                                   DateTime selectedDateTime = DateTime(
@@ -171,13 +163,10 @@ class DaySlotCard extends StatelessWidget {
                                       result.hour,
                                       result.minute);
                                   String formattedTime =
-                                      BoardDateFormat('hh:mm')
+                                      BoardDateFormat('HH:mm')
                                           .format(selectedDateTime);
-                                  String amPm = selectedDateTime.hour >= 12
-                                      ? '$formattedTime م'
-                                      : '$formattedTime ص';
                                   cubit.endDateUpdated(
-                                      day.dateTimeSlotId, amPm);
+                                      day.dateTimeSlotId!, formattedTime);
                                 }
                               },
                               child: Container(

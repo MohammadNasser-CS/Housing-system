@@ -1,17 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/Utils/dropdown_lists_options.dart';
 import 'package:housing_project/controllers/add_new_house_cubit/add_new_house_cubit.dart';
 import 'package:housing_project/models/houses_models/house_model.dart';
+import 'package:housing_project/models/houses_models/requestModels/house_request_model.dart';
 import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/title_value_widget.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddNewHousePage extends StatefulWidget {
   final UserModel user;
@@ -27,7 +23,6 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
   List<String> selectedItems = [];
   late final TextEditingController _addressController, _descriptionController;
   late FocusNode _addressFocusNode, _descriptionFocusedNode;
-  File? _file;
   bool visibility = false,
       electricCheckbox = false,
       waterCheckbox = false,
@@ -51,42 +46,22 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
     super.dispose();
   }
 
-  Future<void> pickPhoto() async {
-    final photo = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (photo != null) {
-      setState(() {
-        _file = File(photo.path);
-      });
-    }
-  }
-
-  Future<void> uploadPhoto() async {
-    if (_file == null) return;
-    String base64Image = base64Encode(_file!.readAsBytesSync());
-    String imageName = _file!.path.split('/').last;
-    final data = {
-      'imageName': imageName,
-      'base64Image': base64Image,
-    };
-  BlocProvider.of<AddNewHouseCubit>(context).addNewHouse(data);
-  }
-
   Future<void> nextStep() async {
-    await pickPhoto();
-    await uploadPhoto();
-  
-    // if (_formKey.currentState!.validate()) {
-    //   await BlocProvider.of<AddNewHouseCubit>(context).addNewHouse(
-    //     HouseModel(
-    //       houseId: '3',
-    //       address: _addressController.text,
-    //       houseType: selectedGender!,
-    //       location: selectedlUniversityBuilding!,
-    //       housePhoto: 'imgUrl',
-    //       ownerName: widget.user.name,
-    //     ),
-    //   );
-    // }
+    if (_formKey.currentState!.validate()) {
+      await BlocProvider.of<AddNewHouseCubit>(context).addNewHouse(
+        HouseRequestModel(
+          description: _descriptionController.text,
+          address: _addressController.text,
+          gender: selectedGender == 'ذكر' ? 'طلاب' : 'طالبات',
+          location: selectedlUniversityBuilding!,
+          houseType: selectedType!,
+          electricity: electricCheckbox ? 'نعم' : 'لا',
+          gas: gasCheckbox ? 'نعم' : 'لا',
+          internet: wifiCheckbox ? 'نعم' : 'لا',
+          water: waterCheckbox ? 'نعم' : 'لا',
+        ),
+      );
+    }
   }
 
   @override
@@ -100,18 +75,27 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
         title: const TitleValueWidget(text: 'إضافة عقار'),
       ),
       body: BlocListener<AddNewHouseCubit, AddNewHouseState>(
-        listenWhen: (previous, current) => current is AddNewHouseSuccess,
-      listener: (context, state) {
-        if (state is AddNewHouseSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              duration: const Duration(seconds: 1),
-            ),
-          );
-        }
-      },
-      bloc: cubit,
+        listenWhen: (previous, current) =>
+            current is AddNewHouseSuccess || current is AddNewHouseError,
+        listener: (context, state) {
+          if (state is AddNewHouseSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                duration: const Duration(seconds: 1),
+              ),
+            );
+            Navigator.of(context).pop(context);
+          } else if (state is AddNewHouseError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                duration: const Duration(seconds: 1),
+              ),
+            );
+          }
+        },
+        bloc: cubit,
         child: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
@@ -331,7 +315,7 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
                     ),
                     SizedBox(height: size.height * 0.03),
                     Text(
-                      'حدد الخدمات المتاحة مجانا',
+                      'حدد الخدمات المتاحة ضمن تكلفة حجز الغرف',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -475,31 +459,11 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: size.height * 0.06),
                     SizedBox(height: size.height * 0.03),
                     SizedBox(
                       width: double.infinity,
-                      child: BlocConsumer<AddNewHouseCubit, AddNewHouseState>(
-                        bloc: BlocProvider.of<AddNewHouseCubit>(context),
-                        listenWhen: (previous, current) =>
-                            current is AddNewHouseDoneSuccess ||
-                            current is AddNewHouseError,
-                        listener: (context, state) {
-                          if (state is AddNewHouseDoneSuccess) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('تم إضافة العقار بنجاح'),
-                              ),
-                            );
-                            Navigator.of(context).pushNamed(AppRoutes.home);
-                          } else if (state is AddNewHouseError) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(state.message),
-                              ),
-                            );
-                          }
-                        },
+                      child: BlocBuilder<AddNewHouseCubit, AddNewHouseState>(
+                        bloc: cubit,
                         buildWhen: (previous, current) =>
                             current is AddNewHouseLoading ||
                             current is AddNewHouseError,

@@ -13,6 +13,8 @@ class HttpConstants {
   static const String requestReservation = '/requestReservation';
   static const String getReservationRoomRequest = '/getReservationRoomRequest';
   static const String getMyReservationRoom = '/getMyReservationRoom';
+  static const String addtimeSlotsAvailable = '/addtimeSlotsAvailable';
+  static const String addHouse = '/addHouse';
   static String searchForSpecificOwner(String name) => '/search/$name';
   static String getHouseDetails(int houseId) => '/getHouseDetails/$houseId';
   static String getRoomDetails(int roomId) => '/getRoomDetails/$roomId';
