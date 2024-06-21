@@ -4,7 +4,7 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/admin_home_page_cubit/admin_home_page_cubit.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
 import 'package:housing_project/models/admin_pages_models/owners_activation_request_model.dart';
-import 'package:housing_project/views/widgets/text_widget.dart';
+import 'package:housing_project/views/pages/shared_pages/widgets/text_widget.dart';
 
 class ActivationRequestCard extends StatefulWidget {
   final OwnersActivationRequestModel roomRequestsModel;

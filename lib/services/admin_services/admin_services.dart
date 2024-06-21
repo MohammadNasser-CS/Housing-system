@@ -3,6 +3,7 @@ import 'package:housing_project/Utils/app_constatns.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/Utils/http_constants.dart';
 import 'package:housing_project/models/admin_pages_models/owners_activation_request_model.dart';
+import 'package:housing_project/services/auth_services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AdminServices {
@@ -33,9 +34,13 @@ class AdminServicesImplementation implements AdminServices {
   @override
   Future<List<OwnersActivationRequestModel>?> getHouseOwnerRequest() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.get(
         HttpConstants.getHouseOwnerActiviationRequest,
@@ -45,8 +50,8 @@ class AdminServicesImplementation implements AdminServices {
           },
         ),
       );
-      final responseData = response.data;
 
+      final responseData = response.data;
       if (responseData == null ||
           responseData.isEmpty ||
           response.statusCode == 401) {
@@ -91,9 +96,13 @@ class AdminServicesImplementation implements AdminServices {
   @override
   Future<String> rejectHouseOwner(String ownerId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.delete(
         HttpConstants.rejectHouseOwner(int.parse(ownerId)),
@@ -143,9 +152,13 @@ class AdminServicesImplementation implements AdminServices {
   @override
   Future<String> acceptHouseOwner(String ownerId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+       if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.put(
         HttpConstants.acceptHouseOwner(int.parse(ownerId)),

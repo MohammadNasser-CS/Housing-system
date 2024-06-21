@@ -8,6 +8,7 @@ import 'package:housing_project/models/houses_models/requestModels/house_request
 import 'package:housing_project/models/houses_models/room_details_models/add_room_model.dart';
 import 'package:housing_project/models/houses_models/room_details_models/add_secondary_room_model.dart';
 import 'package:housing_project/models/room_requests_model.dart';
+import 'package:housing_project/services/auth_services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class HouseOwnerServices {
@@ -45,9 +46,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<String> addNewHouse(HouseRequestModel newHouseModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.post(
         HttpConstants.addHouse,
@@ -98,9 +103,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<String> addtimeSlotsAvailable(List<Map<String, String?>> times) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.post(
         HttpConstants.addtimeSlotsAvailable,
@@ -151,9 +160,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<List<HouseModel>> getAllHousesHouseOwner() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.get(
         HttpConstants.getAllHousesHouseOwner,
@@ -206,9 +219,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<List<HouseModel>> searchForSpecificHouse(String houseId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.get(
         HttpConstants.searchForSpecificHouse(int.parse(houseId)),
@@ -263,9 +280,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<OwnerHouseDetailsModel> getOwnerHouseDetails(String houseId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.get(
         HttpConstants.getOwnerHouseDetails(int.parse(houseId)),
@@ -319,9 +340,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<String> addNewRoom(AddRoomModel newRoomModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.post(
         HttpConstants.addNewRoom,
@@ -373,9 +398,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   Future<String> addSeconderyRoom(
       AddSecondaryRoom newSecondaryRoomModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.post(
         HttpConstants.addSeconderyRoom,
@@ -426,9 +455,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<List<RoomRequestsModel>?> getHouseOwnerRequests() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.get(
         HttpConstants.getHouseOwnerRequests,
@@ -482,9 +515,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<String> rejectRequestHouseOwenr(String requestId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.delete(
         HttpConstants.rejectRequestHouseOwenr(int.parse(requestId)),
@@ -534,9 +571,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
   @override
   Future<String> confirmAppointment(String requestId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      }
+      if (await authServices.getUser() == null) {
+        throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.put(
         HttpConstants.confirmAppointment(int.parse(requestId)),

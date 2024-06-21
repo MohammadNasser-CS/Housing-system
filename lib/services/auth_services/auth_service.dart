@@ -191,7 +191,7 @@ class AuthServicesImplementation implements AuthServices {
       if (responseData == null ||
           responseData.isEmpty ||
           response.statusCode == 401) {
-        throw AuthException('لم تقم بتسجيل الدخول');
+        return null;
       }
       UserModel user = UserModel.fromMap(responseData['user']);
       return user;

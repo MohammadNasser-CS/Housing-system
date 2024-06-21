@@ -35,7 +35,6 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthLoaded());
       }
     } on AuthException catch (exp) {
-
       emit(AuthError(message: exp.message));
     } catch (exp) {
       emit(AuthError(message: exp.toString()));
@@ -59,9 +58,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> getUser() async {
     try {
+      emit(AuthLoading());
       UserModel? user = await _authServices.getUser();
       if (user != null) {
         emit(AuthSuccess(user: user));
+      } else {
+        emit(AuthError(message: 'تم تسجيل الخروج'));
       }
     } on AuthException catch (e) {
       emit(AuthError(message: e.message));
@@ -78,7 +80,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthError(message: e.message));
     }
   }
-Future<void> checkAuthStatus() async {
+
+  Future<void> checkAuthStatus() async {
     try {
       UserModel? user = await _authServices.getUser();
       if (user != null) {

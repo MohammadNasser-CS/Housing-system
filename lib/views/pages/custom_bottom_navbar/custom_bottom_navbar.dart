@@ -11,14 +11,14 @@ import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dar
 import 'package:housing_project/models/user_model.dart';
 import 'package:housing_project/views/pages/admin_pages/admin_home_page/admin_home_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/app_bar_title_for_admin.dart';
-import 'package:housing_project/views/pages/owner_home_page/owner_home_page.dart';
-import 'package:housing_project/views/pages/user_home_page/user_home_page.dart';
+import 'package:housing_project/views/pages/owner_pages/owner_home_page/owner_home_page.dart';
+import 'package:housing_project/views/pages/student_pages/user_home_page/user_home_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/app_bar_title_for_owner.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/app_bar_title_for_user.dart';
-import 'package:housing_project/views/pages/my_room_page/my_room_page.dart';
-import 'package:housing_project/views/pages/favorite_page/favorite_page.dart';
-import 'package:housing_project/views/pages/notificaton_page/notification_page.dart';
-import 'package:housing_project/views/pages/settings_page/settings_page.dart';
+import 'package:housing_project/views/pages/student_pages/my_room_page/my_room_page.dart';
+import 'package:housing_project/views/pages/student_pages/favorite_page/favorite_page.dart';
+import 'package:housing_project/views/pages/student_pages/notificaton_page/notification_page.dart';
+import 'package:housing_project/views/pages/shared_pages/settings_page/settings_page.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class CustomBottomNavbar extends StatefulWidget {

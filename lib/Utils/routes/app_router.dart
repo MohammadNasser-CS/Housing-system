@@ -8,21 +8,21 @@ import 'package:housing_project/controllers/house_details/house_details_cubit.da
 import 'package:housing_project/controllers/my_profile_cubit/my_profile_cubit.dart';
 import 'package:housing_project/controllers/owner_house_details_cubit/owner_house_details_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
-import 'package:housing_project/views/pages/add_new_house_page/add_new_house_page.dart';
-import 'package:housing_project/views/pages/add_new_room_page/add_new_room_page.dart';
-import 'package:housing_project/views/pages/add_new_room_page/add_new_secondary_room_page.dart';
-import 'package:housing_project/views/pages/change_password_page/change_password_page.dart';
-import 'package:housing_project/views/pages/forget_password_page/forget_password_page.dart';
-import 'package:housing_project/views/pages/house_details_page/house_details_page.dart';
+import 'package:housing_project/views/pages/owner_pages/add_new_house_page/add_new_house_page.dart';
+import 'package:housing_project/views/pages/owner_pages/add_new_room_page/add_new_room_page.dart';
+import 'package:housing_project/views/pages/owner_pages/add_new_room_page/add_new_secondary_room_page.dart';
+import 'package:housing_project/views/pages/shared_pages/change_password_page/change_password_page.dart';
+import 'package:housing_project/views/pages/auth_pages/forget_password_page/forget_password_page.dart';
+import 'package:housing_project/views/pages/shared_pages/password_reset_page/password_reset_page.dart';
+import 'package:housing_project/views/pages/student_pages/house_details_page/house_details_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/custom_bottom_navbar.dart';
-import 'package:housing_project/views/pages/login_page/login_page.dart';
-import 'package:housing_project/views/pages/owner_house_details_page/owner_house_details_page.dart';
-import 'package:housing_project/views/pages/password_reset_page/password_reset_page.dart';
-import 'package:housing_project/views/pages/phone_number_confirm_page/phone_number_confirm_page.dart';
-import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';
-import 'package:housing_project/views/pages/signup_pages/owner_signup_page/owner_signup_page.dart';
-import 'package:housing_project/views/pages/signup_pages/student_signup_page/student_signup_page.dart';
-import 'package:housing_project/views/pages/profile_page/profile_page.dart';
+import 'package:housing_project/views/pages/auth_pages/login_page/login_page.dart';
+import 'package:housing_project/views/pages/owner_pages/owner_house_details_page/owner_house_details_page.dart';
+import 'package:housing_project/views/pages/shared_pages/phone_number_confirm_page/phone_number_confirm_page.dart';
+import 'package:housing_project/views/pages/auth_pages/role_selection_page/role_selection_page.dart';
+import 'package:housing_project/views/pages/auth_pages/signup_pages/owner_signup_page/owner_signup_page.dart';
+import 'package:housing_project/views/pages/auth_pages/signup_pages/student_signup_page/student_signup_page.dart';
+import 'package:housing_project/views/pages/shared_pages/profile_page/profile_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
