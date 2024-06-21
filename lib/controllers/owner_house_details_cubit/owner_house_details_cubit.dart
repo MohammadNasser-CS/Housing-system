@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/houses_models/owner_house_details_model.dart';
@@ -27,7 +26,6 @@ class OwnerHouseDetailsCubit extends Cubit<OwnerHouseDetailsState> {
   Future<void> addNewRoom(AddRoomModel newRoomModel) async {
     try {
       String message = await _houseOwnerServices.addNewRoom(newRoomModel);
-      debugPrint(message);
       emit(AddNewRoomSuccess(message: message));
     } on AuthException catch (exp) {
       emit(OwnerHouseDetailsError(message: exp.message));
@@ -40,7 +38,6 @@ class OwnerHouseDetailsCubit extends Cubit<OwnerHouseDetailsState> {
     try {
       String message =
           await _houseOwnerServices.addSeconderyRoom(secondaryRoom);
-      debugPrint(message);
       emit(AddNewRoomSuccess(message: message));
     } on AuthException catch (exp) {
       emit(OwnerHouseDetailsError(message: exp.message));

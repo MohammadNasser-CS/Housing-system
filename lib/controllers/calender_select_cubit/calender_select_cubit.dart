@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/owner_free_date_time_model.dart';
@@ -30,7 +29,6 @@ class CalenderSelectCubit extends Cubit<CalenderSelectState> {
       startTime: newStartTime,
       endTime: days[index].endTime,
     );
-    debugPrint(days[index].toString());
     emit(DayIncludedStatusChanged(day: days[index]));
   }
 
@@ -41,7 +39,6 @@ class CalenderSelectCubit extends Cubit<CalenderSelectState> {
       endTime: newEndTime,
       startTime: days[index].startTime,
     );
-    debugPrint(days[index].toString());
     emit(DayIncludedStatusChanged(day: days[index]));
   }
 
@@ -53,7 +50,6 @@ class CalenderSelectCubit extends Cubit<CalenderSelectState> {
       startTime: null,
       endTime: null,
     );
-    debugPrint(days[index].toString());
     emit(DayIncludedStatusChanged(day: days[index]));
   }
 }

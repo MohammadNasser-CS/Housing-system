@@ -16,7 +16,7 @@ import 'package:housing_project/views/pages/forget_password_page/forget_password
 import 'package:housing_project/views/pages/house_details_page/house_details_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/custom_bottom_navbar.dart';
 import 'package:housing_project/views/pages/login_page/login_page.dart';
-import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_house_details_page.dart';
+import 'package:housing_project/views/pages/owner_house_details_page/owner_house_details_page.dart';
 import 'package:housing_project/views/pages/password_reset_page/password_reset_page.dart';
 import 'package:housing_project/views/pages/phone_number_confirm_page/phone_number_confirm_page.dart';
 import 'package:housing_project/views/pages/role_selection_page/role_selection_page.dart';

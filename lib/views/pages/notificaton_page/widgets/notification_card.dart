@@ -42,7 +42,6 @@ class NotificationCard extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.bold, color: AppColor.grey),
         ),
         onTap: () {
-          debugPrint('move to Noti deatails');
         },
       ),
     );

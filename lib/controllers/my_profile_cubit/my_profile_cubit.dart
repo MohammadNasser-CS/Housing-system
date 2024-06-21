@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/services/auth_services/auth_service.dart';
 
@@ -9,7 +8,6 @@ class MyProfileCubit extends Cubit<MyProfileState> {
   final AuthServices _authServices = AuthServicesImplementation();
 
   Future<void> updateMyInformation(Map<String, dynamic> newData) async {
-    debugPrint(newData.toString());
     emit(MyProfileLoading());
     try {
       String response = await _authServices.updateMyInformation(newData);

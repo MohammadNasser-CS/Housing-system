@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:housing_project/Utils/app_constatns.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/Utils/http_constants.dart';
@@ -277,7 +276,6 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
         ),
       );
       final responseData = response.data;
-      debugPrint(responseData.toString());
 
       if (responseData == null ||
           responseData.isEmpty ||
@@ -288,7 +286,6 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
       }
       OwnerHouseDetailsModel houseDetail =
           OwnerHouseDetailsModel.fromMap(responseData['data']);
-      debugPrint(houseDetail.toString());
       return houseDetail;
     } on DioException catch (e) {
       switch (e.type) {
@@ -442,7 +439,6 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
         ),
       );
       final responseData = response.data;
-      debugPrint(responseData.toString());
       if (responseData == null ||
           responseData.isEmpty ||
           response.statusCode == 401) {
@@ -453,7 +449,6 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
       List<RoomRequestsModel> roomRequests = (responseData['requests'] as List)
           .map((requestMap) => RoomRequestsModel.fromMap(requestMap))
           .toList();
-      debugPrint(roomRequests.toString());
       return roomRequests;
     } on DioException catch (e) {
       switch (e.type) {

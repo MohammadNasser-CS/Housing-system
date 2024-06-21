@@ -54,7 +54,6 @@ class HouseItem extends StatelessWidget {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            // debugPrint(houseItemModel.id);
                             cubit.changeFavorite(houseItemModel.houseId);
                           },
                           icon: Icon(

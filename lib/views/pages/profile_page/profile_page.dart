@@ -47,7 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
     // Extract values from controllers
 
     if (_formKey.currentState!.validate()) {
-      debugPrint('test');
       String newName = _userNameController.text.trim();
       String newPhone = _phoneNumberController.text.trim();
       String newEmail = _emailController.text.trim();

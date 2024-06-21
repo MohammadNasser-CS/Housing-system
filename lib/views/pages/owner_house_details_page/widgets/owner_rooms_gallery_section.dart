@@ -36,7 +36,6 @@ class OwnerRoomsGallerySection extends StatelessWidget {
                 await Navigator.of(context)
                     .pushNamed(AppRoutes.addNewSecondaryRoom, arguments: id);
                 cubit.getOwnerHouseDetails(id);
-                debugPrint('tsete');
               },
               child: Text(
                 'أضف غرفة جديدة',

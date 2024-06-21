@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/houses_models/house_model.dart';
@@ -16,7 +15,6 @@ class OwnerHomePageCubit extends Cubit<OwnerHomePageState> {
     try {
       emit(RoomRequestsLoading());
       final requests = await _houseOwnerServices.getHouseOwnerRequests();
-      debugPrint(requests.toString());
       if (requests != null) {
         emit(RoomRequestsLoaded(roomRequests: requests));
       } else {

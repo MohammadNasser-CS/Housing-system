@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/auth_exceptions.dart';
 import 'package:housing_project/models/auth_models/owner_auth_model.dart';
@@ -36,11 +35,9 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthLoaded());
       }
     } on AuthException catch (exp) {
-      debugPrint(exp.message);
 
       emit(AuthError(message: exp.message));
     } catch (exp) {
-      debugPrint(exp.toString());
       emit(AuthError(message: exp.toString()));
     }
   }

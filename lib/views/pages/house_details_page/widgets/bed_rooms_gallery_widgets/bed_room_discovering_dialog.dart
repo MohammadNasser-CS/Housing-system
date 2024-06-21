@@ -155,7 +155,6 @@ class _BedRoomDiscoveringDialogState extends State<BedRoomDiscoveringDialog> {
                     ),
                     onChanged: (String? value) {
                       if (value != null) {
-                        debugPrint(value);
                         setState(() {
                           selectedTimeSlot = value;
                         });
@@ -194,7 +193,6 @@ class _BedRoomDiscoveringDialogState extends State<BedRoomDiscoveringDialog> {
                               ),
                             );
                           } else if (selectedTimeSlot == null) {
-                            debugPrint(selectedTimeSlot);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 behavior: SnackBarBehavior.floating,

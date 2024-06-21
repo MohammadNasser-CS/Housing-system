@@ -412,10 +412,8 @@ class _SignupPagePageState extends State<StudentSignupPage> {
                         if (result != null) {
                           setState(() {
                             date = result;
-                            BoardDateFormat dateFormat =
-                                BoardDateFormat("yyyy-MM-dd");
-                            String test = dateFormat.format(date);
-                            debugPrint(test);
+                            
+                            
                           });
                         }
                       },

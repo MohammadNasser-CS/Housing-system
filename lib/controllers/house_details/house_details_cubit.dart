@@ -48,7 +48,6 @@ class HouseDetailsCubit extends Cubit<HouseDetailsState> {
 
   Future<void> selectDateTimeSlot(String roomId, String timeSlotId) async {
     try {
-      // emit(RoomDetailsLoading());
       String result =
           await _studentServices.makeRequestReservation(roomId, timeSlotId);
       emit(RequestReservationDone(message: result));
