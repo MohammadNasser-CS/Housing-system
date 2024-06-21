@@ -50,7 +50,7 @@ class _OwnerBedRoomsGallerySectionState
           children: [
             Text(
               'غرف النوم',
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),

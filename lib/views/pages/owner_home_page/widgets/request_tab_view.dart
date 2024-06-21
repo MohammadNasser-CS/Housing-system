@@ -11,25 +11,44 @@ class RequestsTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<OwnerHomePageCubit>(context);
-    return BlocBuilder<OwnerHomePageCubit, OwnerHomePageState>(
+    return BlocConsumer<OwnerHomePageCubit, OwnerHomePageState>(
       bloc: cubit,
+      listenWhen: (previous, current) =>
+          current is RequestDeleted || current is MyRoomError,
+      listener: (context, state) {
+        if (state is RequestDeleted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        } else if (state is MyRoomError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        }
+      },
       buildWhen: (previous, current) {
         return current is! HouseDetailsLoaded;
       },
       builder: (context, state) {
-        if (state is OwnerHomePageLoading) {
+        if (state is RoomRequestsLoading) {
           return const Center(
             child: CircularProgressIndicator.adaptive(),
           );
-        } else if (state is OwnerHomePageError) {
+        } else if (state is MyRoomError) {
           return Center(
             child: Text(state.message),
           );
-        } else if (state is OwnerHomeRequestsLoaded &&
-            state.request.isNotEmpty) {
+        } else if (state is RoomRequestsLoaded &&
+            state.roomRequests.isNotEmpty) {
           return RefreshIndicator(
               onRefresh: () async {
-                return await cubit.getHomeData();
+                return await cubit.getRequestsData();
               },
               child: SingleChildScrollView(
                 child: Column(
@@ -37,11 +56,11 @@ class RequestsTabView extends StatelessWidget {
                     ListView.builder(
                       padding: const EdgeInsetsDirectional.symmetric(
                           horizontal: 4.0),
-                      itemCount: state.request.length,
+                      itemCount: state.roomRequests.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        final roomRequest = state.request[index];
+                        final roomRequest = state.roomRequests[index];
                         return Container(
                           margin: const EdgeInsetsDirectional.only(bottom: 8.0),
                           child: OwnerRoomRequestCard(

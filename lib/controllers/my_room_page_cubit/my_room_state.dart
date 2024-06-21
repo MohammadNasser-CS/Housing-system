@@ -14,7 +14,7 @@ final class MyRoomLoaded extends MyRoomState {
 }
 
 final class RoomRequestsLoaded extends MyRoomState {
-  final List<StudentRoomRequestsModel> roomRequests;
+  final List<RoomRequestsModel> roomRequests;
   RoomRequestsLoaded({required this.roomRequests});
 }
 
@@ -25,12 +25,14 @@ final class NoRequestAndNoRoom extends MyRoomState {
 final class DayTimeSlotChanged extends MyRoomState {
   final String newDateTime;
   final String requestId;
-  DayTimeSlotChanged({required this.newDateTime,required this.requestId});
+  DayTimeSlotChanged({required this.newDateTime, required this.requestId});
 }
+
 final class RequestDeleted extends MyRoomState {
   final String message;
   RequestDeleted({required this.message});
 }
+
 final class MyRoomError extends MyRoomState {
   final String message;
   MyRoomError({required this.message});

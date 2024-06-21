@@ -6,6 +6,7 @@ sealed class OwnerHomePageState {
 
 final class OwnerHomePageInitial extends OwnerHomePageState {}
 final class OwnerHomePageLoading extends OwnerHomePageState {}
+final class RoomRequestsLoading extends OwnerHomePageState {}
 
 final class OwnerHomePageLoaded extends OwnerHomePageState {
   final List<HouseModel> houses;
@@ -35,7 +36,22 @@ final class TapViewChanged extends OwnerHomePageState{
   const TapViewChanged();
 }
 
+final class RoomRequestsLoaded extends OwnerHomePageState {
+  final List<RoomRequestsModel> roomRequests;
+  RoomRequestsLoaded({required this.roomRequests});
+}
 
-final class OwnerHomePageSearchFilled extends OwnerHomePageState{
-  const OwnerHomePageSearchFilled();
+final class NoRequestAndNoRoom extends OwnerHomePageState {
+  NoRequestAndNoRoom();
+}
+final class MyRoomError extends OwnerHomePageState {
+  final String message;
+  const MyRoomError({
+    required this.message,
+  });
+}
+
+final class RequestDeleted extends OwnerHomePageState {
+  final String message;
+  RequestDeleted({required this.message});
 }

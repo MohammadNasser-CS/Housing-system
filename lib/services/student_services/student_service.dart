@@ -18,7 +18,7 @@ abstract class StudentServices {
   Future<HouseDetailsModel> getHouseDetails(String houseId);
   Future<RoomModel> getRoomDetails(String roomId);
   Future<String> makeRequestReservation(String roomId, String timeSlotId);
-  Future<List<StudentRoomRequestsModel>?> getReservationRoomRequest();
+  Future<List<RoomRequestsModel>?> getReservationRoomRequest();
   Future<String> cancelRequest(String requestId);
   Future<MyRoomModel?> getMyReservationRoom();
 }
@@ -496,7 +496,7 @@ class StudentServicesImplementation implements StudentServices {
   }
 
   @override
-  Future<List<StudentRoomRequestsModel>?> getReservationRoomRequest() async {
+  Future<List<RoomRequestsModel>?> getReservationRoomRequest() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
@@ -518,10 +518,9 @@ class StudentServicesImplementation implements StudentServices {
       } else if (responseData['requests'] == null) {
         return null;
       }
-      List<StudentRoomRequestsModel> roomRequests =
-          (responseData['requests'] as List)
-              .map((requestMap) => StudentRoomRequestsModel.fromMap(requestMap))
-              .toList();
+      List<RoomRequestsModel> roomRequests = (responseData['requests'] as List)
+          .map((requestMap) => RoomRequestsModel.fromMap(requestMap))
+          .toList();
       return roomRequests;
     } on DioException catch (e) {
       switch (e.type) {

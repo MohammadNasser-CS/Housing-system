@@ -48,42 +48,5 @@ class OwnerHouseDetailsCubit extends Cubit<OwnerHouseDetailsState> {
       emit(OwnerHouseDetailsError(message: exp.toString()));
     }
   }
-  // Future<void> changeFavorite(String houseId) async {
-  //   try {
-  //     emit(OwnerHouseDetailsLoading());
-  //     String message = await _studentServices.changeFavorite(houseId);
-  //     emit(FavroiteDetailsChangedSuccess(message: message));
-  //     getHouseDetails(houseId);
-  //   } on AuthException catch (exp) {
-  //     emit(OwnerHouseDetailsError(message: exp.message));
-  //   } catch (exp) {
-  //     emit(OwnerHouseDetailsError(message: exp.toString()));
-  //   }
-  // }
-
-  // Future<void> getRoomDetails(String roomId) async {
-  //   try {
-  //     emit(RoomDetailsLoading());
-  //     final room = await _studentServices.getRoomDetails(roomId);
-  //     emit(RoomDetailsLoaded(room: room));
-  //   } on AuthException catch (exp) {
-  //     emit(RoomDetailsError(message: exp.message));
-  //   } catch (exp) {
-  //     emit(RoomDetailsError(message: exp.toString()));
-  //   }
-  // }
-
-  // Future<void> selectDateTimeSlot(String roomId, String timeSlotId) async {
-  //   try {
-  //     // emit(RoomDetailsLoading());
-  //     String result =
-  //         await _studentServices.makeRequestReservation(roomId, timeSlotId);
-  //     emit(RequestReservationDone(message: result));
-  //   } on AuthException catch (exp) {
-  //     emit(RoomDetailsError(message: exp.message));
-  //   } catch (exp) {
-  //     emit(RoomDetailsError(message: exp.toString()));
-  //   }
-  //   // emit(DayTimeSlotChanged());
-  // }
+  
 }

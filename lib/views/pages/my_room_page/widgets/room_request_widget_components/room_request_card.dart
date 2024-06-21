@@ -6,7 +6,7 @@ import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
 class RoomRequestCard extends StatefulWidget {
-  final StudentRoomRequestsModel roomRequestsModel;
+  final RoomRequestsModel roomRequestsModel;
   const RoomRequestCard({super.key, required this.roomRequestsModel});
 
   @override
@@ -30,9 +30,11 @@ class _RoomRequestCardState extends State<RoomRequestCard>
     _animationController?.dispose();
     super.dispose();
   }
-  Future<void> cancelRequest(String requestId) async{
+
+  Future<void> cancelRequest(String requestId) async {
     BlocProvider.of<MyRoomCubit>(context).cancelRequest(requestId);
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -164,7 +166,7 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                       AppColor.red,
                     ),
                   ),
-                  onPressed:()async {
+                  onPressed: () async {
                     await cancelRequest(widget.roomRequestsModel.requestId);
                   },
                   child: Text(

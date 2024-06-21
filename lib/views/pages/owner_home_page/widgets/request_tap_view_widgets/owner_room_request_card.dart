@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
-import 'package:housing_project/models/owner_room_requests_model.dart';
+import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
+import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/views/widgets/text_widget.dart';
 
 class OwnerRoomRequestCard extends StatefulWidget {
-  final OwnerRoomRequestsModel roomRequestsModel;
+  final RoomRequestsModel roomRequestsModel;
   final String? date;
   const OwnerRoomRequestCard(
       {super.key, required this.roomRequestsModel, this.date});
@@ -33,7 +35,7 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
 
   @override
   Widget build(BuildContext context) {
-    // final cubit = BlocProvider.of<MyRoomCubit>(context);
+    final cubit = BlocProvider.of<OwnerHomePageCubit>(context);
     final size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.25,
@@ -57,11 +59,11 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                 children: [
                   TextWidget(
                       title: 'إسم الطالب: ',
-                      value: widget.roomRequestsModel.studentName),
+                      value: widget.roomRequestsModel.studentName!),
                   SizedBox(height: size.height * 0.02),
                   TextWidget(
                       title: 'رقم الهاتف: ',
-                      value: widget.roomRequestsModel.studentPhoneNumber),
+                      value: widget.roomRequestsModel.studentPhoneNumber!),
                 ],
               ),
               Column(
@@ -77,7 +79,7 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                       border: Border.all(color: AppColor.grey4),
                     ),
                     child: Text(
-                      widget.roomRequestsModel.selectedDateTimeSlot,
+                      widget.roomRequestsModel.selectedDateTimeSlot!,
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             fontWeight: FontWeight.w900,
                           ),
@@ -122,13 +124,12 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                   padding: const EdgeInsetsDirectional.all(5.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color:
-                        widget.roomRequestsModel.requestStatus == 'إختيار موعد'
-                            ? AppColor.green1
-                            : widget.roomRequestsModel.requestStatus ==
-                                    'تم تحديد موعد'
-                                ? AppColor.teal
-                                : AppColor.green,
+                    color: widget.roomRequestsModel.requestStatus ==
+                            'في الإنتظار'
+                        ? AppColor.green1
+                        : widget.roomRequestsModel.requestStatus == 'تم التأكيد'
+                            ? AppColor.teal
+                            : AppColor.green,
                     border: Border.all(
                       color: AppColor.grey4,
                     ),
@@ -177,7 +178,10 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                       AppColor.red,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await cubit.rejectRequestHouseOwenr(
+                        widget.roomRequestsModel.requestId);
+                  },
                   child: Text(
                     'رفض الطلب',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -201,7 +205,10 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                       AppColor.green,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await cubit
+                        .confirmAppointment(widget.roomRequestsModel.requestId);
+                  },
                   child: Text(
                     'قبول الطلب',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(

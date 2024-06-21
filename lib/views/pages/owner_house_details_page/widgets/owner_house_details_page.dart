@@ -4,6 +4,7 @@ import 'package:housing_project/Utils/app_color.dart';
 import 'package:housing_project/controllers/owner_house_details_cubit/owner_house_details_cubit.dart';
 import 'package:housing_project/views/pages/house_details_page/widgets/house_base_imagel.dart';
 import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_bed_rooms_gallery_section.dart';
+import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_house_dashboard_section.dart';
 import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_house_description_section.dart';
 import 'package:housing_project/views/pages/owner_house_details_page/widgets/owner_rooms_gallery_section.dart';
 
@@ -66,9 +67,40 @@ class OwnerHouseDetailsPage extends StatelessWidget {
                         water: state.houseDetails.water,
                       ),
                       SizedBox(height: size.height * 0.03),
-                      // ContactSection(
-                      //     ownerName: state.houseDetails.ownerName,
-                      //     phoneNumber: state.houseDetails.phoneNumber),
+                      Text(
+                        'تفاصيل الحجز:',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(color: AppColor.grey4)),
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 12.0, vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: state.houseDetails.reservationData ==
+                                        null ||
+                                    state.houseDetails.reservationData!.isEmpty
+                                ? [const Text('لم يتم حجز أي غرفة بعد')]
+                                : state.houseDetails.reservationData!
+                                    .map((reservation) {
+                                    return OwnerHouseDashboardSection(
+                                      roomId: reservation['roomId'] ?? '',
+                                      studentName:
+                                          reservation['studentName'] ?? '',
+                                      phoneNumber:
+                                          reservation['phoneNumber'] ?? '',
+                                      reservationEnd:
+                                          reservation['reservationEnd'] ?? '',
+                                      reservationType:
+                                          reservation['reservationType'] ?? '',
+                                    );
+                                  }).toList(),
+                          )),
                       SizedBox(height: size.height * 0.03),
                       OwnerBedRoomsGallerySection(
                         id: state.houseDetails.houseId,

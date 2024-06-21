@@ -12,6 +12,7 @@ class OwnerHouseDetailsModel {
   final String housePhoto;
   final List<Map<String, String>> primaryRooms;
   final List<Map<String, String>> secondaryRooms;
+  final List<Map<String, String>>? reservationData;
   OwnerHouseDetailsModel({
     required this.houseId,
     required this.description,
@@ -22,6 +23,7 @@ class OwnerHouseDetailsModel {
     required this.housePhoto,
     required this.primaryRooms,
     required this.secondaryRooms,
+    this.reservationData,
   });
 
   OwnerHouseDetailsModel copyWith({
@@ -34,6 +36,7 @@ class OwnerHouseDetailsModel {
     String? housePhoto,
     List<Map<String, String>>? primaryRooms,
     List<Map<String, String>>? secondaryRooms,
+    List<Map<String, String>>? reservationData,
   }) {
     return OwnerHouseDetailsModel(
       houseId: houseId ?? this.houseId,
@@ -45,6 +48,7 @@ class OwnerHouseDetailsModel {
       housePhoto: housePhoto ?? this.housePhoto,
       primaryRooms: primaryRooms ?? this.primaryRooms,
       secondaryRooms: secondaryRooms ?? this.secondaryRooms,
+      reservationData: reservationData ?? this.reservationData,
     );
   }
 
@@ -60,6 +64,9 @@ class OwnerHouseDetailsModel {
     result.addAll({'housePhoto': housePhoto});
     result.addAll({'primaryRooms': primaryRooms});
     result.addAll({'secondaryRooms': secondaryRooms});
+    if (reservationData != null) {
+      result.addAll({'reservationData': reservationData});
+    }
 
     return result;
   }
@@ -81,6 +88,10 @@ class OwnerHouseDetailsModel {
               ?.map((x) => Map<String, String>.from(x as Map<String, dynamic>))
               .toList() ??
           [],
+      reservationData: (map['reservationData'] as List<dynamic>?)
+              ?.map((x) => Map<String, String>.from(x as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 
@@ -91,7 +102,7 @@ class OwnerHouseDetailsModel {
 
   @override
   String toString() {
-    return 'OwnerHouseDetailsModel(houseId: $houseId, description: $description, internet: $internet, water: $water, electricity: $electricity, gas: $gas, housePhoto: $housePhoto, primaryRooms: $primaryRooms, secondaryRooms: $secondaryRooms)';
+    return 'OwnerHouseDetailsModel(houseId: $houseId, description: $description, internet: $internet, water: $water, electricity: $electricity, gas: $gas, housePhoto: $housePhoto, primaryRooms: $primaryRooms, secondaryRooms: $secondaryRooms, reservationData: $reservationData)';
   }
 
   @override
@@ -107,7 +118,8 @@ class OwnerHouseDetailsModel {
         other.gas == gas &&
         other.housePhoto == housePhoto &&
         listEquals(other.primaryRooms, primaryRooms) &&
-        listEquals(other.secondaryRooms, secondaryRooms);
+        listEquals(other.secondaryRooms, secondaryRooms) &&
+        listEquals(other.reservationData, reservationData);
   }
 
   @override
@@ -120,6 +132,7 @@ class OwnerHouseDetailsModel {
         gas.hashCode ^
         housePhoto.hashCode ^
         primaryRooms.hashCode ^
-        secondaryRooms.hashCode;
+        secondaryRooms.hashCode ^
+        reservationData.hashCode;
   }
 }

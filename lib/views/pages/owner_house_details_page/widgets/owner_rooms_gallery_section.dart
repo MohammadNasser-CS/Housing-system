@@ -27,7 +27,7 @@ class OwnerRoomsGallerySection extends StatelessWidget {
           children: [
             Text(
               'الغرف الأخرى',
-              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),

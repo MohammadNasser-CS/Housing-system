@@ -4,7 +4,7 @@ import 'package:housing_project/views/widgets/text_widget.dart';
 import 'package:readmore/readmore.dart';
 
 class OwnerHouseDescriptionSection extends StatelessWidget {
-final String electricity, water, internet, gas, description;
+  final String electricity, water, internet, gas, description;
   const OwnerHouseDescriptionSection({
     super.key,
     required this.electricity,
@@ -22,7 +22,7 @@ final String electricity, water, internet, gas, description;
       children: [
         Text(
           'المواصفات',
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -43,8 +43,7 @@ final String electricity, water, internet, gas, description;
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  TextWidget(
-                      title: 'خدمة الكهرباء:', value: electricity),
+                  TextWidget(title: 'خدمة الكهرباء:', value: electricity),
                   TextWidget(
                     title: 'خدمة الماء:',
                     value: water,
@@ -68,7 +67,7 @@ final String electricity, water, internet, gas, description;
         SizedBox(height: size.height * 0.015),
         Text(
           'الوصف',
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),

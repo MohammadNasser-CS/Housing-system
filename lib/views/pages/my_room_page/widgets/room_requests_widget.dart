@@ -3,7 +3,7 @@ import 'package:housing_project/models/room_requests_model.dart';
 import 'package:housing_project/views/pages/my_room_page/widgets/room_request_widget_components/room_request_card.dart';
 
 class RoomRequestsWidget extends StatefulWidget {
-  final List<StudentRoomRequestsModel> requestsModel;
+  final List<RoomRequestsModel> requestsModel;
   const RoomRequestsWidget({super.key, required this.requestsModel});
 
   @override

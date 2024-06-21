@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-class StudentRoomRequestsModel {
+class RoomRequestsModel {
   final String requestId;
   final String requestStatus;
   final String? selectedDateTimeSlot;
@@ -11,8 +11,9 @@ class StudentRoomRequestsModel {
   final String houseOwnerName;
   final String houseOwnerPhoneNumber;
   final String? studentName;
+  final String? studentPhoneNumber;
   final Map<String, String>? availableTimes;
-  StudentRoomRequestsModel({
+  RoomRequestsModel({
     required this.requestId,
     required this.requestStatus,
     this.selectedDateTimeSlot,
@@ -21,10 +22,11 @@ class StudentRoomRequestsModel {
     required this.houseOwnerName,
     required this.houseOwnerPhoneNumber,
     this.studentName,
+    this.studentPhoneNumber,
     this.availableTimes,
   });
 
-  StudentRoomRequestsModel copyWith({
+  RoomRequestsModel copyWith({
     String? requestId,
     String? requestStatus,
     String? selectedDateTimeSlot,
@@ -33,9 +35,10 @@ class StudentRoomRequestsModel {
     String? houseOwnerName,
     String? houseOwnerPhoneNumber,
     String? studentName,
+    String? studentPhoneNumber,
     Map<String, String>? availableTimes,
   }) {
-    return StudentRoomRequestsModel(
+    return RoomRequestsModel(
       requestId: requestId ?? this.requestId,
       requestStatus: requestStatus ?? this.requestStatus,
       selectedDateTimeSlot: selectedDateTimeSlot ?? this.selectedDateTimeSlot,
@@ -45,6 +48,7 @@ class StudentRoomRequestsModel {
       houseOwnerPhoneNumber:
           houseOwnerPhoneNumber ?? this.houseOwnerPhoneNumber,
       studentName: studentName ?? this.studentName,
+      studentPhoneNumber: studentPhoneNumber ?? this.studentPhoneNumber,
       availableTimes: availableTimes ?? this.availableTimes,
     );
   }
@@ -64,6 +68,9 @@ class StudentRoomRequestsModel {
     if (studentName != null) {
       result.addAll({'studentName': studentName});
     }
+    if (studentPhoneNumber != null) {
+      result.addAll({'studentPhoneNumber': studentPhoneNumber});
+    }
     if (availableTimes != null) {
       result.addAll({'availableTimes': availableTimes});
     }
@@ -71,8 +78,8 @@ class StudentRoomRequestsModel {
     return result;
   }
 
-  factory StudentRoomRequestsModel.fromMap(Map<String, dynamic> map) {
-    return StudentRoomRequestsModel(
+  factory RoomRequestsModel.fromMap(Map<String, dynamic> map) {
+    return RoomRequestsModel(
       requestId: map['requestId'] ?? '',
       requestStatus: map['requestStatus'] ?? '',
       selectedDateTimeSlot: map['selectedDateTimeSlot'],
@@ -81,6 +88,7 @@ class StudentRoomRequestsModel {
       houseOwnerName: map['houseOwnerName'] ?? '',
       houseOwnerPhoneNumber: map['houseOwnerPhoneNumber'] ?? '',
       studentName: map['studentName'],
+      studentPhoneNumber: map['studentPhoneNumber'],
       availableTimes: map['availableTimes'] != null
           ? Map<String, String>.from(map['availableTimes'])
           : null,
@@ -89,19 +97,19 @@ class StudentRoomRequestsModel {
 
   String toJson() => json.encode(toMap());
 
-  factory StudentRoomRequestsModel.fromJson(String source) =>
-      StudentRoomRequestsModel.fromMap(json.decode(source));
+  factory RoomRequestsModel.fromJson(String source) =>
+      RoomRequestsModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'StudentRoomRequestsModel(requestId: $requestId, requestStatus: $requestStatus, selectedDateTimeSlot: $selectedDateTimeSlot, roomId: $roomId, houseId: $houseId, houseOwnerName: $houseOwnerName, houseOwnerPhoneNumber: $houseOwnerPhoneNumber, studentName: $studentName, availableTimes: $availableTimes)';
+    return 'StudentRoomRequestsModel(requestId: $requestId, requestStatus: $requestStatus, selectedDateTimeSlot: $selectedDateTimeSlot, roomId: $roomId, houseId: $houseId, houseOwnerName: $houseOwnerName, houseOwnerPhoneNumber: $houseOwnerPhoneNumber, studentName: $studentName, studentPhoneNumber: $studentPhoneNumber, availableTimes: $availableTimes)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is StudentRoomRequestsModel &&
+    return other is RoomRequestsModel &&
         other.requestId == requestId &&
         other.requestStatus == requestStatus &&
         other.selectedDateTimeSlot == selectedDateTimeSlot &&
@@ -110,6 +118,7 @@ class StudentRoomRequestsModel {
         other.houseOwnerName == houseOwnerName &&
         other.houseOwnerPhoneNumber == houseOwnerPhoneNumber &&
         other.studentName == studentName &&
+        other.studentPhoneNumber == studentPhoneNumber &&
         mapEquals(other.availableTimes, availableTimes);
   }
 
@@ -123,12 +132,13 @@ class StudentRoomRequestsModel {
         houseOwnerName.hashCode ^
         houseOwnerPhoneNumber.hashCode ^
         studentName.hashCode ^
+        studentPhoneNumber.hashCode ^
         availableTimes.hashCode;
   }
 }
 
-List<StudentRoomRequestsModel> dummyStdRoomRequests = [
-  StudentRoomRequestsModel(
+List<RoomRequestsModel> dummyStdRoomRequests = [
+  RoomRequestsModel(
     requestId: "3",
     houseOwnerName: 'مالك 1',
     houseId: '1',
@@ -164,7 +174,7 @@ List<StudentRoomRequestsModel> dummyStdRoomRequests = [
       '25': 'الخميس: 2-3',
     },
   ),
-  StudentRoomRequestsModel(
+  RoomRequestsModel(
     requestId: "25",
     houseOwnerName: 'مالك 1',
     houseId: '1',
