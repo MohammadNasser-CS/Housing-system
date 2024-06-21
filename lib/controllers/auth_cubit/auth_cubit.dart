@@ -78,4 +78,16 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthError(message: e.message));
     }
   }
+Future<void> checkAuthStatus() async {
+    try {
+      UserModel? user = await _authServices.getUser();
+      if (user != null) {
+        emit(AuthSuccess(user: user));
+      } else {
+        emit(AuthInitial());
+      }
+    } catch (e) {
+      emit(AuthInitial());
+    }
+  }
 }

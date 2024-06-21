@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:housing_project/Utils/app_color.dart';
+import 'package:housing_project/controllers/admin_home_page_cubit/admin_home_page_cubit.dart';
 import 'package:housing_project/controllers/auth_cubit/auth_cubit.dart';
 import 'package:housing_project/controllers/favorite_page_cubit/favorite_cubit.dart';
 import 'package:housing_project/controllers/owner_home_page_cubit/owner_home_page_cubit.dart';
 import 'package:housing_project/controllers/user_home_page_cubit/user_home_cubit.dart';
 import 'package:housing_project/controllers/my_room_page_cubit/my_room_cubit.dart';
 import 'package:housing_project/models/user_model.dart';
+import 'package:housing_project/views/pages/admin_pages/admin_home_page/admin_home_page.dart';
+import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/app_bar_title_for_admin.dart';
 import 'package:housing_project/views/pages/owner_home_page/owner_home_page.dart';
 import 'package:housing_project/views/pages/user_home_page/user_home_page.dart';
 import 'package:housing_project/views/pages/custom_bottom_navbar/widgets/app_bar_title_for_owner.dart';
@@ -170,6 +173,52 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
     ];
   }
 
+  List<PersistentTabConfig> _buildAdminScreens() {
+    return [
+      PersistentTabConfig(
+        screen: BlocProvider(
+          create: (context) {
+            final cubit = AdminHomePageCubit();
+            cubit.getHouseOwnerRequest();
+            return cubit;
+          },
+          child: const AdminHomePage(),
+        ),
+        item: ItemConfig(
+          icon: const Icon(FontAwesomeIcons.building),
+          title: "الطلبات",
+          activeForegroundColor: AppColor.orange8,
+          inactiveForegroundColor: AppColor.grey6,
+        ),
+      ),
+      PersistentTabConfig(
+        screen: NotificationPage(user: widget.user),
+        item: ItemConfig(
+          icon: const Icon(Icons.notifications_none_outlined),
+          title: "الإشعارات",
+          activeForegroundColor: AppColor.orange8,
+          inactiveForegroundColor: AppColor.grey6,
+        ),
+      ),
+      PersistentTabConfig(
+        screen: BlocProvider(
+          create: (context) {
+            final cubit = AuthCubit();
+            cubit.getUser();
+            return cubit;
+          },
+          child: const SettingsPage(),
+        ),
+        item: ItemConfig(
+          icon: const Icon(Icons.person_2_outlined),
+          title: "الإعدادت",
+          activeForegroundColor: AppColor.orange8,
+          inactiveForegroundColor: AppColor.grey6,
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -189,9 +238,11 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
               ),
             ),
           ),
-          title: widget.user.role == 'صاحب سكن'
-              ? AppBarTitleForOwner(index: _controller.index)
-              : AppBarTitleForUser(index: _controller.index),
+          title: widget.user.role == 'أدمن'
+              ? AppBarTitleForAdmin(index: _controller.index)
+              : widget.user.role == 'صاحب سكن'
+                  ? AppBarTitleForOwner(index: _controller.index)
+                  : AppBarTitleForUser(index: _controller.index),
         ),
         body: PersistentTabView(
           margin: EdgeInsets.only(top: size.height * 0.02),
@@ -202,16 +253,17 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             navBarDecoration:
                 NavBarDecoration(color: Theme.of(context).primaryColor),
           ),
-          tabs: widget.user.role == 'صاحب سكن'
-              ? _buildOwnerScreens()
-              : _buildUserScreens(),
+          tabs: widget.user.role == 'أدمن'
+              ? _buildAdminScreens()
+              : widget.user.role == 'صاحب سكن'
+                  ? _buildOwnerScreens()
+                  : _buildUserScreens(),
           screenTransitionAnimation: const ScreenTransitionAnimation(
             // Screen transition animation on change of selected tab.
             curve: Curves.ease,
             duration: Duration(milliseconds: 400),
           ),
-          onTabChanged: (value) {
-          },
+          onTabChanged: (value) {},
           stateManagement: false,
         ),
       ),

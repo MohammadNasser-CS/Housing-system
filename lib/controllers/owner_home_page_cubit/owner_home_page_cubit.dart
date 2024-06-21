@@ -26,7 +26,8 @@ class OwnerHomePageCubit extends Cubit<OwnerHomePageState> {
       emit(MyRoomError(message: exp.toString()));
     }
   }
-Future<void> confirmAppointment(String requestId) async {
+
+  Future<void> confirmAppointment(String requestId) async {
     try {
       emit(RoomRequestsLoading());
       String message = await _houseOwnerServices.confirmAppointment(requestId);
@@ -38,10 +39,12 @@ Future<void> confirmAppointment(String requestId) async {
       emit(MyRoomError(message: exp.toString()));
     }
   }
-Future<void> rejectRequestHouseOwenr(String requestId) async {
+
+  Future<void> rejectRequestHouseOwenr(String requestId) async {
     try {
       emit(RoomRequestsLoading());
-      String message = await _houseOwnerServices.rejectRequestHouseOwenr(requestId);
+      String message =
+          await _houseOwnerServices.rejectRequestHouseOwenr(requestId);
       emit(RequestDeleted(message: message));
       getRequestsData();
     } on AuthException catch (exp) {
@@ -50,6 +53,7 @@ Future<void> rejectRequestHouseOwenr(String requestId) async {
       emit(MyRoomError(message: exp.toString()));
     }
   }
+
   Future<void> getHomeData() async {
     try {
       emit(OwnerHomePageLoading());

@@ -624,7 +624,7 @@ class StudentServicesImplementation implements StudentServices {
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
       } else if (responseData.containsKey('message')) {
-        throw AuthException(responseData['message']);
+        return null;
       }
       MyRoomModel roomModel = MyRoomModel.fromMap(responseData['myRoom']);
       return roomModel;

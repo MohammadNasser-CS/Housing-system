@@ -219,7 +219,7 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
