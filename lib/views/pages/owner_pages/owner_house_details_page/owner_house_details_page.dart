@@ -18,9 +18,26 @@ class OwnerHouseDetailsPage extends StatelessWidget {
     return BlocConsumer<OwnerHouseDetailsCubit, OwnerHouseDetailsState>(
       bloc: cubit,
       listenWhen: (previous, current) =>
-          current is AddNewRoomSuccess || current is OwnerRoomDetailsError,
+          current is AddNewRoomSuccess ||
+          current is OwnerRoomDetailsError ||
+          current is DeleteReservationDone ||
+          current is UpdatedRoomReservationDone,
       listener: (context, state) {
         if (state is AddNewRoomSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        } else if (state is DeleteReservationDone) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        } else if (state is UpdatedRoomReservationDone) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -81,7 +98,6 @@ class OwnerHouseDetailsPage extends StatelessWidget {
                           padding: const EdgeInsetsDirectional.symmetric(
                               horizontal: 12.0, vertical: 8.0),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: state.houseDetails.reservationData ==
                                         null ||
                                     state.houseDetails.reservationData!.isEmpty
@@ -98,6 +114,8 @@ class OwnerHouseDetailsPage extends StatelessWidget {
                                           reservation['reservationEnd'] ?? '',
                                       reservationType:
                                           reservation['reservationType'] ?? '',
+                                      studentId: reservation['studentId'] ?? '',
+                                      houseId: state.houseDetails.houseId,
                                     );
                                   }).toList(),
                           )),

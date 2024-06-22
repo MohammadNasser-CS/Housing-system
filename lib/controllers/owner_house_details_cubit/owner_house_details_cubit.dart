@@ -45,5 +45,33 @@ class OwnerHouseDetailsCubit extends Cubit<OwnerHouseDetailsState> {
       emit(OwnerHouseDetailsError(message: exp.toString()));
     }
   }
-  
+
+  Future<void> finishRoomReservation(String studentId, String houseId) async {
+    try {
+      emit(OwnerHouseDetailsLoading());
+      String message =
+          await _houseOwnerServices.finishRoomReservation(studentId);
+      emit(DeleteReservationDone(message: message));
+      getOwnerHouseDetails(houseId);
+    } on AuthException catch (exp) {
+      emit(OwnerHouseDetailsError(message: exp.message));
+    } catch (exp) {
+      emit(OwnerHouseDetailsError(message: exp.toString()));
+    }
+  }
+
+  Future<void> updateRoomReservation(
+      Map<String, String> updateRequest, String houseId) async {
+    try {
+      emit(OwnerHouseDetailsLoading());
+      String message =
+          await _houseOwnerServices.updateRoomReservation(updateRequest);
+      emit(UpdatedRoomReservationDone(message: message));
+      getOwnerHouseDetails(houseId);
+    } on AuthException catch (exp) {
+      emit(OwnerHouseDetailsError(message: exp.message));
+    } catch (exp) {
+      emit(OwnerHouseDetailsError(message: exp.toString()));
+    }
+  }
 }

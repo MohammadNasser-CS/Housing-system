@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static const Color backgroundColor = Color(0xFFF7F7F7);
-  static const Color grey = Colors.grey;
-  static final Color grey1 = Colors.grey.shade100;
-  static final Color grey2 = Colors.grey.shade200;
-  static final Color grey3 = Colors.grey.shade300;
-  static final Color grey4 = Colors.grey.shade400;
-  static final Color grey6 = Colors.grey.shade600;
-  static final Color grey7 = Colors.grey.shade700;
-  static const Color black = Colors.black;
-  static const Color black26 = Colors.black26;
-  static const Color black38 = Colors.black38;
-  static const Color black54 = Colors.black54;
-  static const Color white = Colors.white;
+  static const  backgroundColor = Color(0xFFF7F7F7);
+  static const  grey = Colors.grey;
+  static final  grey1 = Colors.grey.shade100;
+  static final  grey2 = Colors.grey.shade200;
+  static final  grey3 = Colors.grey.shade300;
+  static final  grey4 = Colors.grey.shade400;
+  static final  grey6 = Colors.grey.shade600;
+  static final  grey7 = Colors.grey.shade700;
+  static const  black = Colors.black;
+  static const  black26 = Colors.black26;
+  static const  black38 = Colors.black38;
+  static const  black54 = Colors.black54;
+  static const  white = Colors.white;
   static const green = Colors.green;
   static final green1 = Colors.green.shade100;
   static final green2 = Colors.green.shade200;
@@ -37,7 +37,12 @@ class AppColor {
   static final orange7 = Colors.orange.shade700;
   static final orange8 = Colors.orange.shade800;
   static final orange9 = Colors.orange.shade900;
-  static const Color red = Colors.red;
+  static const  red = Colors.red;
+  static final  red1 = Colors.red.shade100;
+  static final  red2 = Colors.red.shade200;
+  static final  red3 = Colors.red.shade300;
+  static final  red4 = Colors.red.shade400;
+  static final  red6 = Colors.red.shade600;
   static const blue = Colors.blue;
   static const brown = Colors.brown;
   static const purple = Colors.purple;

@@ -32,7 +32,7 @@ final class OwnerHouseDetailsError extends OwnerHouseDetailsState {
 // final class RoomDetailsLoaded extends OwnerHouseDetailsState {
 //   final RoomModel room;
 //   RoomDetailsLoaded({required this.room});
-// }
+// }RequestDeleted
 final class OwnerRoomDetailsError extends OwnerHouseDetailsState {
   final String message;
   OwnerRoomDetailsError({required this.message});
@@ -40,4 +40,12 @@ final class OwnerRoomDetailsError extends OwnerHouseDetailsState {
 final class AddNewRoomSuccess extends OwnerHouseDetailsState {
   final String message;
   AddNewRoomSuccess({required this.message});
+}
+final class DeleteReservationDone extends OwnerHouseDetailsState {
+  final String message;
+  DeleteReservationDone({required this.message});
+}
+final class UpdatedRoomReservationDone extends OwnerHouseDetailsState {
+  final String message;
+  UpdatedRoomReservationDone({required this.message});
 }

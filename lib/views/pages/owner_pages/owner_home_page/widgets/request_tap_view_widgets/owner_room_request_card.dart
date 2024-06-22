@@ -1,3 +1,4 @@
+import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/app_color.dart';
@@ -7,9 +8,7 @@ import 'package:housing_project/views/pages/shared_pages/widgets/text_widget.dar
 
 class OwnerRoomRequestCard extends StatefulWidget {
   final RoomRequestsModel roomRequestsModel;
-  final String? date;
-  const OwnerRoomRequestCard(
-      {super.key, required this.roomRequestsModel, this.date});
+  const OwnerRoomRequestCard({super.key, required this.roomRequestsModel});
 
   @override
   State<OwnerRoomRequestCard> createState() => _OwnerRoomRequestCardState();
@@ -17,8 +16,7 @@ class OwnerRoomRequestCard extends StatefulWidget {
 
 class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
     with SingleTickerProviderStateMixin {
-  String? dateTime;
-
+  DateTime? startDateTime, endDateTime;
   AnimationController? _animationController;
 
   @override
@@ -31,6 +29,202 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
   void dispose() {
     _animationController?.dispose();
     super.dispose();
+  }
+
+  Future<void> _showPhotoDialog() async {
+    final result = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            final result = await showBoardDateTimePickerForDate(
+                              useSafeArea: true,
+                              useRootNavigator: true,
+                              options: BoardDateTimeOptions(
+                                weekend: const BoardPickerWeekendOptions(),
+                                textColor: AppColor.black,
+                                backgroundColor: AppColor.grey3,
+                                activeTextColor: AppColor.black,
+                                foregroundColor: AppColor.white,
+                                pickerFormat: PickerFormat.dmy,
+                                pickerSubTitles: const BoardDateTimeItemTitles(
+                                  year: 'السنة',
+                                  month: 'الشهر',
+                                  day: 'اليوم',
+                                ),
+                                showDateButton: false,
+                                boardTitle:
+                                    'إختر تاريخ ميلادك، يمكنك الكتابة في كل حقل',
+                              ),
+                              context: context,
+                            );
+                            if (result != null) {
+                              setState(() {
+                                startDateTime = result;
+                              });
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsetsDirectional.all(16.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.green),
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                startDateTime == null
+                                    ? 'إختر تاريخ البداية'
+                                    : BoardDateFormat('yyyy-MM-dd')
+                                        .format(startDateTime!),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColor.grey7,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4.0),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () async {
+                            final result = await showBoardDateTimePickerForDate(
+                              useSafeArea: true,
+                              useRootNavigator: true,
+                              options: BoardDateTimeOptions(
+                                weekend: const BoardPickerWeekendOptions(),
+                                textColor: AppColor.black,
+                                backgroundColor: AppColor.grey3,
+                                activeTextColor: AppColor.black,
+                                foregroundColor: AppColor.white,
+                                pickerFormat: PickerFormat.dmy,
+                                pickerSubTitles: const BoardDateTimeItemTitles(
+                                  year: 'السنة',
+                                  month: 'الشهر',
+                                  day: 'اليوم',
+                                ),
+                                showDateButton: false,
+                                boardTitle:
+                                    'إختر تاريخ ميلادك، يمكنك الكتابة في كل حقل',
+                              ),
+                              context: context,
+                            );
+                            if (result != null) {
+                              setState(() {
+                                endDateTime = result;
+                              });
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsetsDirectional.all(16.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.green),
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                endDateTime == null
+                                    ? 'إختر تاريخ النهاية'
+                                    : BoardDateFormat('yyyy-MM-dd')
+                                        .format(endDateTime!),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColor.grey7,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsetsDirectional.all(4.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.blue),
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'تأكيد',
+                                style: TextStyle(color: AppColor.blue),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4.0),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            startDateTime = endDateTime = null;
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsetsDirectional.all(4.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.red),
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'إلغاء',
+                                style: TextStyle(color: AppColor.red),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+      },
+    );
+    // Check the result when the dialog is dismissed
+    if (result == null) {
+      setState(() {
+        endDateTime = null;
+      });
+    }
   }
 
   @override
@@ -206,11 +400,29 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                     ),
                   ),
                   onPressed: () async {
-                    await cubit
-                        .confirmAppointment(widget.roomRequestsModel.requestId);
+                    if (widget.roomRequestsModel.requestStatus ==
+                        'في الإنتظار') {
+                      await cubit.confirmAppointment(
+                          widget.roomRequestsModel.requestId);
+                    } else if (widget.roomRequestsModel.requestStatus ==
+                        'تم التأكيد') {
+                      await _showPhotoDialog();
+                      if (startDateTime != null && endDateTime != null) {
+                        await cubit.acceptRoomReservationRequest({
+                          'requestId': widget.roomRequestsModel.requestId,
+                          'reservationDate': BoardDateFormat('yyyy-MM-dd')
+                              .format(startDateTime!),
+                          'reservationEnd': BoardDateFormat('yyyy-MM-dd')
+                              .format(endDateTime!),
+                          // 'reservationType': 'غرفة',
+                        });
+                      } else {}
+                    }
                   },
                   child: Text(
-                    'قبول الطلب',
+                    widget.roomRequestsModel.requestStatus == 'في الإنتظار'
+                        ? 'قبول موعد للقاء'
+                        : 'قبول حجز الغرفة',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColor.white,

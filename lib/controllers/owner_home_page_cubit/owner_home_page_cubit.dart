@@ -40,6 +40,21 @@ class OwnerHomePageCubit extends Cubit<OwnerHomePageState> {
     }
   }
 
+  Future<void> acceptRoomReservationRequest(
+      Map<String, String> acceptedRequest) async {
+    try {
+      emit(RoomRequestsLoading());
+      String message = await _houseOwnerServices
+          .acceptRoomReservationRequest(acceptedRequest);
+      emit(RequestDeleted(message: message));
+      getRequestsData();
+    } on AuthException catch (exp) {
+      emit(MyRoomError(message: exp.message));
+    } catch (exp) {
+      emit(MyRoomError(message: exp.toString()));
+    }
+  }
+
   Future<void> rejectRequestHouseOwenr(String requestId) async {
     try {
       emit(RoomRequestsLoading());

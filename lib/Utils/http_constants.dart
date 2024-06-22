@@ -20,6 +20,8 @@ class HttpConstants {
   static const String addSeconderyRoom = '/addSeconderyRoom';
   static const String getHouseOwnerRequests = '/getHouseOwnerRequests';
   static const String getHouseOwnerActiviationRequest = '/getHouseOwnerActiviationRequest';
+  static const String acceptRoomReservationRequest = '/acceptRoomReservationRequest';
+  static const String updateRoomReservation = '/updateRoomReservation';
   static String searchForSpecificOwner(String name) => '/search/$name';
   static String searchForSpecificHouse(int houseId) => '/searchHouse/$houseId';
   static String getHouseDetails(int houseId) => '/getHouseDetails/$houseId';
@@ -31,4 +33,5 @@ class HttpConstants {
   static String confirmAppointment(int requestId) => '/confirmAppointment/$requestId';
   static String rejectHouseOwner(int ownerId) => '/rejectHouseOwner/$ownerId';
   static String acceptHouseOwner(int ownerId) => '/acceptHouseOwner/$ownerId';
+  static String finishRoomReservation(int studentId) => '/finishRoomReservation/$studentId';
 }
