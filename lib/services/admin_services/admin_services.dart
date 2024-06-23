@@ -55,7 +55,7 @@ class AdminServicesImplementation implements AdminServices {
       if (responseData == null ||
           responseData.isEmpty ||
           response.statusCode == 401) {
-        throw AuthException('لم تقم بتسجيل الدخول');
+        throw AuthException(responseData['message']);
       } else if (responseData.containsKey('message')) {
         return null;
       }
@@ -157,7 +157,7 @@ class AdminServicesImplementation implements AdminServices {
       if (!(prefs.containsKey(AppConstants.accessToken))) {
         throw AuthException('لم تقم بتسجيل الدخول');
       }
-       if (await authServices.getUser() == null) {
+      if (await authServices.getUser() == null) {
         throw AuthException('تم تسجيل الخروج');
       }
       final response = await dio.put(

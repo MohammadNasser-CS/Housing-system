@@ -25,8 +25,7 @@ abstract class HouseOwnerServices {
   Future<String> acceptRoomReservationRequest(
       Map<String, String> acceptedRequest);
   Future<String> finishRoomReservation(String studentId);
-  Future<String> updateRoomReservation(
-      Map<String, String> updateRequest);
+  Future<String> updateRoomReservation(Map<String, String> updateRequest);
 }
 
 class HouseOwnerServicesImplementation implements HouseOwnerServices {
@@ -181,12 +180,13 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
           },
         ),
       );
-
       final responseData = response.data;
       if (responseData == null ||
           responseData.isEmpty ||
           response.statusCode == 401) {
-        throw AuthException('لم تقم بتسجيل الدخول');
+        throw AuthException(responseData['message']);
+      } else if (response.statusCode == 404) {
+        return [];
       }
       List<HouseModel> houses = (responseData['houses'] as List)
           .map((houseMap) => HouseModel.fromMap(houseMap))
@@ -746,10 +746,11 @@ class HouseOwnerServicesImplementation implements HouseOwnerServices {
       throw AuthException(e.toString());
     }
   }
-  
+
   @override
-  Future<String> updateRoomReservation(Map<String, String> updateRequest) async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<String> updateRoomReservation(
+      Map<String, String> updateRequest) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final AuthServices authServices = AuthServicesImplementation();
     try {
       if (!(prefs.containsKey(AppConstants.accessToken))) {

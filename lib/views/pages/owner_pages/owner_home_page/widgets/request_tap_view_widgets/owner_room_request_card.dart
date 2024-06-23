@@ -169,7 +169,7 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop('confirmed');
                           },
                           child: Container(
                             padding: const EdgeInsetsDirectional.all(4.0),
@@ -192,7 +192,7 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                         child: InkWell(
                           onTap: () {
                             startDateTime = endDateTime = null;
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pop('cancalled');
                           },
                           child: Container(
                             padding: const EdgeInsetsDirectional.all(4.0),
@@ -222,7 +222,7 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
     // Check the result when the dialog is dismissed
     if (result == null) {
       setState(() {
-        endDateTime = null;
+        endDateTime = startDateTime = null;
       });
     }
   }
@@ -414,7 +414,7 @@ class _OwnerRoomRequestCardState extends State<OwnerRoomRequestCard>
                               .format(startDateTime!),
                           'reservationEnd': BoardDateFormat('yyyy-MM-dd')
                               .format(endDateTime!),
-                          // 'reservationType': 'غرفة',
+                          'reservationType': 'غرفة',
                         });
                       } else {}
                     }
