@@ -334,7 +334,7 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
                               children: [
                                 Expanded(
                                   child: CheckboxListTile(
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         electricCheckbox
                                             ? AppColor.green
                                             : null),
@@ -364,7 +364,7 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
                                 const VerticalDivider(),
                                 Expanded(
                                   child: CheckboxListTile(
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         waterCheckbox ? AppColor.green : null),
                                     value: waterCheckbox,
                                     contentPadding:
@@ -398,7 +398,7 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
                               children: [
                                 Expanded(
                                   child: CheckboxListTile(
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         wifiCheckbox ? AppColor.green : null),
                                     contentPadding:
                                         const EdgeInsetsDirectional.all(12.0),
@@ -426,7 +426,7 @@ class _AddNewHousePageState extends State<AddNewHousePage> {
                                 const VerticalDivider(),
                                 Expanded(
                                   child: CheckboxListTile(
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         gasCheckbox ? AppColor.green : null),
                                     value: gasCheckbox,
                                     contentPadding:

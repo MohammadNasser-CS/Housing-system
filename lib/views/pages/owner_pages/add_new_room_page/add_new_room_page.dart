@@ -299,7 +299,7 @@ class _AddNewRoomPageState extends State<AddNewRoomPage> {
                               children: [
                                 Expanded(
                                   child: CheckboxListTile(
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         deskCheckbox ? AppColor.green : null),
                                     contentPadding:
                                         const EdgeInsetsDirectional.all(12.0),
@@ -327,7 +327,7 @@ class _AddNewRoomPageState extends State<AddNewRoomPage> {
                                 const VerticalDivider(),
                                 Expanded(
                                   child: CheckboxListTile(
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         acCheckbox ? AppColor.green : null),
                                     value: acCheckbox,
                                     contentPadding:
@@ -361,7 +361,7 @@ class _AddNewRoomPageState extends State<AddNewRoomPage> {
                               children: [
                                 Expanded(
                                   child: CheckboxListTile(
-                                    fillColor: MaterialStatePropertyAll(
+                                    fillColor: WidgetStatePropertyAll(
                                         balconyCheckbox
                                             ? AppColor.green
                                             : null),

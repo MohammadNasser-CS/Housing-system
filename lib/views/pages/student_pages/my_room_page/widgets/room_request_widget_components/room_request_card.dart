@@ -157,12 +157,12 @@ class _RoomRequestCardState extends State<RoomRequestCard>
                 child: ElevatedButton(
                   clipBehavior: Clip.antiAlias,
                   style: ButtonStyle(
-                    shape: MaterialStatePropertyAll(
+                    shape: WidgetStatePropertyAll(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    backgroundColor: const MaterialStatePropertyAll(
+                    backgroundColor: const WidgetStatePropertyAll(
                       AppColor.red,
                     ),
                   ),

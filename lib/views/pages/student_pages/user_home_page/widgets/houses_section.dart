@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housing_project/Utils/routes/app_routes.dart';
 import 'package:housing_project/controllers/user_home_page_cubit/user_home_cubit.dart';
 import 'package:housing_project/controllers/house_details/house_details_cubit.dart';
+import 'package:housing_project/views/pages/shared_pages/widgets/no_items_wiget.dart';
 import 'package:housing_project/views/pages/student_pages/user_home_page/widgets/house_item.dart';
 
 class HousesSection extends StatelessWidget {
@@ -20,9 +21,7 @@ class HousesSection extends StatelessWidget {
             child: CircularProgressIndicator.adaptive(),
           );
         } else if (state is HomeError) {
-          return Center(
-            child: Text(state.message),
-          );
+          return NoItemsWidget(title: state.message, icon: Icons.block);
         } else if (state is HomeLoaded) {
           return RefreshIndicator(
             onRefresh: () async {

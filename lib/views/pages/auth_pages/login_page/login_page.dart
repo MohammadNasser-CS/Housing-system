@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final cubit = BlocProvider.of<AuthCubit>(context);
     return BlocListener<AuthCubit, AuthState>(
       bloc: cubit,
@@ -80,9 +81,13 @@ class _LoginPageState extends State<LoginPage> {
                       Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.symmetric(
-                              horizontal: 12.0),
-                          child: Image.asset('assets/images/majles_logo.png'),
+                          padding:
+                              const EdgeInsetsDirectional.only(bottom: 15.0),
+                          child: Image.asset(
+                            'assets/images/app_logo.png',
+                            width: size.width,
+                            height: size.height * 0.2,
+                          ),
                         ),
                       ),
                       Text(

@@ -127,9 +127,12 @@ class _OwnerSignupPagePageState extends State<OwnerSignupPage> {
                   Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.symmetric(
-                          horizontal: 20.0),
-                      child: Image.asset('assets/images/majles_logo.png'),
+                      padding: const EdgeInsetsDirectional.only(bottom: 15.0),
+                      child: Image.asset(
+                        'assets/images/app_logo.png',
+                        width: size.width,
+                        height: size.height * 0.2,
+                      ),
                     ),
                   ),
                   Text(

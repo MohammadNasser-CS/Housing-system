@@ -233,7 +233,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             child: Padding(
               padding: const EdgeInsetsDirectional.all(2.0),
               child: Image.asset(
-                'assets/images/majles_logo.png',
+                'assets/images/app_logo.png',
                 fit: BoxFit.cover,
               ),
             ),

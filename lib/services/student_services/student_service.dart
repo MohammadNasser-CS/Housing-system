@@ -63,12 +63,13 @@ class StudentServicesImplementation implements StudentServices {
           },
         ),
       );
-
       final responseData = response.data;
       if (responseData == null ||
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (response.statusCode == 404) {
+        throw AuthException('لا يوجد شقق للتأجير');
       }
 
       List<HouseModel> houses = (responseData['houses'] as List)
@@ -127,12 +128,13 @@ class StudentServicesImplementation implements StudentServices {
           },
         ),
       );
-
       final responseData = response.data;
       if (responseData == null ||
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (response.statusCode == 404) {
+        throw AuthException('لا يوجد شقق للتأجير');
       }
       List<HouseModel> houses = (responseData['houses'] as List)
           .map((houseMap) => HouseModel.fromMap(houseMap))
@@ -192,7 +194,7 @@ class StudentServicesImplementation implements StudentServices {
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
-      } else if (responseData.containsKey('message')) {
+      } else if (response.statusCode == 404) {
         throw AuthException(responseData['message']);
       }
       List<HouseModel> houses = (responseData['houses'] as List)
@@ -253,6 +255,8 @@ class StudentServicesImplementation implements StudentServices {
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
+      } else if (response.statusCode == 404) {
+        throw AuthException(responseData['message']);
       }
       return responseData['message'];
     } on DioException catch (e) {
@@ -308,7 +312,7 @@ class StudentServicesImplementation implements StudentServices {
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
-      } else if (responseData.containsKey('message')) {
+      } else if (response.statusCode == 404) {
         throw AuthException(responseData['message']);
       }
 
@@ -370,7 +374,7 @@ class StudentServicesImplementation implements StudentServices {
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
-      } else if (responseData.containsKey('message')) {
+      } else if (response.statusCode == 404) {
         throw AuthException(responseData['message']);
       }
       HouseDetailsModel houseDetail =
@@ -430,7 +434,7 @@ class StudentServicesImplementation implements StudentServices {
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
-      } else if (responseData.containsKey('message')) {
+      } else if (response.statusCode == 404) {
         throw AuthException(responseData['message']);
       }
       RoomModel roomDetail = RoomModel.fromMap(responseData['result']);
@@ -495,8 +499,8 @@ class StudentServicesImplementation implements StudentServices {
           responseData.isEmpty ||
           response.statusCode == 401) {
         throw AuthException('لم تقم بتسجيل الدخول');
-      } else if (responseData.containsKey('error')) {
-        throw AuthException(responseData['error']);
+      } else if (response.statusCode == 400) {
+        throw AuthException(responseData['message']);
       }
 
       return responseData['message'];
